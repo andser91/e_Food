@@ -1,4 +1,4 @@
-package domain;
+package it.uniroma3.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,6 +47,10 @@ public class Consumer {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public static Consumer create(String firstName, String lastName) {
+        return new Consumer(firstName, lastName);
     }
 
     @Override

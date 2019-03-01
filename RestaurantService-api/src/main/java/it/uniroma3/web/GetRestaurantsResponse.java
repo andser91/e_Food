@@ -4,7 +4,7 @@ import lombok.Data;
 
 import java.util.List;
 
-@Data
+
 public class GetRestaurantsResponse {
     private List<GetRestaurantResponse> restaurants;
 
@@ -13,5 +13,13 @@ public class GetRestaurantsResponse {
     }
 
     public GetRestaurantsResponse() {
+    }
+
+    public List<GetRestaurantResponse> getRestaurants() {
+        return restaurants;
+    }
+
+    public void setRestaurants(List<GetRestaurantResponse> restaurants) {
+        this.restaurants = restaurants;
     }
 }
