@@ -17,7 +17,26 @@ public class OrderController {
     @Autowired
     IOrderService orderService;
 
-    //crea un nuovo ordine nel database
+    /** Trova tutti gli ordini **/
+    @GetMapping("/")
+    ResponseEntity<GetOrdersResponse> findAll(){
+        List<Order> orders = orderService.findAll();
+        if (orders != null) {
+            return new ResponseEntity<GetOrdersResponse>(makeGetOrdersResponse(orders), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    private GetOrdersResponse makeGetOrdersResponse(List<Order> restaurants) {
+        List<GetOrderResponse> responses = restaurants.stream().map(restaurant -> makeGetOrderResponse(restaurant)).collect(Collectors.toList());
+        return new GetOrdersResponse(responses);
+    }
+
+
+
+    /** Crea un nuovo ordine **/
     @PostMapping("/")
     public CreateOrderResponse newOrder(@RequestBody CreateOrderRequest request) {
         List<OrderLineItem> orderLineItems = getOrderLineItems(request);
@@ -37,8 +56,7 @@ public class OrderController {
         return new CreateOrderResponse(order.getId(), order.getConsumerId(), order.getRestaurantId(), order.getOrderState().toString());
     }
 
-    //Single item
-    //ricerca di un ordine per id
+    /** Trova un ordine per id **/
     @GetMapping("/{id}")
     ResponseEntity<GetOrderResponse> findById(@PathVariable Long id) {
         Order order = orderService.findById(id);
@@ -61,7 +79,7 @@ public class OrderController {
     }
 
 
-    //cancellazione di un ordine per id
+    /** Cancella un ordine per id **/
     @DeleteMapping("/{id}")
     void deleteOrder(@PathVariable Long id) {
         orderService.deleteById(id);

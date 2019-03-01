@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
 
 
 @RestController
+@RequestMapping(path="/restaurants")
 public class RestaurantController {
     @Autowired
     private IRestaurantService restaurantService;
 
-    //Aggregate items
-    //Restituisce tutti i ristoranti
-    @GetMapping("/restaurants")
+    /** Trova tutti i ristoranti **/
+    @GetMapping("/")
     ResponseEntity<GetRestaurantsResponse> findAll(){
         List<Restaurant> restaurants = restaurantService.findAll();
         if (restaurants != null) {
@@ -36,8 +36,8 @@ public class RestaurantController {
         return new GetRestaurantsResponse(responses);
     }
 
-    //crea un nuovo ristorante nel database
-    @PostMapping("/restaurants")
+    /** Crea un nuovo ristorante **/
+    @PostMapping("/")
     CreateRestaurantResponse newRestaurant(@RequestBody CreateRestaurantRequest request) {
         Restaurant restaurant = restaurantService.create(request.getName(), request.getAddress());
         return makeCreateRestaurantResponse(restaurant);
@@ -47,8 +47,8 @@ public class RestaurantController {
         return new CreateRestaurantResponse(restaurant.getId());
     }
 
-    //restituisce  un ristorante dato l'id
-    @GetMapping("/restaurants/{id}")
+    /** Trova un ristorante per id **/
+    @GetMapping("/{id}")
     ResponseEntity<GetRestaurantResponse> findById(@PathVariable Long id) {
         Restaurant restaurant = restaurantService.findById(id).get();
         if (restaurant != null){
@@ -63,8 +63,8 @@ public class RestaurantController {
         return new GetRestaurantResponse(restaurant.getId(), restaurant.getAddress(), restaurant.getName());
     }
 
-    //cancellazione di un ristorante per id
-    @DeleteMapping("/restaurants/{id}")
+    /** Cancella un ristorante per id **/
+    @DeleteMapping("/{id}")
     void deleteRestaurant(@PathVariable Long id) {
         restaurantService.deleteById(id);
     }
