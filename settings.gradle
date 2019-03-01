@@ -1,0 +1,9 @@
+rootProject.name = 'e_Food'
+include 'OrderService'
+include 'OrderService-api'
+include 'Swagger-Common'
+include 'RestaurantService'
+include 'RestaurantService-api'
+include 'ConsumerService'
+include 'ConsumerService-api'
+
