@@ -1,0 +1,27 @@
+version: '3'
+services:
+  consumer-service:
+    build: ConsumerService
+    ports:
+      - 8082:8082
+    links:
+      - postgres-service
+  restaurant-service:
+    build: RestaurantService
+    ports:
+      - 8081:8081
+    links:
+      - postgres-service
+  order-service:
+    build: OrderService
+    ports:
+      - 8083:8083
+    links:
+      - postgres-service
+  postgres-service:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+
