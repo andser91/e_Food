@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -28,11 +29,12 @@ public class ConsumerService implements IConsumerService {
         this.consumerRepository.deleteById(id);
     }
 
-    @Override
-    public Consumer findById(Long id){
 
-        return consumerRepository.findById(id).orElse(null);
+    @Override
+    public Optional<Consumer> findById(Long consumerId){
+        return this.consumerRepository.findById(consumerId);
     }
+
 
     @Override
     public Consumer create(String firstName, String lastName) {
