@@ -1,7 +1,6 @@
 eseguire gli script nel seguente ordine:
-1. build_gradles.sh
-2. docker compose build
-3. docker compose up
+1. build_all_project
+2. run_application
 A questo punto tutti i container dovrebbero essere attivi e l'applicazione in esecuzione.
 Verificare il funzionamento del server all'url localhost:8081/restaurant (se carica la pagina con un errore è tutto ok poichè non ci sono ristoranti nel db, mentre se da sito irraggiungibile qualcosa è andato storto).
 
