@@ -20,6 +20,8 @@ services:
       - postgres-service
   postgres-service:
     image: postgres:latest
+    volumes:
+      - $PWD/Postgres:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
