@@ -5,13 +5,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
 public class OrderService implements IOrderService {
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private ConsumerServiceAdapter consumerServiceAdapter;
+    @Autowired
+    private RestaurantServiceAdapter restaurantServiceAdapter;
 
     @Override
     public List<Order> findAll() {
@@ -37,6 +40,19 @@ public class OrderService implements IOrderService {
     @Override
     public Order create(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems){
         Order order = Order.create(consumerId, restaurantId, orderLineItems);
+        order = orderRepository.save(order); //perché salvarlo ora?
+        boolean consumerOk = consumerServiceAdapter.validateConsumer(order.getConsumerId());
+        boolean restaurantOK = restaurantServiceAdapter.validateRestaurant(order.getRestaurantId());
+        if (consumerOk && restaurantOK) {
+            order.setOrderState(OrderState.APPROVED);
+        }
+        else if (restaurantOK) {
+            order.setOrderState(OrderState.RESTAURANT_APPROVED);
+        } else if (consumerOk) {
+            order.setOrderState(OrderState.CONSUMER_APPROVED);
+        } else {
+            order.setOrderState(OrderState.INVALID);
+        }
         order = orderRepository.save(order);
         return order;
     }
