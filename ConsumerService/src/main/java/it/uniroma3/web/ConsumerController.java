@@ -22,7 +22,7 @@ public class ConsumerController {
 
     /** Trova tutti i consumers**/
     @GetMapping("/")
-    ResponseEntity<GetConsumersResponse> findAll(){
+    public ResponseEntity<GetConsumersResponse> findAll(){
         List<Consumer>  consumers = consumerService.findAll();
         if(consumers!=null) {
             return new ResponseEntity<GetConsumersResponse>(makeGetConsumersResponse(consumers), HttpStatus.OK);
@@ -39,7 +39,7 @@ public class ConsumerController {
 
     /** Crea un nuovo consumer**/
     @PostMapping("/")
-    CreateConsumerResponse newConsumer(@RequestBody CreateConsumerRequest request) {
+    public CreateConsumerResponse newConsumer(@RequestBody CreateConsumerRequest request) {
         Consumer consumer = consumerService.create(request.getFirstName(), request.getLastName());
         return makeCreateConsumerResponse(consumer);
     }
@@ -49,13 +49,13 @@ public class ConsumerController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<GetConsumerResponse> findById(@PathVariable Long id ){
+    public ResponseEntity<GetConsumerResponse> findById(@PathVariable Long id ){
         Consumer consumer = consumerService.findById(id).get();
         if(consumer!=null){
             return new ResponseEntity<GetConsumerResponse>(makeGetConsumerResponse(consumer), HttpStatus.OK);
         }
         else{
-            throw new ConsumerNotFoundException(id);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -64,7 +64,7 @@ public class ConsumerController {
     }
 
     @DeleteMapping("/{id}")
-    void deleteConsumer(@PathVariable Long id) {
+    public void deleteConsumer(@PathVariable Long id) {
         consumerService.deleteById(id);
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class RestaurantServiceAdapterRest implements RestaurantServiceAdapter {
-    @Value("${efood.consumerservice.uri}")
+    @Value("${efood.restaurantservice.uri}")
     private String restaurantServiceUri;
 
     @Override

@@ -60,4 +60,8 @@ public class Restaurant {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
+
+    public static Restaurant create(String name, String address) {
+        return new Restaurant(name, address);
+    }
 }

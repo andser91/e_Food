@@ -20,26 +20,19 @@ public class RestaurantService implements IRestaurantService{
     }
 
     @Override
-    public void save(Restaurant restaurant) {
-        this.restaurantRepository.save(restaurant);
-    }
-
-    @Override
     public void deleteById(Long id) {
         this.restaurantRepository.deleteById(id);
     }
 
     @Override
-    public Optional<Restaurant> findById(Long id){
-        return this.restaurantRepository.findById(id);
+    public Restaurant findById(Long id){
+        return restaurantRepository.findById(id).orElse(null);
     }
 
     @Override
     public Restaurant create(String name, String address) {
-        Restaurant restaurant = new Restaurant(name, address);
+        Restaurant restaurant = Restaurant.create(name, address);
         restaurant = restaurantRepository.save(restaurant);
         return restaurant;
     }
-
-
 }

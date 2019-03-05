@@ -68,8 +68,8 @@ public class Order {
         this.orderLineItems = orderLineItems;
     }
 
-    public static Order create(Long customerId, Long restaurantId, List<OrderLineItem> orderLineItems) {
-        return new Order(customerId, restaurantId, orderLineItems);
+    public static Order create(Long restaurantId, Long customerId, List<OrderLineItem> orderLineItems) {
+        return new Order(restaurantId, customerId, orderLineItems);
     }
 
     @Override

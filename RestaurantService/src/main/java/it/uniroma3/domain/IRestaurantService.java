@@ -6,8 +6,7 @@ import java.util.Optional;
 public interface IRestaurantService {
 
     List<Restaurant> findAll();
-    void save(Restaurant restaurant);
     void deleteById(Long id);
-    Optional<Restaurant> findById(Long id);
+    Restaurant findById(Long id);
     Restaurant create (String name, String address);
 }

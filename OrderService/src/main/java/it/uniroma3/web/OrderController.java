@@ -19,7 +19,7 @@ public class OrderController {
 
     /** Trova tutti gli ordini **/
     @GetMapping("/")
-    ResponseEntity<GetOrdersResponse> findAll(){
+    public ResponseEntity<GetOrdersResponse> findAll(){
         List<Order> orders = orderService.findAll();
         if (orders != null) {
             return new ResponseEntity<GetOrdersResponse>(makeGetOrdersResponse(orders), HttpStatus.OK);
@@ -40,7 +40,7 @@ public class OrderController {
     @PostMapping("/")
     public CreateOrderResponse newOrder(@RequestBody CreateOrderRequest request) {
         List<OrderLineItem> orderLineItems = getOrderLineItems(request);
-        Order order = orderService.create(request.getConsumerId(), request.getRestaurantId(), orderLineItems);
+        Order order = orderService.create(request.getRestaurantId(), request.getConsumerId(),  orderLineItems);
         return makeCreateOrderResponse(order);
 
     }
@@ -58,7 +58,7 @@ public class OrderController {
 
     /** Trova un ordine per id **/
     @GetMapping("/{id}")
-    ResponseEntity<GetOrderResponse> findById(@PathVariable Long id) {
+    public ResponseEntity<GetOrderResponse> findById(@PathVariable Long id) {
         Order order = orderService.findById(id);
         if (order!=null) {
             return new ResponseEntity<>(makeGetOrderResponse(order), HttpStatus.OK);
@@ -81,7 +81,7 @@ public class OrderController {
 
     /** Cancella un ordine per id **/
     @DeleteMapping("/{id}")
-    void deleteOrder(@PathVariable Long id) {
+    public void deleteOrder(@PathVariable Long id) {
         orderService.deleteById(id);
     }
 }

@@ -21,7 +21,7 @@ public class RestaurantController {
 
     /** Trova tutti i ristoranti **/
     @GetMapping("/")
-    ResponseEntity<GetRestaurantsResponse> findAll(){
+    public ResponseEntity<GetRestaurantsResponse> findAll(){
         List<Restaurant> restaurants = restaurantService.findAll();
         if (restaurants != null) {
             return new ResponseEntity<GetRestaurantsResponse>(makeGetRestaurantsResponse(restaurants), HttpStatus.OK);
@@ -38,24 +38,26 @@ public class RestaurantController {
 
     /** Crea un nuovo ristorante **/
     @PostMapping("/")
-    CreateRestaurantResponse newRestaurant(@RequestBody CreateRestaurantRequest request) {
+    public CreateRestaurantResponse createRestaurant(@RequestBody CreateRestaurantRequest request) {
         Restaurant restaurant = restaurantService.create(request.getName(), request.getAddress());
         return makeCreateRestaurantResponse(restaurant);
     }
 
+    /* Crea la risposta a partire dal ristorante. */
     private CreateRestaurantResponse makeCreateRestaurantResponse(Restaurant restaurant) {
         return new CreateRestaurantResponse(restaurant.getId());
     }
 
+
     /** Trova un ristorante per id **/
     @GetMapping("/{id}")
-    ResponseEntity<GetRestaurantResponse> findById(@PathVariable Long id) {
-        Restaurant restaurant = restaurantService.findById(id).get();
+    public ResponseEntity<GetRestaurantResponse> findById(@PathVariable Long id) {
+        Restaurant restaurant = restaurantService.findById(id);
         if (restaurant != null){
             return new ResponseEntity<GetRestaurantResponse>(makeGetRestaurantResponse(restaurant), HttpStatus.OK);
         }
         else {
-            throw new RestaurantNotFoundException(id);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -65,7 +67,7 @@ public class RestaurantController {
 
     /** Cancella un ristorante per id **/
     @DeleteMapping("/{id}")
-    void deleteRestaurant(@PathVariable Long id) {
+    public void deleteRestaurant(@PathVariable Long id) {
         restaurantService.deleteById(id);
     }
 }
