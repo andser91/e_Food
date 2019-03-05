@@ -2,4 +2,4 @@
 
 
 echo Stopping the application...
-docker-compose down -v 
+docker-compose stop
