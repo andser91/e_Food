@@ -3,6 +3,8 @@ dependencies {
     implementation project(":Swagger-Common")
 
     implementation project(":OrderService-api")
+    implementation project(":ConsumerService-api")
+    implementation project(":RestaurantService-api")
 
     implementation 'org.springframework.kafka:spring-kafka'
 
