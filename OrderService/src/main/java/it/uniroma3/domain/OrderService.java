@@ -40,11 +40,11 @@ public class OrderService implements IOrderService {
     @Override
     public Order create(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems){
         Order order = Order.create(consumerId, restaurantId, orderLineItems);
-        order = orderRepository.save(order); //perché salvarlo ora?
         boolean consumerOk = consumerServiceAdapter.validateConsumer(order.getConsumerId());
         boolean restaurantOK = restaurantServiceAdapter.validateRestaurant(order.getRestaurantId());
         if (consumerOk && restaurantOK) {
             order.setOrderState(OrderState.APPROVED);
+            order = orderRepository.save(order);
         }
         else if (restaurantOK) {
             order.setOrderState(OrderState.RESTAURANT_APPROVED);
@@ -53,7 +53,6 @@ public class OrderService implements IOrderService {
         } else {
             order.setOrderState(OrderState.INVALID);
         }
-        order = orderRepository.save(order);
         return order;
     }
 }

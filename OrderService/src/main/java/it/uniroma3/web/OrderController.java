@@ -29,8 +29,8 @@ public class OrderController {
         }
     }
 
-    private GetOrdersResponse makeGetOrdersResponse(List<Order> restaurants) {
-        List<GetOrderResponse> responses = restaurants.stream().map(restaurant -> makeGetOrderResponse(restaurant)).collect(Collectors.toList());
+    private GetOrdersResponse makeGetOrdersResponse(List<Order> orders) {
+        List<GetOrderResponse> responses = orders.stream().map(order -> makeGetOrderResponse(order)).collect(Collectors.toList());
         return new GetOrdersResponse(responses);
     }
 
