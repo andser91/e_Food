@@ -1,5 +1,15 @@
 version: '3'
 services:
+  postgres-service:
+    image: postgres:latest
+    restart: always
+    volumes:
+      - ./Postgres:/docker-entrypoint-initdb.d
+      - ./data:/var/lib/postgresql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
   consumer-service:
     build: ConsumerService
     ports:
@@ -9,7 +19,7 @@ services:
   restaurant-service:
     build: RestaurantService
     ports:
-      - 8081:8081
+      - 8084:8084
     links:
       - postgres-service
   order-service:
@@ -18,13 +28,4 @@ services:
       - 8083:8083
     links:
       - postgres-service
-  postgres-service:
-    image: postgres:latest
-    volumes:
-      - $PWD/Postgres:/docker-entrypoint-initdb.d
-      - ./data:/var/lib/postgresql/
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
 
