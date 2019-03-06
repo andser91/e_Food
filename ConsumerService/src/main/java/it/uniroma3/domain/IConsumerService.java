@@ -7,6 +7,6 @@ public interface IConsumerService {
     List<Consumer> findAll();
     void save(Consumer consumer);
     void deleteById(Long id);
-    Optional<Consumer> findById(Long id);
+    Consumer findById(Long id);
     Consumer create (String FirstName, String LastName );
 }

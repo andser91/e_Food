@@ -50,7 +50,7 @@ public class ConsumerController {
 
     @GetMapping("/{id}")
     public ResponseEntity<GetConsumerResponse> findById(@PathVariable Long id ){
-        Consumer consumer = consumerService.findById(id).get();
+        Consumer consumer = consumerService.findById(id);
         if(consumer!=null){
             return new ResponseEntity<GetConsumerResponse>(makeGetConsumerResponse(consumer), HttpStatus.OK);
         }

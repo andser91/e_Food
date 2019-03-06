@@ -31,8 +31,8 @@ public class ConsumerService implements IConsumerService {
 
 
     @Override
-    public Optional<Consumer> findById(Long consumerId){
-        return this.consumerRepository.findById(consumerId);
+    public Consumer findById(Long consumerId){
+        return consumerRepository.findById(consumerId).orElse(null);
     }
 
 
