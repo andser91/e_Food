@@ -22,11 +22,6 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public void save(Order order) {
-        orderRepository.save(order);
-    }
-
-    @Override
     public void deleteById(Long id) {
         orderRepository.deleteById(id);
     }
