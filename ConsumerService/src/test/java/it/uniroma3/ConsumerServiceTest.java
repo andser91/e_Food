@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import javax.swing.text.html.Option;
@@ -15,7 +17,7 @@ import javax.swing.text.html.Option;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
-
+@SpringBootTest
 public class ConsumerServiceTest {
 
     @InjectMocks
