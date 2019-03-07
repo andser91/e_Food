@@ -20,11 +20,6 @@ public class ConsumerService implements IConsumerService {
     }
 
     @Override
-    public void save(Consumer restaurant) {
-        this.consumerRepository.save(restaurant);
-    }
-
-    @Override
     public void deleteById(Long id) {
         this.consumerRepository.deleteById(id);
     }
