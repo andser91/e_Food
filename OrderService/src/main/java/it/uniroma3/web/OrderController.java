@@ -35,8 +35,6 @@ public class OrderController {
         return new GetOrdersResponse(responses);
     }
 
-
-
     /** Crea un nuovo ordine **/
     @PostMapping("/")
     public CreateOrderResponse newOrder(@RequestBody CreateOrderRequest request) {

@@ -23,7 +23,12 @@ public class OrderServiceTest {
 
     private static final Long ORDER_ID = 12L;
     private static final Long RESTAURANT_ID = 5L;
-    private static final long CONSUMER_ID = 8L;
+    private static final Long CONSUMER_ID = 8L;
+    private static final Long FIRST_ORDER_RESTAURANT_ID = 44L;
+    private static final Long FIRST_ORDER_CONSUMER_ID = 22L;
+    private static final Long SECOND_ORDER_RESTAURANT_ID = 54L;
+    private static final Long SECOND_ORDER_CONSUMER_ID = 52L;
+    private List<Order> orders;
     private List<OrderLineItem> lineItems;
 
     @InjectMocks
@@ -37,6 +42,9 @@ public class OrderServiceTest {
         MockitoAnnotations.initMocks(this);
         lineItems = new ArrayList<>();
         lineItems.add(new OrderLineItem("fish",2));
+        orders = new ArrayList<Order>();
+        orders.add(new Order(FIRST_ORDER_RESTAURANT_ID,FIRST_ORDER_CONSUMER_ID,null));
+        orders.add(new Order(SECOND_ORDER_RESTAURANT_ID,SECOND_ORDER_CONSUMER_ID,lineItems));
     }
 
 
@@ -58,8 +66,54 @@ public class OrderServiceTest {
 
         assertThat(order.getConsumerId()).isEqualTo(CONSUMER_ID);
         assertThat(order.getRestaurantId()).isEqualTo(RESTAURANT_ID);
-        assertThat(order.getOrderLineItems()).isEqualTo(lineItems);
+        assertThat(order.getOrderLineItems().size()).isEqualTo(1);
+        assertThat(order.getOrderState()).isEqualTo(OrderState.PENDING);
     }
 
+    @Test
+    public void findAllTestWithTwoOrders(){
+        /* configura orderRepository.findAll per trovare gli ordini  */
+        when(orderRepository.findAll())
+                .then(invocation -> {
+                   List<Order> orderList = new ArrayList<>(orders);
+                   return orderList;
+                });
+
+        /* invoca la ricerca di tutti gli ordini */
+        List<Order> orderList = orderService.findAll();
+
+        /* verifica che il repository è stato usato  */
+        verify(orderRepository).findAll();
+
+        /*verifica il risultato  */
+        assertThat(orderList.size()).isEqualTo(2);
+          //firstOrder
+        assertThat(orderList.get(0).getOrderLineItems()).isEqualTo(null);
+        assertThat(orderList.get(0).getConsumerId()).isEqualTo(FIRST_ORDER_CONSUMER_ID);
+        assertThat(orderList.get(0).getRestaurantId()).isEqualTo(FIRST_ORDER_RESTAURANT_ID);
+        assertThat(orderList.get(0).getOrderState()).isEqualTo(OrderState.PENDING);
+          //secondOrder
+        assertThat(orderList.get(1).getOrderLineItems().size()).isEqualTo(1);
+        assertThat(orderList.get(1).getConsumerId()).isEqualTo(SECOND_ORDER_CONSUMER_ID);
+        assertThat(orderList.get(1).getRestaurantId()).isEqualTo(SECOND_ORDER_RESTAURANT_ID);
+        assertThat(orderList.get(1).getOrderState()).isEqualTo(OrderState.PENDING);
+    }
+
+    @Test
+    public void findAllTestEmpty(){
+        /* configura orderRepository.findAll per trovare gli ordini  */
+        when(orderRepository.findAll())
+                .then(invocation -> {
+                   return null;
+                });
+        /* invoca la ricerca di tutti gli ordini */
+        List<Order> orderList = orderService.findAll();
+
+        /* verifica che il repository è stato usato  */
+        verify(orderRepository).findAll();
+
+        /*verifica il risultato  */
+        assertThat(orderList).isNull();
+    }
 
 }
