@@ -1,4 +1,4 @@
-package it.uniroma3.adapter;
+package it.uniroma3.adapter.restaurantService.web;
 
 import it.uniroma3.domain.RestaurantServiceAdapter;
 import it.uniroma3.web.GetRestaurantResponse;
@@ -9,7 +9,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class RestaurantServiceAdapterRest implements RestaurantServiceAdapter {
+public class RestaurantServiceAdapterRestTemplate implements RestaurantServiceAdapter {
     @Value("${efood.restaurantservice.uri}")
     private String restaurantServiceUri;
 

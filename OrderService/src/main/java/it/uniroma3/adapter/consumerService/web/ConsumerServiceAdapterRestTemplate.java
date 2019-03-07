@@ -1,4 +1,4 @@
-package it.uniroma3.adapter;
+package it.uniroma3.adapter.consumerService.web;
 
 import it.uniroma3.GetConsumerResponse;
 import it.uniroma3.domain.ConsumerServiceAdapter;
@@ -9,7 +9,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class ConsumerServiceAdapterRest implements ConsumerServiceAdapter {
+public class ConsumerServiceAdapterRestTemplate implements ConsumerServiceAdapter {
 
     @Value("${efood.consumerservice.uri}")
     private String consumerServiceUri;
