@@ -31,9 +31,10 @@ public class RestaurantControllerTests {
     private static final String RESTAURANT_NAME = "r1";
     private static final String RESTAURANT_ADDRESS = "a1";
 
-    private static final Long RESTAURANT_ID_2 = 2L;
     private static final String RESTAURANT_NAME_2 = "r2";
     private static final String RESTAURANT_ADDRESS_2 = "a2";
+
+    private static final Long RESTAURANT_ID_NOT_FOUND = 11L;
 
     private List<Restaurant> restaurants;
 
@@ -71,7 +72,7 @@ public class RestaurantControllerTests {
 
     @Test
     public void getWithTwoRestaurantsTest() {
-        /*verifica dell'operazione GET /restaurants*/
+        /*verifica dell'operazione GET /restaurants/ */
 
         when(restaurantService.findAll())
                 .then(invocation -> {
@@ -97,5 +98,64 @@ public class RestaurantControllerTests {
         assertThat(response2.getName()).isEqualTo(RESTAURANT_NAME_2);
         assertThat(response2.getAddress()).isEqualTo(RESTAURANT_ADDRESS_2);
 
+    }
+
+    @Test
+    public void getRestaurantsNotFoundTest() {
+        /*verifica dell'operazione GET /restaurants/ nel caso in cui i ristoranti non vengano trovati*/
+
+        when(restaurantService.findAll()).thenReturn(null);
+
+        /*invoca l'operazione GET /restaurants/*/
+        ResponseEntity<GetRestaurantsResponse> responseEntity = restaurantController.findAll();
+
+        /*verifica che il servizio sia stato invocato*/
+        verify(restaurantService).findAll();
+
+        /*verifica i risultati*/
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(responseEntity.getBody()).isEqualTo(null);
+    }
+
+    @Test
+    public void getRestaurantTest() {
+        /*verifica dell'operazione GET /restaurants/{restaurantId}*/
+        when(restaurantService.findById(RESTAURANT_ID))
+                .then(invocation -> {
+                    Restaurant restaurant = new Restaurant(RESTAURANT_NAME, RESTAURANT_ADDRESS);
+                    restaurant.setId(RESTAURANT_ID);
+                    return restaurant;
+                });
+
+        ResponseEntity<GetRestaurantResponse> responseEntity = restaurantController.findById(RESTAURANT_ID);
+
+        /*verifica che il servizio sia stato invocato*/
+        verify(restaurantService)
+                .findById(RESTAURANT_ID);
+
+        /*verifica i risultati*/
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        GetRestaurantResponse response = responseEntity.getBody();
+        assertThat(response.getId()).isEqualTo(RESTAURANT_ID);
+        assertThat(response.getAddress()).isEqualTo(RESTAURANT_ADDRESS);
+        assertThat(response.getName()).isEqualTo(RESTAURANT_NAME);
+    }
+
+    @Test
+    public void getRestaurantNotFoundTest() {
+        /*verifica dell'operazione GET /restaurants/{restaurantID} nel caso in cui il ristorante non venga trovato*/
+
+        when(restaurantService.findById(RESTAURANT_ID_NOT_FOUND)).thenReturn(null);
+
+        ResponseEntity<GetRestaurantResponse> responseEntity = restaurantController.findById(RESTAURANT_ID_NOT_FOUND);
+
+        /*verifica che il servizio sia stato invocato*/
+        verify(restaurantService)
+                .findById(RESTAURANT_ID_NOT_FOUND);
+
+        /*verifica dei risultati*/
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(responseEntity.getBody()).isEqualTo(null);
     }
 }
