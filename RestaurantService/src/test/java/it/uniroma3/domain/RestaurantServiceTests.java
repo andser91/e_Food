@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class RestaurantServiceTests {
 
-    /*we want unit tests to be independent of all class dependencies (mock object (test double))
+    /*we want unit tests to be independent of all class dependencies (mock object: test double)
     * we don't use the real implementation of RestaurantRepository but a mock one.*/
 
     /*will inject the mocks marked with @Mock to this instance when it is created*/
