@@ -1,8 +1,7 @@
-package it.uniroma3.domain.web;
+package it.uniroma3.web;
 
 import it.uniroma3.domain.Restaurant;
 import it.uniroma3.domain.RestaurantService;
-import it.uniroma3.web.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
