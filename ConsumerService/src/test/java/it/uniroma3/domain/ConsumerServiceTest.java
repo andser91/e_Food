@@ -1,8 +1,5 @@
 package it.uniroma3.domain;
 
-import it.uniroma3.domain.Consumer;
-import it.uniroma3.domain.ConsumerRepository;
-import it.uniroma3.domain.ConsumerService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -33,13 +30,13 @@ public class ConsumerServiceTest {
     private static final String CONSUMER_LAST_NAME_2 = "Kate";
 
     private List<Consumer> consumersList;
-
+    private Consumer consumer1;
     @Before
     public void setup(){
         /*inizializza i mock */
         MockitoAnnotations.initMocks(this);
         consumersList = new ArrayList<Consumer>();
-        Consumer consumer1 = new Consumer(CONSUMER_FIRST_NAME_1, CONSUMER_LAST_NAME_1);
+        consumer1 = new Consumer(CONSUMER_FIRST_NAME_1, CONSUMER_LAST_NAME_1);
         consumer1.setId(CONSUMER_ID_1);
         Consumer consumer2 = new Consumer(CONSUMER_FIRST_NAME_2, CONSUMER_LAST_NAME_2);
         consumer2.setId(CONSUMER_ID_2);
@@ -114,7 +111,6 @@ public class ConsumerServiceTest {
         assertThat(consumers.size()).isEqualTo(0);
         assertThat(consumers).isEmpty();
     }
-
 
 }
 
