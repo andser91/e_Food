@@ -1,4 +1,4 @@
-package it.uniroma3;
+package it.uniroma3.domain;
 
 import it.uniroma3.domain.Consumer;
 import org.junit.Before;
