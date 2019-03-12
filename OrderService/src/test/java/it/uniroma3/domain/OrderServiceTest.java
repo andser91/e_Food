@@ -47,7 +47,7 @@ public class OrderServiceTest {
         orders.add(new Order(SECOND_ORDER_RESTAURANT_ID,SECOND_ORDER_CONSUMER_ID,lineItems));
     }
 
-
+    /*  verifica del metodo findById quando è presente l'ordine */
     @Test
     public void findOrderByIdTest(){
         /*    configura orderRepository.findById per trovare l'ordine   */
@@ -70,6 +70,7 @@ public class OrderServiceTest {
         assertThat(order.getOrderState()).isEqualTo(OrderState.PENDING);
     }
 
+    /* verifica del metodo findAll quando sono presenti ordini */
     @Test
     public void findAllTestWithTwoOrders(){
         /* configura orderRepository.findAll per trovare gli ordini  */
@@ -99,6 +100,7 @@ public class OrderServiceTest {
         assertThat(orderList.get(1).getOrderState()).isEqualTo(OrderState.PENDING);
     }
 
+    /* verifica del metodo findAll quando NON sono presenti ordini */
     @Test
     public void findAllTestEmpty(){
         /* configura orderRepository.findAll per trovare gli ordini  */
