@@ -21,8 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import org.springframework.http.MediaType;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
 
 @SpringBootTest
 public class OrderControllerMvcMockTest {
@@ -37,12 +35,7 @@ public class OrderControllerMvcMockTest {
     private static final Long CONSUMER_ID = 6L;
     private static final Long RESTAURANT_ID = 8L;
     private static final Long NON_EXISTING_ORDER_ID = 7L;
-    private static final Long FIRST_ORDER_RESTAURANT_ID = 44L;
-    private static final Long FIRST_ORDER_CONSUMER_ID = 22L;
-    private static final Long SECOND_ORDER_RESTAURANT_ID = 54L;
-    private static final Long SECOND_ORDER_CONSUMER_ID = 52L;
     private List<OrderLineItem> lineItems;
-    private List<Order> orders;
 
     @Before
     public void setup(){
@@ -50,9 +43,6 @@ public class OrderControllerMvcMockTest {
         this.mockMvc = standaloneSetup(orderController).build();
         lineItems = new ArrayList<>();
         lineItems.add(new OrderLineItem("fish",2));
-        orders = new ArrayList<Order>();
-        orders.add(new Order(FIRST_ORDER_RESTAURANT_ID,FIRST_ORDER_CONSUMER_ID,lineItems));
-        orders.add(new Order(SECOND_ORDER_RESTAURANT_ID,SECOND_ORDER_CONSUMER_ID,lineItems));
     }
 
     @Test
@@ -84,6 +74,7 @@ public class OrderControllerMvcMockTest {
                 .perform(get("/orders/{orderId}", ORDER_ID).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
+
 }
 
 
