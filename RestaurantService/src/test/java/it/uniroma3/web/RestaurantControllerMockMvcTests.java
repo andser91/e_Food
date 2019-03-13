@@ -34,6 +34,8 @@ public class RestaurantControllerMockMvcTests {
 
     private MockMvc mockMvc;
 
+    private static final Long NONEXISTING_RESTAURANT_ID = 11L;
+
     private static final Long RESTAURANT_ID = 1L;
     private static final String RESTAURANT_NAME = "r1";
     private static final String RESTAURANT_ADDRESS = "a1";
@@ -106,10 +108,10 @@ public class RestaurantControllerMockMvcTests {
     public void getRestaurantNotFoundTest() throws Exception{
         /*verifica dell'operazione GET /restaurants/{restaurantId} nel caso in cui il ristorante non sia prensente*/
 
-        when(restaurantService.findById(RESTAURANT_ID)).thenReturn(null);
+        when(restaurantService.findById(NONEXISTING_RESTAURANT_ID)).thenReturn(null);
 
         mockMvc
-                .perform(get("/restaurants/{restaurantId}", RESTAURANT_ID).accept(MediaType.APPLICATION_JSON))
+                .perform(get("/restaurants/{restaurantId}", NONEXISTING_RESTAURANT_ID).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
