@@ -121,6 +121,18 @@ public class ConsumerControllerMvcMockTest {
                 .andExpect(jsonPath("$.consumers[1].firstName").value(CONSUMER_FIRST_NAME_2))
                 .andExpect(jsonPath("$.consumers[1].lastName").value(CONSUMER_LAST_NAME_2));
     }
+
+    @Test
+    public void getAllEmptyTest()throws Exception{
+        when(consumerService.findAll())
+                .then(invocation -> {
+                    return null;
+                });
+
+        mockMvc
+                .perform(get("/consumers/"))
+                .andExpect(status().isNotFound());
+    }
 }
 
 

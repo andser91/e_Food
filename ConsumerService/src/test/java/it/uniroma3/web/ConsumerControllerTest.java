@@ -131,4 +131,17 @@ public class ConsumerControllerTest {
         assertThat(consumers.get(1).getFirstName()).isEqualTo(CONSUMER_FIRST_NAME_2);
         assertThat(consumers.get(1).getLastName()).isEqualTo(CONSUMER_LAST_NAME_2);
     }
+    @Test
+    public void getAllEmptyConsumersTest(){
+        when(consumerService.findAll())
+                .then(invocation -> {
+                    return null;
+                });
+
+        ResponseEntity<GetConsumersResponse> response = consumerController.findAll();
+        //verifica che il servi<io findAll sia stato invocato
+        verify(consumerService).findAll();
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
 }
