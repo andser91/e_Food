@@ -1,0 +1,26 @@
+version: '3'
+services:
+  postgres-service:
+    image: postgres:latest
+    volumes:
+      - ./Postgres:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+  zookeeper:
+    image: zookeeper:latest
+    ports:
+      - 2181:2181
+  kafka:
+    image: wurstmeister/kafka:latest
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 10.11.1.188
+      KAFKA_CREATE_TOPICS: "consumer-channel:1:1,restaurant-channel:1:1,order-channel:1:1"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181 
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

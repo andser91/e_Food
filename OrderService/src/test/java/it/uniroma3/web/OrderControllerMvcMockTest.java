@@ -74,7 +74,6 @@ public class OrderControllerMvcMockTest {
                 .perform(get("/orders/{orderId}", ORDER_ID).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
-
 }
 
 
