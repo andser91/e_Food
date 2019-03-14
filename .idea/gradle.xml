@@ -9,6 +9,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/CommonEvent" />
             <option value="$PROJECT_DIR$/ConsumerService" />
             <option value="$PROJECT_DIR$/ConsumerService-api" />
             <option value="$PROJECT_DIR$/OrderService" />
