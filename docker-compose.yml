@@ -1,19 +1,24 @@
 version: '3'
 services:
+  ###    POSTGRES    ####
   postgres-service:
     image: postgres:latest
     restart: always
     volumes:
       - ./Postgres:/docker-entrypoint-initdb.d
       - ./data:/var/lib/postgresql
+    ports:
+      - 5432:5432
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
+  ###    ZOOKEEPER    ####
   zookeeper:
     image: zookeeper:latest
     ports:
       - 2181:2181
+  ###    KAFKA    ####
   kafka:
     image: wurstmeister/kafka:latest
     ports:
@@ -22,22 +27,40 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: 10.11.1.188
       KAFKA_CREATE_TOPICS: "consumer-channel:1:1,restaurant-channel:1:1,order-channel:1:1"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  ###    CONSUMER-SERVICE    ####
   consumer-service:
     build: ConsumerService
     ports:
       - 8082:8082
-    links:
+    depends_on:
       - postgres-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service/consumers
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      JAVA_OPTS: -Xmx192m
+  ###    RESTAURANT-SERVICE    ####
   restaurant-service:
     build: RestaurantService
     ports:
       - 8084:8084
-    links:
+    depends_on:
       - postgres-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service/restaurants
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      JAVA_OPTS: -Xmx192m
+  ###    ORDER-SERVICE    ####
   order-service:
     build: OrderService
     ports:
       - 8083:8083
-    links:
+    depends_on:
       - postgres-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service/orders
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      JAVA_OPTS: -Xmx192m
 
