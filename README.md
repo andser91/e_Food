@@ -13,11 +13,11 @@ Contribuiscono a questo repository:
 # Lanciare l'applicazione
 Seguire i seguenti passi in ordine:
 - eseguire ./buil_all_projects.sh per la costruzione di tutti i progetti
-- eseguire ./run_application.sh per lanciare tutti i container e l'applicazione
-Una volta pronta è possibile testa l'applicazione tramite Swagger-UI 
-http://localhost:8082/swagger-ui.html per il servizio customer
-http://localhost:8083/swagger-ui.html per il servizio order
-http://localhost:8084/swagger-ui.html per il servizio restaurant
+- eseguire ./run_application.sh per lanciare tutti i container e l'applicazione\n
+Una volta pronta è possibile testa l'applicazione tramite Swagger-UI\n 
+  - http://localhost:8082/swagger-ui.html per il servizio customer
+  - http://localhost:8083/swagger-ui.html per il servizio order
+  - http://localhost:8084/swagger-ui.html per il servizio restaurant
 
 - eseguire ./stop_application.sh per stoppare tutti i container
 - eseguire ./delete_application se si vogliono cancellare i container creati
