@@ -28,5 +28,5 @@ Una volta pronta è possibile testa l'applicazione tramite Swagger-UI
 - eseguire ./run_unit_tests.sh per eseguire i test unitari
 
 # Lanciare i test di integrazione
-- eseguire ./run_integration_test.sh per eseguire i testi di integrazione
-- eseguire ./stop_integration_test.sh per stoppare i container che sono stati avviati per eseguire i test
+- eseguire ./run_integration_tests.sh per eseguire i testi di integrazione
+- eseguire ./stop_integration_tests.sh per stoppare i container che sono stati avviati per eseguire i test
