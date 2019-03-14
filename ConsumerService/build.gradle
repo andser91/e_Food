@@ -1,7 +1,7 @@
 dependencies {
 
     implementation project(":Swagger-Common")
-
+    implementation project(":CommonEvent")
     implementation project(":ConsumerService-api")
 
 

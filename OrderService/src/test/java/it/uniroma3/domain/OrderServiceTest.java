@@ -43,8 +43,8 @@ public class OrderServiceTest {
         lineItems = new ArrayList<>();
         lineItems.add(new OrderLineItem("fish",2));
         orders = new ArrayList<Order>();
-        orders.add(new Order(FIRST_ORDER_RESTAURANT_ID,FIRST_ORDER_CONSUMER_ID,null));
-        orders.add(new Order(SECOND_ORDER_RESTAURANT_ID,SECOND_ORDER_CONSUMER_ID,lineItems));
+        orders.add(new Order(FIRST_ORDER_CONSUMER_ID, FIRST_ORDER_RESTAURANT_ID,null));
+        orders.add(new Order(SECOND_ORDER_CONSUMER_ID,SECOND_ORDER_RESTAURANT_ID,lineItems));
     }
 
     /*  verifica del metodo findById quando è presente l'ordine */
@@ -53,7 +53,7 @@ public class OrderServiceTest {
         /*    configura orderRepository.findById per trovare l'ordine   */
         when(orderRepository.findById(ORDER_ID)).
                 then(invocation -> {
-                    Order order = new Order(RESTAURANT_ID, CONSUMER_ID, lineItems);
+                    Order order = new Order(CONSUMER_ID, RESTAURANT_ID, lineItems);
                     order.setId(ORDER_ID);
                     return Optional.of(order);
         });

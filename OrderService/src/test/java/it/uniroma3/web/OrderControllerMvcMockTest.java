@@ -49,7 +49,7 @@ public class OrderControllerMvcMockTest {
     public void getTest() throws Exception {
         when(orderService.findById(ORDER_ID))
                 .then(invocation -> {
-                    Order order = new Order(RESTAURANT_ID, CONSUMER_ID, lineItems);
+                    Order order = new Order(CONSUMER_ID, RESTAURANT_ID, lineItems);
                     order.setId(ORDER_ID);
                     return order;
                 });

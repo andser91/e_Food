@@ -39,7 +39,7 @@ public class OrderController {
     @PostMapping("/")
     public CreateOrderResponse newOrder(@RequestBody CreateOrderRequest request) {
         List<OrderLineItem> orderLineItems = getOrderLineItems(request);
-        Order order = orderService.create(request.getRestaurantId(), request.getConsumerId(),  orderLineItems);
+        Order order = orderService.create(request.getConsumerId(), request.getRestaurantId(), orderLineItems);
         return makeCreateOrderResponse(order);
 
     }

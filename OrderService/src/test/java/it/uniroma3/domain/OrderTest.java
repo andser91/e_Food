@@ -19,7 +19,7 @@ public class OrderTest {
     public void setup(){
         lineItems = new ArrayList<OrderLineItem>();
         lineItems.add(new OrderLineItem("fish",2));
-        order = new Order(RESTAURANT_ID, CONSUMER_ID,lineItems);
+        order = new Order(CONSUMER_ID,RESTAURANT_ID, lineItems);
         order.setOrderState(OrderState.APPROVED);
     }
 

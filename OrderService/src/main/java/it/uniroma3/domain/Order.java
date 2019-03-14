@@ -21,7 +21,7 @@ public class Order {
     public Order() {super();
     }
 
-    public Order(Long restaurantId, Long consumerId, List<OrderLineItem> orderLineItems) {
+    public Order(Long consumerId, Long restaurantId,  List<OrderLineItem> orderLineItems) {
         this.restaurantId = restaurantId;
         this.consumerId = consumerId;
         this.orderState = OrderState.PENDING;
@@ -68,8 +68,8 @@ public class Order {
         this.orderLineItems = orderLineItems;
     }
 
-    public static Order create(Long restaurantId, Long customerId, List<OrderLineItem> orderLineItems) {
-        return new Order(restaurantId, customerId, orderLineItems);
+    public static Order create(Long customerId, Long restaurantId, List<OrderLineItem> orderLineItems) {
+        return new Order(customerId, restaurantId, orderLineItems);
     }
 
     @Override
