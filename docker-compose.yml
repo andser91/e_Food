@@ -31,9 +31,10 @@ services:
   consumer-service:
     build: ConsumerService
     ports:
-      - 8082:8082
+      - 8082:8080
     depends_on:
       - postgres-service
+      - kafka
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service/consumers
       SPRING_DATASOURCE_USERNAME: postgres
@@ -43,9 +44,10 @@ services:
   restaurant-service:
     build: RestaurantService
     ports:
-      - 8084:8084
+      - 8084:8080
     depends_on:
       - postgres-service
+      - kafka
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service/restaurants
       SPRING_DATASOURCE_USERNAME: postgres
@@ -55,9 +57,10 @@ services:
   order-service:
     build: OrderService
     ports:
-      - 8083:8083
+      - 8083:8080
     depends_on:
       - postgres-service
+      - kafka
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service/orders
       SPRING_DATASOURCE_USERNAME: postgres
