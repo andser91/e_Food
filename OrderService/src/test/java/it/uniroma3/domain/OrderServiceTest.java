@@ -1,6 +1,10 @@
 package it.uniroma3.domain;
 
 
+import it.uniroma3.OrderServiceChannel;
+import it.uniroma3.common.event.DomainEventPublisher;
+import it.uniroma3.event.LineItem;
+import it.uniroma3.event.OrderCreatedEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -13,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.*;
@@ -37,6 +42,9 @@ public class OrderServiceTest {
     @Mock
     private OrderRepository orderRepository;
 
+    @Mock
+    private DomainEventPublisher domainEventPublisher;
+
     @Before
     public void setup(){
         MockitoAnnotations.initMocks(this);
@@ -46,6 +54,37 @@ public class OrderServiceTest {
         orders.add(new Order(FIRST_ORDER_CONSUMER_ID, FIRST_ORDER_RESTAURANT_ID,null));
         orders.add(new Order(SECOND_ORDER_CONSUMER_ID,SECOND_ORDER_RESTAURANT_ID,lineItems));
     }
+
+    /* verifica del metodo create  */
+    //Per poter eseguire questo test nel metodo create di OrderService si deve scegliere la modalità asincrona
+    /*
+    @Test
+    public void createOrderTest(){
+        // configura il repository per settare l'id dell'ordine
+        when(orderRepository.save(any(Order.class)))
+                .then(invocation -> {
+                   Order order = (Order) invocation.getArguments()[0];
+                   order.setId(ORDER_ID);
+                   return order;
+                });
+        // invoca la creazione dell'ordine
+        Order order = orderService.create(CONSUMER_ID,RESTAURANT_ID,lineItems);
+
+        // verifica che l'ordine è stato salvato
+        verify(orderRepository).save(same(order));
+
+        List<LineItem> orderlineItems = order.getOrderLineItems()
+                .stream()
+                .map(x -> new LineItem(x.getMenuItemId(), x.getQuantity()))
+                .collect(Collectors.toList());
+
+        // verifica che viene creato l'evento
+        verify(domainEventPublisher).publish(new OrderCreatedEvent(ORDER_ID, CONSUMER_ID, RESTAURANT_ID, orderlineItems)
+            ,OrderServiceChannel.orderServiceChannel);
+    }
+    */
+
+
 
     /*  verifica del metodo findById quando è presente l'ordine */
     @Test
