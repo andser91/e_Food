@@ -68,4 +68,44 @@ public class OrderJpaRepositoryTest {
             return null;
         });
     }
+
+    @Test
+    public void saveAndFindAllTest(){
+
+        transactionTemplate.execute((ts) -> {
+            List<OrderLineItem> orderLineItems = new ArrayList<>();
+            orderLineItems.add(new OrderLineItem("Pizza", 2));
+            Order order = new Order(RESTAURANT_ID, CONSUMER_ID, orderLineItems);
+            order = orderRepository.save(order);
+            return null;
+        });
+
+        transactionTemplate.execute((ts) -> {
+            List<Order> orders = (List<Order>) orderRepository.findAll();
+            assertThat(orders).isNotNull();
+            assertThat(orders).isNotEmpty();
+            assertThat(orders.size()).isEqualTo(1);
+            assertThat(orders.get(0).getConsumerId()).isEqualTo(CONSUMER_ID);
+            assertThat(orders.get(0).getRestaurantId()).isEqualTo(RESTAURANT_ID);
+            assertThat(orders.get(0).getOrderLineItems().size()).isEqualTo(1);
+            assertThat(orders.get(0).getOrderState()).isEqualTo(OrderState.PENDING);
+            return null;
+        });
+    }
+
+    @Test
+    public void findAllWithNoOrdersTest(){
+        transactionTemplate.execute((ts) -> {
+            orderRepository.deleteAll();
+            return null;
+        });
+
+        transactionTemplate.execute((ts) -> {
+            List<Order> orders = (List<Order>) orderRepository.findAll();
+            assertThat(orders).isNotNull();
+            assertThat(orders).isEmpty();
+            return null;
+        });
+    }
+
 }
