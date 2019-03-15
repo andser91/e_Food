@@ -31,7 +31,7 @@ public class OrderJpaRepositoryTest {
         long orderId = transactionTemplate.execute((ts) -> {
             List<OrderLineItem> orderLineItems = new ArrayList<>();
             orderLineItems.add(new OrderLineItem("Pizza", 2));
-            Order order = new Order(RESTAURANT_ID, CONSUMER_ID, orderLineItems);
+            Order order = new Order(CONSUMER_ID, RESTAURANT_ID, orderLineItems);
             order = orderRepository.save(order);
             return order.getId();
         });
@@ -52,7 +52,7 @@ public class OrderJpaRepositoryTest {
         long orderId = transactionTemplate.execute((ts) -> {
             List<OrderLineItem> orderLineItems = new ArrayList<>();
             orderLineItems.add(new OrderLineItem("Pizza", 2));
-            Order order = new Order(RESTAURANT_ID, CONSUMER_ID, orderLineItems);
+            Order order = new Order(CONSUMER_ID, RESTAURANT_ID,orderLineItems);
             order = orderRepository.save(order);
             return order.getId();
         });
@@ -75,7 +75,7 @@ public class OrderJpaRepositoryTest {
         transactionTemplate.execute((ts) -> {
             List<OrderLineItem> orderLineItems = new ArrayList<>();
             orderLineItems.add(new OrderLineItem("Pizza", 2));
-            Order order = new Order(RESTAURANT_ID, CONSUMER_ID, orderLineItems);
+            Order order = new Order(CONSUMER_ID, RESTAURANT_ID, orderLineItems);
             order = orderRepository.save(order);
             return null;
         });
