@@ -1,6 +1,9 @@
 package it.uniroma3.domain;
 
 
+import it.uniroma3.RestaurantServiceChannel;
+import it.uniroma3.common.event.DomainEventPublisher;
+import it.uniroma3.event.RestaurantCreatedEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -30,6 +33,8 @@ public class RestaurantServiceTests {
     /*will create a mock implementation of restaurantRepository*/
     @Mock
     private RestaurantRepository restaurantRepository;
+    @Mock
+    private DomainEventPublisher domainEventPublisher;
 
     private static final Long RESTAURANT_ID = 1L;
     private static final String RESTAURANT_NAME = "r1";
@@ -67,8 +72,12 @@ public class RestaurantServiceTests {
 
         Restaurant restaurant = restaurantService.create(RESTAURANT_NAME, RESTAURANT_ADDRESS);
 
+
         /*verify that the save method has been invoked*/
         verify(restaurantRepository).save(same(restaurant));
+        /*come verifico che DomainEventPublisher.publish sia stato invocato? ha senso?*/
+        RestaurantCreatedEvent restaurantCreatedEvent = new RestaurantCreatedEvent(restaurant.getId(), restaurant.getName(), restaurant.getAddress());
+        verify(domainEventPublisher, times(1)).publish(restaurantCreatedEvent, RestaurantServiceChannel.restaurantServiceChannel);
     }
 
     @Test
