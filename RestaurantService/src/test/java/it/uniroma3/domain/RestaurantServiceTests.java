@@ -3,6 +3,8 @@ package it.uniroma3.domain;
 
 import it.uniroma3.RestaurantServiceChannel;
 import it.uniroma3.common.event.DomainEventPublisher;
+import it.uniroma3.event.OrderRestaurantInvalidateEvent;
+import it.uniroma3.event.OrderRestaurantValidatedEvent;
 import it.uniroma3.event.RestaurantCreatedEvent;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,6 +37,11 @@ public class RestaurantServiceTests {
     private RestaurantRepository restaurantRepository;
     @Mock
     private DomainEventPublisher domainEventPublisher;
+
+    private static final Long VALID_ORDER_ID = 11L;
+    private static final Long INVALID_ORDER_ID = 12L;
+
+    private static final Long INVALID_RESTAURANT_ID = 12L;
 
     private static final Long RESTAURANT_ID = 1L;
     private static final String RESTAURANT_NAME = "r1";
@@ -75,7 +82,7 @@ public class RestaurantServiceTests {
 
         /*verify that the save method has been invoked*/
         verify(restaurantRepository).save(same(restaurant));
-        /*come verifico che DomainEventPublisher.publish sia stato invocato? ha senso?*/
+        /*verifica che DomainEventPublisher.publish sia stato invocato*/
         RestaurantCreatedEvent restaurantCreatedEvent = new RestaurantCreatedEvent(restaurant.getId(), restaurant.getName(), restaurant.getAddress());
         verify(domainEventPublisher, times(1)).publish(restaurantCreatedEvent, RestaurantServiceChannel.restaurantServiceChannel);
     }
@@ -131,5 +138,43 @@ public class RestaurantServiceTests {
         Restaurant second_restaurant = restaurantList.get(1);
         assertThat(second_restaurant.getAddress()).isEqualTo(RESTAURANT_ADDRESS_2);
         assertThat(second_restaurant.getName()).isEqualTo(RESTAURANT_NAME_2);
+    }
+
+    @Test
+    public void validateOrderRestaurantTest() {
+        /*verifica che, quando viene richiesta la validazione del ristorante di un ordine
+        * se questo c'è allora viene pubblicato un evento di validazione del ristorante*/
+        when(restaurantRepository.findById(RESTAURANT_ID)).
+                then(invocation -> {
+                    Restaurant restaurant = new Restaurant(RESTAURANT_NAME, RESTAURANT_ADDRESS);
+                    restaurant.setId(RESTAURANT_ID);
+                    return Optional.of(restaurant);
+                });
+
+        restaurantService.validateOrderRestaurant(VALID_ORDER_ID, RESTAURANT_ID);
+
+        /*verifica che il ristorante sia stato cercato*/
+        verify(restaurantRepository).findById(same(RESTAURANT_ID));
+        /*verifica che l'evento di validazione del ristorante dell'ordine sia stato creato*/
+        verify(domainEventPublisher).
+                publish(new OrderRestaurantValidatedEvent(VALID_ORDER_ID, RESTAURANT_ID), RestaurantServiceChannel.restaurantServiceChannel);
+    }
+
+
+    @Test
+    public void invalidateOrderRestaurantTest() {
+        /*verifica che, quando viene richiesta la validazione del ristorante di un ordine
+         * se questo non è presente allora viene pubblicato un evento di invalidazione del ristorante*/
+
+        when(restaurantRepository.findById(INVALID_RESTAURANT_ID)).thenReturn(Optional.empty());
+
+        restaurantService.validateOrderRestaurant(INVALID_ORDER_ID, INVALID_RESTAURANT_ID);
+
+        /*verifica che il ristorante sia stato cercato*/
+        verify(restaurantRepository).findById(same(INVALID_RESTAURANT_ID));
+        /*verifica che l'evento di invalidazione del ristorante dell'ordine sia stato creato*/
+        verify(domainEventPublisher).
+                publish(new OrderRestaurantInvalidateEvent(INVALID_ORDER_ID, INVALID_RESTAURANT_ID), RestaurantServiceChannel.restaurantServiceChannel);
+
     }
 }

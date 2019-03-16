@@ -2,6 +2,8 @@ package it.uniroma3.domain;
 
 import it.uniroma3.RestaurantServiceChannel;
 import it.uniroma3.common.event.DomainEventPublisher;
+import it.uniroma3.event.OrderRestaurantInvalidateEvent;
+import it.uniroma3.event.OrderRestaurantValidatedEvent;
 import it.uniroma3.event.RestaurantCreatedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +48,21 @@ public class RestaurantService implements IRestaurantService{
     private RestaurantCreatedEvent makeRestaurantCreatedEvent(Restaurant restaurant) {
         return new RestaurantCreatedEvent(restaurant.getId(), restaurant.getName(), restaurant.getAddress());
     }
+
+    @Override
+    public void validateOrderRestaurant(Long orderId, Long restaurantId) {
+        Restaurant restaurant = findById(restaurantId);
+        if (restaurant != null){
+            OrderRestaurantValidatedEvent event = new OrderRestaurantValidatedEvent(orderId, restaurantId);
+            domainEventPublisher.publish(event, RestaurantServiceChannel.restaurantServiceChannel);
+        }
+        else {
+            OrderRestaurantInvalidateEvent event = new OrderRestaurantInvalidateEvent(orderId, restaurantId);
+            domainEventPublisher.publish(event, RestaurantServiceChannel.restaurantServiceChannel);
+        }
+    }
+
+
 
 
 }

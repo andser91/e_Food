@@ -9,4 +9,5 @@ public interface IRestaurantService {
     void deleteById(Long id);
     Restaurant findById(Long id);
     Restaurant create (String name, String address);
+    void validateOrderRestaurant(Long orderId, Long restaurantId);
 }
