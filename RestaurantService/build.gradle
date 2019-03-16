@@ -1,3 +1,41 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        // classpath("org.unbroken-dome.gradle-plugins:gradle-testsets-plugin:2.1.1")
+        classpath "gradle.plugin.com.avast.gradle:gradle-docker-compose-plugin:0.9.1"
+    }
+}
+//plugin TestSets di gradle
+plugins {
+    id 'org.unbroken-dome.test-sets' version '2.1.1'
+}
+
+
+//configura Gradle Docker Compose 
+apply plugin: 'docker-compose'
+
+testSets {
+    integrationTest { dirName = 'integration-test' }
+}
+
+//vengono specificati quali sono i container da tirare su durante il test
+dockerCompose {
+    //startedServices = []
+    //invece di indicare i nomi dei servizi da far partire nel docker-compose.yml, ne creo uno nuovo
+    useComposeFiles = ['../docker-compose-integration-test.yml']
+    //stopContainers = false
+    // i contenitori possono poi essere arrestati con gradle :order-service:composeDownForced
+}
+dockerCompose.isRequiredBy(integrationTest)
+
+integrationTest.doFirst {
+    dockerCompose.exposeAsEnvironment(test)
+}
+
 dependencies {
 
     implementation project(":Swagger-Common")
@@ -13,4 +51,11 @@ dependencies {
 
     implementation 'org.postgresql:postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    //test
+    testCompile 'io.rest-assured:rest-assured:3.3.0'
+    testCompile 'io.rest-assured:spring-mock-mvc:3.3.0'
+    testCompile "io.rest-assured:json-path:3.3.0"
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
