@@ -2,7 +2,7 @@ package it.uniroma3.domain;
 
 import it.uniroma3.RestaurantServiceChannel;
 import it.uniroma3.common.event.DomainEventPublisher;
-import it.uniroma3.event.OrderRestaurantInvalidateEvent;
+import it.uniroma3.event.OrderRestaurantInvalidatedEvent;
 import it.uniroma3.event.OrderRestaurantValidatedEvent;
 import it.uniroma3.event.RestaurantCreatedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,12 +57,8 @@ public class RestaurantService implements IRestaurantService{
             domainEventPublisher.publish(event, RestaurantServiceChannel.restaurantServiceChannel);
         }
         else {
-            OrderRestaurantInvalidateEvent event = new OrderRestaurantInvalidateEvent(orderId, restaurantId);
+            OrderRestaurantInvalidatedEvent event = new OrderRestaurantInvalidatedEvent(orderId, restaurantId);
             domainEventPublisher.publish(event, RestaurantServiceChannel.restaurantServiceChannel);
         }
     }
-
-
-
-
 }
