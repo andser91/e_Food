@@ -40,15 +40,14 @@ public class RestaurantService implements IRestaurantService{
     public Restaurant create(String name, String address) {
         Restaurant restaurant = Restaurant.create(name, address);
         restaurant = restaurantRepository.save(restaurant);
-        //RestaurantCreatedEvent event = makeRestaurantCreatedEvent(restaurant);
-        //domainEventPublisher.publish(event, RestaurantServiceChannel.restaurantServiceChannel);
+        RestaurantCreatedEvent event = makeRestaurantCreatedEvent(restaurant);
+        domainEventPublisher.publish(event, RestaurantServiceChannel.restaurantServiceChannel);
         return restaurant;
     }
 
-    /*
     private RestaurantCreatedEvent makeRestaurantCreatedEvent(Restaurant restaurant) {
         return new RestaurantCreatedEvent(restaurant.getId(), restaurant.getName(), restaurant.getAddress());
-    } */
+    }
 
     @Override
     public void validateOrderRestaurant(Long orderId, Long restaurantId) {
@@ -56,14 +55,10 @@ public class RestaurantService implements IRestaurantService{
         if (restaurant != null){
             OrderRestaurantValidatedEvent event = new OrderRestaurantValidatedEvent(orderId, restaurantId);
             domainEventPublisher.publish(event, RestaurantServiceChannel.restaurantServiceChannel);
-            System.out.println("### INVIATO EVENTO RESTAURANT VALIDATED ###");
         }
         else {
             OrderRestaurantInvalidatedEvent event = new OrderRestaurantInvalidatedEvent(orderId, restaurantId);
             domainEventPublisher.publish(event, RestaurantServiceChannel.restaurantServiceChannel);
-            System.out.println("### INVIATO EVENTO RESTAURANT VALIDATED ###");
         }
     }
-
-
 }
