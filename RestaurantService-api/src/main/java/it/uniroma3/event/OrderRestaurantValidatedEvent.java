@@ -33,7 +33,7 @@ public class OrderRestaurantValidatedEvent implements DomainEvent {
 
     @Override
     public String toString() {
-        return "OrderRestaurantValidateEvent{"+
+        return "OrderRestaurantValidatedEvent{"+
                 "orderId='" + orderId +"'"+
                 "restaurantId='"+ restaurantId+
                 "}";
