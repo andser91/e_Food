@@ -41,6 +41,16 @@ public class ConsumerService implements IConsumerService {
         consumer = consumerRepository.save(consumer);
         return consumer;
     }
-    public void receiveEvent(){
+
+
+    //Validazione dell'ordine, ricevuto l'evento da Order controlla che il consumerId esista e re-invia un msg con la risposta
+    public void validateOrder(Long consumerId){
+        Consumer consumer = findById(consumerId);
+        if(consumer == null){
+            //creare evento ConsumerNonValido
+        }
+        else{
+            //creare evento consumerValido
+        }
     }
 }
