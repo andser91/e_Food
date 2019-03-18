@@ -8,8 +8,12 @@ import it.uniroma3.event.OrderCreatedEvent;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
 
+@Component
+@EnableKafka
 public class ConsumerOrderValidation {
 
     @Autowired
@@ -17,9 +21,10 @@ public class ConsumerOrderValidation {
 
     @KafkaListener(topics = OrderServiceChannel.orderServiceChannel)
     public void listen(ConsumerRecord<String, DomainEvent> evt) throws Exception {
+        System.out.println("######### Sto Ricevendo #########");
         DomainEvent event = evt.value();
         OrderCreatedEvent domainEvent = (OrderCreatedEvent) event;
-        consumerService.validateOrder(domainEvent.getConsumerId());
+        consumerService.validateOrder(domainEvent.getOrderId(), domainEvent.getConsumerId());
         }
     }
 

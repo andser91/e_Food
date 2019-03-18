@@ -1,7 +1,11 @@
 package it.uniroma3.domain;
 
+import it.uniroma3.ConsumerServiceChannel;
 import it.uniroma3.common.event.DomainEvent;
 import it.uniroma3.common.event.DomainEventListener;
+import it.uniroma3.common.event.DomainEventPublisher;
+import it.uniroma3.event.OrderConsumerInvalidatedEvent;
+import it.uniroma3.event.OrderConsumerValidatedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +20,7 @@ public class ConsumerService implements IConsumerService {
     @Autowired
     private ConsumerRepository consumerRepository;
     @Autowired
-    private DomainEventListener domainEvent;
+    private DomainEventPublisher domainEventPublisher;
 
     @Override
     public List<Consumer> findAll(){
@@ -44,13 +48,17 @@ public class ConsumerService implements IConsumerService {
 
 
     //Validazione dell'ordine, ricevuto l'evento da Order controlla che il consumerId esista e re-invia un msg con la risposta
-    public void validateOrder(Long consumerId){
+    public void validateOrder(Long orderId, Long consumerId){
         Consumer consumer = findById(consumerId);
         if(consumer == null){
             //creare evento ConsumerNonValido
+            OrderConsumerInvalidatedEvent invalidatedEvent = new OrderConsumerInvalidatedEvent(orderId, consumerId);
+            domainEventPublisher.publish(invalidatedEvent, ConsumerServiceChannel.consumerServiceChannel);
         }
         else{
             //creare evento consumerValido
+            OrderConsumerValidatedEvent validatedEvent = new OrderConsumerValidatedEvent(orderId, consumerId);
+            domainEventPublisher.publish(validatedEvent, ConsumerServiceChannel.consumerServiceChannel);
         }
     }
 }

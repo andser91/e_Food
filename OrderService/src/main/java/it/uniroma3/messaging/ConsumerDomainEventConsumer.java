@@ -11,8 +11,4 @@ public class ConsumerDomainEventConsumer {
     @Autowired
     OrderService orderService;
 
-    @KafkaListener
-    public void listen(){
-
-    }
 }

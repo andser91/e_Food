@@ -40,6 +40,7 @@ dependencies {
     implementation project(":Swagger-Common")
     implementation project(":CommonEvent")
     implementation project(":ConsumerService-api")
+    implementation project(":OrderService-api")
 
     //kafka
     implementation 'org.springframework.kafka:spring-kafka'
