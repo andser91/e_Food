@@ -1,10 +1,7 @@
 package it.uniroma3.web;
 
-import it.uniroma3.*;
-import it.uniroma3.CreateConsumerResponse;
 import it.uniroma3.domain.Consumer;
 import it.uniroma3.domain.ConsumerService;
-import it.uniroma3.exception.ConsumerNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

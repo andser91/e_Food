@@ -1,8 +1,0 @@
-eseguire gli script nel seguente ordine:
-1. build_all_project
-2. run_application
-A questo punto tutti i container dovrebbero essere attivi e l'applicazione in esecuzione.
-Verificare il funzionamento del server all'url localhost:8081/restaurant (se carica la pagina con un errore è tutto ok poichè non ci sono ristoranti nel db, mentre se da sito irraggiungibile qualcosa è andato storto).
-
-Per usare Swagger Ui basta andare sul sito: http://localhost:8081/swagger-ui.html
-

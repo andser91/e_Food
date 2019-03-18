@@ -1,4 +1,4 @@
-package it.uniroma3;
+package it.uniroma3.web;
 
 public class CreateConsumerResponse {
 

@@ -1,26 +1,16 @@
-package it.uniroma3;
+package it.uniroma3.web;
 
-public class GetConsumerResponse {
+public class CreateConsumerRequest {
 
-    private Long consumerId;
     private String firstName;
     private String lastName;
 
-    public GetConsumerResponse() {
+    public CreateConsumerRequest() {
     }
 
-    public GetConsumerResponse(Long consumerId, String firstName, String lastName) {
-        this.consumerId = consumerId;
+    public CreateConsumerRequest(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-    }
-
-    public Long getConsumerId() {
-        return consumerId;
-    }
-
-    public void setConsumerId(Long consumerId) {
-        this.consumerId = consumerId;
     }
 
     public String getFirstName() {
@@ -38,6 +28,4 @@ public class GetConsumerResponse {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-
 }

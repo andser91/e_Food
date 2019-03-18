@@ -1,9 +1,5 @@
 package it.uniroma3.web;
 
-import it.uniroma3.CreateConsumerRequest;
-import it.uniroma3.CreateConsumerResponse;
-import it.uniroma3.GetConsumerResponse;
-import it.uniroma3.GetConsumersResponse;
 import it.uniroma3.domain.Consumer;
 import it.uniroma3.domain.ConsumerService;
 import org.junit.Before;

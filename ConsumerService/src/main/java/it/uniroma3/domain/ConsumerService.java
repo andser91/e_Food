@@ -1,5 +1,7 @@
 package it.uniroma3.domain;
 
+import it.uniroma3.common.event.DomainEvent;
+import it.uniroma3.common.event.DomainEventListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +15,8 @@ public class ConsumerService implements IConsumerService {
 
     @Autowired
     private ConsumerRepository consumerRepository;
+    @Autowired
+    private DomainEventListener domainEvent;
 
     @Override
     public List<Consumer> findAll(){
@@ -36,5 +40,7 @@ public class ConsumerService implements IConsumerService {
         Consumer consumer = new Consumer(firstName, lastName);
         consumer = consumerRepository.save(consumer);
         return consumer;
+    }
+    public void receiveEvent(){
     }
 }

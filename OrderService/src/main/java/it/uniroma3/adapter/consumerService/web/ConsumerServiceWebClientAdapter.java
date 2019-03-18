@@ -1,6 +1,6 @@
 package it.uniroma3.adapter.consumerService.web;
 
-import it.uniroma3.GetConsumerResponse;
+import it.uniroma3.web.GetConsumerResponse;
 import it.uniroma3.domain.ConsumerServiceAdapter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
