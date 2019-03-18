@@ -53,12 +53,15 @@ public class ConsumerService implements IConsumerService {
         if(consumer == null){
             //creare evento ConsumerNonValido
             OrderConsumerInvalidatedEvent invalidatedEvent = new OrderConsumerInvalidatedEvent(orderId, consumerId);
+            System.out.println("### INVIATO EVENTO CONSUMER INVALID ###");
             domainEventPublisher.publish(invalidatedEvent, ConsumerServiceChannel.consumerServiceChannel);
         }
         else{
             //creare evento consumerValido
             OrderConsumerValidatedEvent validatedEvent = new OrderConsumerValidatedEvent(orderId, consumerId);
+            System.out.println("### INVIATO EVENTO CONSUMER VALID ###");
             domainEventPublisher.publish(validatedEvent, ConsumerServiceChannel.consumerServiceChannel);
+
         }
     }
 }
