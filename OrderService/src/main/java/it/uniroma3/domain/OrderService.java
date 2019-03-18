@@ -82,4 +82,51 @@ public class OrderService implements IOrderService {
         order = orderRepository.save(order);
         return order;
     }
+
+    public Order confirmConsumer(Long orderId, Long consumerId) {
+
+        /* TODO: in modo misterioso, cercando l'ordine usando l'operazione del servizio non funziona */
+        // Order order = findById(orderId);
+        /* TODO: funziona invece usando l'operazione del repository */
+        /* TODO: potrebbe essere legato all'uso di @Transactional? */
+        Order order = orderRepository.findById(orderId).orElse(null);
+        if (order.getOrderState().equals(OrderState.PENDING)) {
+            order.setOrderState(OrderState.CONSUMER_APPROVED);
+            order = orderRepository.save(order);
+        } else if (order.getOrderState().equals(OrderState.RESTAURANT_APPROVED)) {
+            order.setOrderState(OrderState.APPROVED);
+            order = orderRepository.save(order);
+        }
+        return order;
+    }
+
+    public Order confirmRestaurant(Long orderId, Long restaurantId) {
+
+        /* TODO: stessa cosa di cui sopra, cercando l'ordine usando l'operazione del servizio non funziona */
+        Order order = orderRepository.findById(orderId).orElse(null);
+        if (order.getOrderState().equals(OrderState.PENDING)) {
+            order.setOrderState(OrderState.RESTAURANT_APPROVED);
+            order = orderRepository.save(order);
+        } else if (order.getOrderState().equals(OrderState.CONSUMER_APPROVED)) {
+            order.setOrderState(OrderState.APPROVED);
+            order = orderRepository.save(order);
+        }
+        return order;
+    }
+
+    public Order invalidateConsumer(Long orderId, Long consumerId) {
+        Order order = findById(orderId);
+        order.setOrderState(OrderState.INVALID);
+        order = orderRepository.save(order);
+        return order;
+    }
+
+
+    public Order invalidateRestaurant(Long orderId, Long restaurantId) {
+        Order order = findById(orderId);
+        order.setOrderState(OrderState.INVALID);
+        order = orderRepository.save(order);
+        return order;
+    }
+
 }

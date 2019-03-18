@@ -3,14 +3,14 @@ package it.uniroma3.event;
 import it.uniroma3.common.event.DomainEvent;
 import lombok.Data;
 
-public class OrderRestaurantValidatedEvent implements DomainEvent {
-
+@Data
+public class OrderRestaurantInvalidatedEvent implements DomainEvent {
     private Long orderId;
     private Long restaurantId;
 
-    public OrderRestaurantValidatedEvent() {    }
+    public OrderRestaurantInvalidatedEvent() {    }
 
-    public OrderRestaurantValidatedEvent(Long orderId, Long restaurantId) {
+    public OrderRestaurantInvalidatedEvent(Long orderId, Long restaurantId) {
         this.orderId = orderId;
         this.restaurantId = restaurantId;
     }
@@ -33,9 +33,10 @@ public class OrderRestaurantValidatedEvent implements DomainEvent {
 
     @Override
     public String toString() {
-        return "OrderRestaurantValidateEvent{"+
-                "orderId='" + orderId +"'"+
-                "restaurantId='"+ restaurantId+
+        return "OrderRestaurantInvalidateEvent{"+
+                "orderId='"+orderId+"'"+
+                "restaurantId='"+restaurantId+"'"+
                 "}";
     }
 }
+
