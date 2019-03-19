@@ -6,6 +6,9 @@ public class OrderConsumerValidatedEvent implements DomainEvent {
     private Long orderId;
     private Long consumerId;
 
+    public OrderConsumerValidatedEvent() {
+    }
+
     public OrderConsumerValidatedEvent(Long orderId, Long consumerId) {
         this.orderId = orderId;
         this.consumerId = consumerId;
