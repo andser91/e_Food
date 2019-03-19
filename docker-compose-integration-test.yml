@@ -19,7 +19,7 @@ services:
     ports:
       - 9092:9092
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: 10.11.1.188
+      KAFKA_ADVERTISED_HOST_NAME: 172.17.0.1
       KAFKA_CREATE_TOPICS: "consumer-channel:1:1,restaurant-channel:1:1,order-channel:1:1"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181 
     volumes:

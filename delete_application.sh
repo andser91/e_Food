@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 echo Deleting the application...
-docker-compose rm -v
+docker-compose down -v
