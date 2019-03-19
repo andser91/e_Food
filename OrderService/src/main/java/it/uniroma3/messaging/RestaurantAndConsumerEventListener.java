@@ -30,12 +30,12 @@ public class RestaurantAndConsumerEventListener {
         } else if (event.getClass().equals(OrderRestaurantInvalidatedEvent.class)) {
             OrderRestaurantInvalidatedEvent domainEvent = (OrderRestaurantInvalidatedEvent) event;
             orderService.invalidateRestaurant(domainEvent.getOrderId(), domainEvent.getRestaurantId());
-            }else if (event.getClass().equals(OrderConsumerValidatedEvent.class)) {
-                OrderConsumerValidatedEvent domainEvent = (OrderConsumerValidatedEvent) event;
-                orderService.confirmConsumer(domainEvent.getOrderId(), domainEvent.getConsumerId());
-                } else if (event.getClass().equals(OrderConsumerInvalidatedEvent.class)) {
-                    OrderConsumerInvalidatedEvent domainEvent = (OrderConsumerInvalidatedEvent) event;
-                    orderService.invalidateConsumer(domainEvent.getOrderId(), domainEvent.getConsumerId());
-                    }
-            }
+        }else if (event.getClass().equals(OrderConsumerValidatedEvent.class)) {
+            OrderConsumerValidatedEvent domainEvent = (OrderConsumerValidatedEvent) event;
+            orderService.confirmConsumer(domainEvent.getOrderId(), domainEvent.getConsumerId());
+        } else if (event.getClass().equals(OrderConsumerInvalidatedEvent.class)) {
+            OrderConsumerInvalidatedEvent domainEvent = (OrderConsumerInvalidatedEvent) event;
+            orderService.invalidateConsumer(domainEvent.getOrderId(), domainEvent.getConsumerId());
+        }
+    }
 }
