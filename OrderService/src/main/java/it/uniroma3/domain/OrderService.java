@@ -89,7 +89,7 @@ public class OrderService implements IOrderService {
         // Order order = findById(orderId);
         /* TODO: funziona invece usando l'operazione del repository */
         /* TODO: potrebbe essere legato all'uso di @Transactional? */
-        Order order = orderRepository.findById(orderId).orElse(null);
+        Order order = findById(orderId);
         if (order.getOrderState().equals(OrderState.PENDING)) {
             order.setOrderState(OrderState.CONSUMER_APPROVED);
             order = orderRepository.save(order);
@@ -103,7 +103,7 @@ public class OrderService implements IOrderService {
     public Order confirmRestaurant(Long orderId, Long restaurantId) {
 
         /* TODO: stessa cosa di cui sopra, cercando l'ordine usando l'operazione del servizio non funziona */
-        Order order = orderRepository.findById(orderId).orElse(null);
+        Order order = findById(orderId);
         if (order.getOrderState().equals(OrderState.PENDING)) {
             order.setOrderState(OrderState.RESTAURANT_APPROVED);
             order = orderRepository.save(order);
