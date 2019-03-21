@@ -29,6 +29,7 @@ Una volta pronta è possibile testare l'applicazione tramite Swagger-UI
 
 # Lanciare i test di integrazione
 Prima di poter lanciare con successo i test di integrazione occorre esportare una variabile d'ambiente 
+
 $DOCKER_HOST_IP = [INDIRIZZO-IP-DELLA-PROPRIA-MACCHINA]
 - eseguire ./run_integration_tests.sh per eseguire i testi di integrazione
 - eseguire ./stop_integration_tests.sh per stoppare i container che sono stati avviati per eseguire i test
