@@ -46,5 +46,7 @@ Una volta pronta è possibile testare l'applicazione tramite Swagger-UI
   Jaeger è il server centralizzato che raccoglie,memorizza e visualizza le informazioni ricevute dalle applicazioni.
   
   ![architecture](https://user-images.githubusercontent.com/27349928/54783239-29c63c80-4c21-11e9-9ff2-6a866c845888.png)
-
   
+  Quando uno span termina viene inviato dall'applicazione ad un Jaeger-agent (via http o udp) che lo trasmette ad un Jaeger-collector;
+  questo lo memorizza in un database; il componente Jaeger-query ha lo scopo di recuperare i record dal db e visualizzarli nella
+  Jaeger-UI.
