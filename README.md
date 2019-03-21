@@ -51,3 +51,6 @@ Una volta pronta è possibile testare l'applicazione tramite Swagger-UI
   Quando uno span termina viene inviato dall'applicazione ad un Jaeger-agent (via http o udp) che lo trasmette ad un Jaeger-collector;
   questo lo memorizza in un database; il componente Jaeger-query ha lo scopo di recuperare i record dal db e visualizzarli nella
   Jaeger-UI.
+  
+  Una volta lanciata l'applicazione è possibile tracciare l'andamento delle richieste ricevute tramite l'interfaccia grafica di Jaeger
+  raggiungibile all'indirizzo http://localhost:16686
