@@ -43,7 +43,6 @@ public class OrderService implements IOrderService {
     public Order create(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems) {
         return createAsincrona(consumerId, restaurantId, orderLineItems);
         // return createSincrona(consumerId, restaurantId, orderLineItems);
-        //return createSemiSincrona(consumerId, restaurantId, orderLineItems);
     }
 
     private Order createAsincrona(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems){

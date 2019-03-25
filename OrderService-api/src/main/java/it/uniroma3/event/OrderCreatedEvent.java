@@ -1,7 +1,6 @@
 package it.uniroma3.event;
 
 import it.uniroma3.common.event.DomainEvent;
-
 import java.util.List;
 
 public class OrderCreatedEvent implements DomainEvent {
@@ -61,5 +60,20 @@ public class OrderCreatedEvent implements DomainEvent {
                 ", restaurantId=" + restaurantId +
                 ", lineItems=" + lineItems +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderCreatedEvent that = (OrderCreatedEvent) o;
+        return orderId.equals(that.orderId) &&
+                consumerId.equals(that.consumerId) &&
+                restaurantId.equals(that.restaurantId);
+    }
+
+    @Override
+    public int hashCode() {
+        return orderId.hashCode() + consumerId.hashCode() + restaurantId.hashCode();
     }
 }

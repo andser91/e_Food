@@ -57,7 +57,6 @@ public class OrderServiceTest {
 
     /* verifica del metodo create  */
     //Per poter eseguire questo test nel metodo create di OrderService si deve scegliere la modalità asincrona
-    /*
     @Test
     public void createOrderTest(){
         // configura il repository per settare l'id dell'ordine
@@ -82,7 +81,6 @@ public class OrderServiceTest {
         verify(domainEventPublisher).publish(new OrderCreatedEvent(ORDER_ID, CONSUMER_ID, RESTAURANT_ID, orderlineItems)
             ,OrderServiceChannel.orderServiceChannel);
     }
-    */
 
 
 
