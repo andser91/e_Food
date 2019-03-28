@@ -4,3 +4,5 @@ CREATE DATABASE consumers;
 CREATE DATABASE restaurants;
 /*database degli ordini*/
 CREATE DATABASE orders;
+/*database dei tickets*/
+CREATE DATABASE tickets;

@@ -7,4 +7,5 @@ include 'RestaurantService-api'
 include 'ConsumerService'
 include 'ConsumerService-api'
 include 'CommonEvent'
+include 'KitchenService'
 
