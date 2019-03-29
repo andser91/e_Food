@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/ConsumerService" />
             <option value="$PROJECT_DIR$/ConsumerService-api" />
             <option value="$PROJECT_DIR$/KitchenService" />
+            <option value="$PROJECT_DIR$/KitchenService-api" />
             <option value="$PROJECT_DIR$/OrderService" />
             <option value="$PROJECT_DIR$/OrderService-api" />
             <option value="$PROJECT_DIR$/RestaurantService" />

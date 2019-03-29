@@ -1,4 +1,6 @@
 package it.uniroma3.domain;
 
-public interface KitchenRepository {
+import org.springframework.data.repository.CrudRepository;
+
+public interface KitchenRepository extends CrudRepository<Ticket, Long> {
 }

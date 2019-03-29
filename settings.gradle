@@ -8,4 +8,5 @@ include 'ConsumerService'
 include 'ConsumerService-api'
 include 'CommonEvent'
 include 'KitchenService'
+include 'KitchenService-api'
 

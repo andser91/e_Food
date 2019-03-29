@@ -1,0 +1,14 @@
+
+
+dependencies {
+    implementation project(":CommonEvent")
+
+    compileOnly 'org.projectlombok:lombok:1.18.4'
+}
+
+jar {
+    enabled = true
+}
+bootJar {
+    enabled = false
+}

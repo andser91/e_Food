@@ -40,8 +40,8 @@ public class RestaurantService implements IRestaurantService{
     public Restaurant create(String name, String address) {
         Restaurant restaurant = Restaurant.create(name, address);
         restaurant = restaurantRepository.save(restaurant);
-        //RestaurantCreatedEvent event = makeRestaurantCreatedEvent(restaurant);
-        //domainEventPublisher.publish(event, RestaurantServiceChannel.restaurantServiceChannel);
+        //RestaurantCreatedEvent it.uniroma3.event = makeRestaurantCreatedEvent(restaurant);
+        //domainEventPublisher.publish(it.uniroma3.event, RestaurantServiceChannel.restaurantServiceChannel);
         return restaurant;
     }
 
