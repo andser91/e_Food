@@ -53,17 +53,18 @@ public class KitchenService implements IKitchenService{
     }
 
     private Ticket createSincrona(Long restaurantId){
-      return Ticket.create(restaurantId);
+      Ticket ticket = Ticket.create(restaurantId);
+      return kitchenRepository.save(ticket);
     }
-
-    private Ticket acceptTicket(Long ticketId){
+    @Override
+    public Ticket acceptTicket(Long ticketId){
         Ticket ticket = findById(ticketId);
         ticket.setState(TicketState.APPROVED);
         ticket = kitchenRepository.save(ticket);
         return ticket;
     }
 
-    private Ticket refuseTicket(Long ticketId){
+    public Ticket refuseTicket(Long ticketId){
         Ticket ticket = findById(ticketId);
         ticket.setState(TicketState.DISAPPROVED);
         kitchenRepository.save(ticket);

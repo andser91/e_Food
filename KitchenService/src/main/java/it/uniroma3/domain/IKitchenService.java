@@ -10,5 +10,6 @@ public interface IKitchenService {
     void deleteById(Long id);
     Ticket findById(Long id);
     Ticket create(Long restaurantId);
+    Ticket acceptTicket(Long id);
 
 }
