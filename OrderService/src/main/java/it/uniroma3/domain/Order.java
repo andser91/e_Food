@@ -14,6 +14,7 @@ public class Order {
     private Long restaurantId;
     private Long consumerId;
 
+
     private OrderState orderState;
     @ElementCollection
     private List<OrderLineItem> orderLineItems;

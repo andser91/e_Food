@@ -120,7 +120,6 @@ public class OrderService implements IOrderService {
         return order;
     }
 
-
     public Order invalidateRestaurant(Long orderId, Long restaurantId) {
         Order order = findById(orderId);
         order.setOrderState(OrderState.INVALID);

@@ -11,6 +11,7 @@ buildscript {
 }
 
 
+
 plugins {
     id 'org.unbroken-dome.test-sets' version '2.1.1'
 }
@@ -64,6 +65,10 @@ dependencies {
     testCompile 'io.rest-assured:rest-assured:3.3.0'
     testCompile 'io.rest-assured:spring-mock-mvc:3.3.0'
     testCompile "io.rest-assured:json-path:3.3.0"
+    //kafka tests
+    // https://mvnrepository.com/artifact/org.springframework.kafka/spring-kafka-test
+    testCompile group: 'org.springframework.kafka', name: 'spring-kafka-test', version: '2.2.4.RELEASE'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
