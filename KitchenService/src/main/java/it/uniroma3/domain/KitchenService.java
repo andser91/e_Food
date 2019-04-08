@@ -62,16 +62,25 @@ public class KitchenService implements IKitchenService{
     @Override
     public Ticket acceptTicket(Long ticketId){
         Ticket ticket = findById(ticketId);
-        ticket.setState(TicketState.APPROVED);
-        ticket = kitchenRepository.save(ticket);
-        //crea evento di validazione del ticket
-        TicketValidEvent ticketValidEvent = makeTicketValidEvent(ticket);
-        //pubblica evento di validazione del ticket
-        domainEventPublisher.publish(ticketValidEvent, KitchenServiceChannel.kitchenServiceChannel );
+        if(ticket.getState().equals(TicketState.RESTAURANT_APPROVED)){
+            ticket.setState(TicketState.APPROVED);
+            ticket = kitchenRepository.save(ticket);
+            //crea evento di validazione del ticket
+            TicketValidEvent ticketValidEvent = makeTicketValidEvent(ticket);
+            //pubblica evento di validazione del ticket
+            domainEventPublisher.publish(ticketValidEvent, KitchenServiceChannel.kitchenServiceChannel);
+        }
         return ticket;
     }
     private TicketValidEvent makeTicketValidEvent(Ticket ticket){
         return new TicketValidEvent(ticket.getId(), ticket.getRestaurantId());
+    }
+    public Ticket confirmRestaurant(Long ticketId){
+            Ticket ticket = findById(ticketId);
+            ticket.setState(TicketState.RESTAURANT_APPROVED);
+            ticket = kitchenRepository.save(ticket);
+            return ticket;
+
     }
 
     public Ticket refuseTicket(Long ticketId){
@@ -97,9 +106,5 @@ public class KitchenService implements IKitchenService{
         System.out.println("### INVIATO EVENTO KITCHEN CREATED ###");
         //pubblica evento di creazione sul canale di kitchen
         domainEventPublisher.publish(ticketCreatedEvent, KitchenServiceChannel.kitchenServiceChannel);
-
-
-
-
     }
 }

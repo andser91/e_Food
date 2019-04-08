@@ -4,4 +4,5 @@ public enum TicketState {
     PENDING,
     APPROVED,
     DISAPPROVED,
+    RESTAURANT_APPROVED
 }

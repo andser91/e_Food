@@ -4,23 +4,23 @@ import it.uniroma3.common.event.DomainEvent;
 import lombok.Data;
 
 @Data
-public class OrderRestaurantInvalidatedEvent implements DomainEvent {
-    private Long orderId;
+public class RestaurantInvalidatedEvent implements DomainEvent {
+    private Long ticketId;
     private Long restaurantId;
 
-    public OrderRestaurantInvalidatedEvent() {    }
+    public RestaurantInvalidatedEvent() {    }
 
-    public OrderRestaurantInvalidatedEvent(Long orderId, Long restaurantId) {
-        this.orderId = orderId;
+    public RestaurantInvalidatedEvent(Long ticketId, Long restaurantId) {
+        this.ticketId = ticketId;
         this.restaurantId = restaurantId;
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public Long getTicketId() {
+        return ticketId;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setTicketId(Long ticketId) {
+        this.ticketId = ticketId;
     }
 
     public Long getRestaurantId() {
@@ -33,8 +33,8 @@ public class OrderRestaurantInvalidatedEvent implements DomainEvent {
 
     @Override
     public String toString() {
-        return "OrderRestaurantInvalidatedEvent{"+
-                "orderId='"+orderId+"'"+
+        return "RestaurantInvalidatedEvent{"+
+                "ticketId='"+ ticketId +"'"+
                 "restaurantId='"+restaurantId+"'"+
                 "}";
     }

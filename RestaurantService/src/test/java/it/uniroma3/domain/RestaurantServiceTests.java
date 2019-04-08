@@ -3,9 +3,7 @@ package it.uniroma3.domain;
 
 import it.uniroma3.RestaurantServiceChannel;
 import it.uniroma3.common.event.DomainEventPublisher;
-import it.uniroma3.event.OrderRestaurantInvalidatedEvent;
-import it.uniroma3.event.OrderRestaurantValidatedEvent;
-import it.uniroma3.event.RestaurantCreatedEvent;
+import it.uniroma3.event.RestaurantInvalidatedEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -154,7 +152,7 @@ public class RestaurantServiceTests {
         verify(restaurantRepository).findById(same(RESTAURANT_ID));
         /*verifica che l'evento di validazione del ristorante dell'ordine sia stato creato*/
         //verify(domainEventPublisher).
-        //        publish(new OrderRestaurantValidatedEvent(VALID_ORDER_ID, RESTAURANT_ID), RestaurantServiceChannel.restaurantServiceChannel);
+        //        publish(new RestaurantValidatedEvent(VALID_ORDER_ID, RESTAURANT_ID), RestaurantServiceChannel.restaurantServiceChannel);
     }
 
 
@@ -171,7 +169,7 @@ public class RestaurantServiceTests {
         verify(restaurantRepository).findById(same(INVALID_RESTAURANT_ID));
         /*verifica che l'evento di invalidazione del ristorante dell'ordine sia stato creato*/
         verify(domainEventPublisher).
-                publish(new OrderRestaurantInvalidatedEvent(INVALID_ORDER_ID, INVALID_RESTAURANT_ID), RestaurantServiceChannel.restaurantServiceChannel);
+                publish(new RestaurantInvalidatedEvent(INVALID_ORDER_ID, INVALID_RESTAURANT_ID), RestaurantServiceChannel.restaurantServiceChannel);
 
     }
 }

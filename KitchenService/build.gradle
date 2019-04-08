@@ -43,6 +43,7 @@ dependencies {
     implementation project(":Swagger-Common")
     implementation project(":CommonEvent")
     implementation project(":OrderService-api")
+    implementation project(":RestaurantService-api")
     implementation project(":KitchenService-api")
 
     //Distributed Tracing (sleuth + Zipkin + opentrace compatibility

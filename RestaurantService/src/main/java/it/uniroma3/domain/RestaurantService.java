@@ -2,15 +2,13 @@ package it.uniroma3.domain;
 
 import it.uniroma3.RestaurantServiceChannel;
 import it.uniroma3.common.event.DomainEventPublisher;
-import it.uniroma3.event.OrderRestaurantInvalidatedEvent;
-import it.uniroma3.event.OrderRestaurantValidatedEvent;
-import it.uniroma3.event.RestaurantCreatedEvent;
+import it.uniroma3.event.RestaurantInvalidatedEvent;
+import it.uniroma3.event.RestaurantValidatedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -54,12 +52,12 @@ public class RestaurantService implements IRestaurantService{
     public void validateOrderRestaurant(Long orderId, Long restaurantId) {
         Restaurant restaurant = findById(restaurantId);
         if (restaurant != null){
-            OrderRestaurantValidatedEvent event = new OrderRestaurantValidatedEvent(orderId, restaurantId);
+            RestaurantValidatedEvent event = new RestaurantValidatedEvent(orderId, restaurantId);
             domainEventPublisher.publish(event, RestaurantServiceChannel.restaurantServiceChannel);
             System.out.println("#### INVIATO EVENTO RESTAURANT VALIDATED  ###");
         }
         else {
-            OrderRestaurantInvalidatedEvent event = new OrderRestaurantInvalidatedEvent(orderId, restaurantId);
+            RestaurantInvalidatedEvent event = new RestaurantInvalidatedEvent(orderId, restaurantId);
             domainEventPublisher.publish(event, RestaurantServiceChannel.restaurantServiceChannel);
             System.out.println("#### INVIATO EVENTO RESTAURANT INVALIDATED  ###");
         }
