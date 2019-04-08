@@ -3,6 +3,8 @@ package it.uniroma3.domain;
 import it.uniroma3.KitchenServiceChannel;
 import it.uniroma3.event.TicketCreatedEvent;
 import it.uniroma3.common.event.DomainEventPublisher;
+import it.uniroma3.event.TicketInvalidEvent;
+import it.uniroma3.event.TicketValidEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,18 +58,48 @@ public class KitchenService implements IKitchenService{
       Ticket ticket = Ticket.create(restaurantId);
       return kitchenRepository.save(ticket);
     }
+
     @Override
     public Ticket acceptTicket(Long ticketId){
         Ticket ticket = findById(ticketId);
         ticket.setState(TicketState.APPROVED);
         ticket = kitchenRepository.save(ticket);
+        //crea evento di validazione del ticket
+        TicketValidEvent ticketValidEvent = makeTicketValidEvent(ticket);
+        //pubblica evento di validazione del ticket
+        domainEventPublisher.publish(ticketValidEvent, KitchenServiceChannel.kitchenServiceChannel );
         return ticket;
+    }
+    private TicketValidEvent makeTicketValidEvent(Ticket ticket){
+        return new TicketValidEvent(ticket.getId(), ticket.getRestaurantId());
     }
 
     public Ticket refuseTicket(Long ticketId){
         Ticket ticket = findById(ticketId);
         ticket.setState(TicketState.DISAPPROVED);
         kitchenRepository.save(ticket);
+        //crea evento di non validazione del ticket
+        TicketInvalidEvent ticketInvalidEvent = makeTicketInvalidEvent(ticket);
+        //pubblica evento di non validazione del ticket
+        domainEventPublisher.publish(ticketInvalidEvent, KitchenServiceChannel.kitchenServiceChannel );
         return ticket;
+    }
+    private TicketInvalidEvent makeTicketInvalidEvent(Ticket ticket){
+        return new TicketInvalidEvent(ticket.getId(), ticket.getRestaurantId());
+    }
+    public void validateOrder(Long orderId, Long kitchenId, Long restaurantId){
+        //creo una nuova comanda
+        Ticket ticket = create(restaurantId);
+        //salvo la comanda nel db in stato pending
+        kitchenRepository.save(ticket);
+        //creo l'evento di creazione della comanda che riceveranno restaurant e order
+        TicketCreatedEvent ticketCreatedEvent = makeTicketCreatedEvent(ticket);
+        System.out.println("### INVIATO EVENTO KITCHEN CREATED ###");
+        //pubblica evento di creazione sul canale di kitchen
+        domainEventPublisher.publish(ticketCreatedEvent, KitchenServiceChannel.kitchenServiceChannel);
+
+
+
+
     }
 }

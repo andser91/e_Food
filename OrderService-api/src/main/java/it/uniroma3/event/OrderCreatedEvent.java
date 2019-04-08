@@ -7,16 +7,18 @@ public class OrderCreatedEvent implements DomainEvent {
     private Long orderId;
     private Long consumerId;
     private Long restaurantId;
+    private  Long kitchenId;
     private List<LineItem> lineItems;
 
 
     public OrderCreatedEvent() {
     }
 
-    public OrderCreatedEvent(Long orderId, Long consumerId, Long restaurantId, List<LineItem> lineItems) {
+    public OrderCreatedEvent(Long orderId, Long consumerId, Long restaurantId, Long kitchenId, List<LineItem> lineItems) {
         this.orderId = orderId;
         this.consumerId = consumerId;
         this.restaurantId = restaurantId;
+        this.kitchenId = kitchenId;
         this.lineItems = lineItems;
     }
 
@@ -44,6 +46,14 @@ public class OrderCreatedEvent implements DomainEvent {
         this.restaurantId = restaurantId;
     }
 
+    public Long getKitchenId() {
+        return kitchenId;
+    }
+
+    public void setKitchenId(Long kitchenId) {
+        this.kitchenId = kitchenId;
+    }
+
     public List<LineItem> getLineItems() {
         return lineItems;
     }
@@ -58,6 +68,7 @@ public class OrderCreatedEvent implements DomainEvent {
                 "orderId=" + orderId +
                 ", consumerId=" + consumerId +
                 ", restaurantId=" + restaurantId +
+                ", kitchenId=" + kitchenId +
                 ", lineItems=" + lineItems +
                 '}';
     }
@@ -68,12 +79,13 @@ public class OrderCreatedEvent implements DomainEvent {
         if (o == null || getClass() != o.getClass()) return false;
         OrderCreatedEvent that = (OrderCreatedEvent) o;
         return orderId.equals(that.orderId) &&
+                kitchenId.equals(that.kitchenId) &&
                 consumerId.equals(that.consumerId) &&
                 restaurantId.equals(that.restaurantId);
     }
 
     @Override
     public int hashCode() {
-        return orderId.hashCode() + consumerId.hashCode() + restaurantId.hashCode();
+        return orderId.hashCode() + consumerId.hashCode() + restaurantId.hashCode() + kitchenId.hashCode();
     }
 }

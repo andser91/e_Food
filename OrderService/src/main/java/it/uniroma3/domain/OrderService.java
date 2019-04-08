@@ -21,6 +21,8 @@ public class OrderService implements IOrderService {
     @Autowired
     private RestaurantServiceAdapter restaurantServiceAdapter;
     @Autowired
+    private KitchenServiceAdapter kitchenServiceAdapter;
+    @Autowired
     private DomainEventPublisher domainEventPublisher;
 
     @Override
@@ -40,14 +42,14 @@ public class OrderService implements IOrderService {
 
     /* Creazione di un nuovo ordine. */
     @Override
-    public Order create(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems) {
-        return createAsincrona(consumerId, restaurantId, orderLineItems);
+    public Order create(Long consumerId, Long restaurantId, Long kitchenId, List<OrderLineItem> orderLineItems) {
+        return createAsincrona(consumerId, restaurantId, kitchenId, orderLineItems);
         // return createSincrona(consumerId, restaurantId, orderLineItems);
     }
 
-    private Order createAsincrona(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems){
+    private Order createAsincrona(Long consumerId, Long restaurantId, Long kitchenId, List<OrderLineItem> orderLineItems){
         //crea e salva l'ordine
-        Order order = Order.create(consumerId, restaurantId,  orderLineItems);
+        Order order = Order.create(consumerId, restaurantId, kitchenId, orderLineItems);
         order = orderRepository.save(order);
         //pubblica un evento di creazione dell'ordine
         OrderCreatedEvent event = makeOrderCreatedEvent(order);
@@ -60,12 +62,12 @@ public class OrderService implements IOrderService {
                 .stream()
                 .map(x -> new LineItem(x.getMenuItemId(), x.getQuantity()))
                 .collect(Collectors.toList());
-        return new OrderCreatedEvent(order.getId(),order.getConsumerId(),order.getRestaurantId(),lineItems);
+        return new OrderCreatedEvent(order.getId(),order.getConsumerId(),order.getRestaurantId(), order.getKitchenId(), lineItems);
     }
 
-
-    private Order createSincrona(Long consumerId, Long restaurantId,  List<OrderLineItem> orderLineItems){
-        Order order = Order.create(consumerId, restaurantId, orderLineItems);
+    //TODO sistema con kitchenId
+    private Order createSincrona(Long consumerId, Long restaurantId, Long kitchenId,  List<OrderLineItem> orderLineItems){
+        Order order = Order.create(consumerId, restaurantId, kitchenId, orderLineItems);
         boolean consumerOk = consumerServiceAdapter.validateConsumer(order.getConsumerId());
         boolean restaurantOK = restaurantServiceAdapter.validateRestaurant(order.getRestaurantId());
         if (consumerOk && restaurantOK) {

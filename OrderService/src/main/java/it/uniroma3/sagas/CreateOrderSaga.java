@@ -1,7 +1,7 @@
 package it.uniroma3.sagas;
 
 public class CreateOrderSaga {
-
+/*
     private SagaDefinition<CreateOrderSagaState> sagaDefinition;
 
     public CreateOrderSaga(OrderServiceProxy orderService, ConsumerServiceProxy consumerService, KitchenServiceProxy kitchenService,
@@ -30,5 +30,5 @@ public class CreateOrderSaga {
     public SagaDefinition<CreateOrderSagaState> getSagaDefinition() {
         return sagaDefinition;
     }
-
+*/
 }
