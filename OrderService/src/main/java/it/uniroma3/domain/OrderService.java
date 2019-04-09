@@ -4,6 +4,9 @@ import it.uniroma3.OrderServiceChannel;
 import it.uniroma3.common.event.DomainEventPublisher;
 import it.uniroma3.event.LineItem;
 import it.uniroma3.event.OrderCreatedEvent;
+import it.uniroma3.event.OrderDetails;
+import it.uniroma3.sagas.CreateOrderSaga;
+import it.uniroma3.sagas.CreateOrderSagaState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,9 +57,18 @@ public class OrderService implements IOrderService {
         //pubblica un evento di creazione dell'ordine
         OrderCreatedEvent event = makeOrderCreatedEvent(order);
         domainEventPublisher.publish(event, OrderServiceChannel.orderServiceChannel);
+        List<LineItem> lineItems = makeLineItem(order);
+        OrderDetails orderDetails = new OrderDetails(lineItems, restaurantId, consumerId);
+        CreateOrderSagaState data = new CreateOrderSagaState(order.getId(), orderDetails);
         return order;
     }
-
+    private List<LineItem> makeLineItem(Order order){
+        List<LineItem> lineItems = order.getOrderLineItems()
+                .stream()
+                .map(x -> new LineItem(x.getMenuItemId(), x.getQuantity()))
+                .collect(Collectors.toList());
+        return lineItems;
+    }
     private OrderCreatedEvent makeOrderCreatedEvent(Order order){
         List<LineItem> lineItems = order.getOrderLineItems()
                 .stream()

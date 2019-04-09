@@ -5,14 +5,14 @@ import java.util.List;
 public class OrderDetails {
 
     private List<LineItem> lineItems;
-    private long restaurantId;
-    private long consumerId;
+    private Long restaurantId;
+    private Long consumerId;
 
     //constructs
 
     public OrderDetails(){}
 
-    public OrderDetails(List<LineItem> lineItems, long restaurantId, long consumerId) {
+    public OrderDetails(List<LineItem> lineItems, Long restaurantId, Long consumerId) {
         this.lineItems = lineItems;
         this.restaurantId = restaurantId;
         this.consumerId = consumerId;
@@ -28,19 +28,19 @@ public class OrderDetails {
         this.lineItems = lineItems;
     }
 
-    public long getRestaurantId() {
+    public Long getRestaurantId() {
         return restaurantId;
     }
 
-    public void setRestaurantId(long restaurantId) {
+    public void setRestaurantId(Long restaurantId) {
         this.restaurantId = restaurantId;
     }
 
-    public long getConsumerId() {
+    public Long getConsumerId() {
         return consumerId;
     }
 
-    public void setConsumerId(long consumerId) {
+    public void setConsumerId(Long consumerId) {
         this.consumerId = consumerId;
     }
 }
