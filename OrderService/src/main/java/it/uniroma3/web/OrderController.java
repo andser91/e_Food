@@ -73,7 +73,7 @@ public class OrderController {
                         .stream()
                         .map(x -> new LineItem(x.getMenuItemId(), x.getQuantity()))
                         .collect(Collectors.toList());
-        return new GetOrderResponse(order.getId(), order.getConsumerId(), order.getRestaurantId(), lineItems, order.getOrderState().toString());
+        return new GetOrderResponse(order.getId(), order.getConsumerId(), order.getRestaurantId(), order.getTicketId(), lineItems, order.getOrderState().toString());
 
     }
 

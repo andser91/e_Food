@@ -7,13 +7,39 @@ import java.util.Objects;
 
 @Data
 public class TicketCreatedEvent implements DomainEvent {
+    private Long orderId;
     private Long ticketId;
     private Long restaurantId;
 
     public TicketCreatedEvent(){}
 
-    public TicketCreatedEvent(Long ticketId, Long restaurantId) {
+    public TicketCreatedEvent(Long orderId, Long ticketId, Long restaurantId) {
+        this.orderId = orderId;
         this.ticketId = ticketId;
+        this.restaurantId = restaurantId;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public Long getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(Long ticketId) {
+        this.ticketId = ticketId;
+    }
+
+    public Long getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(Long restaurantId) {
         this.restaurantId = restaurantId;
     }
 
@@ -28,13 +54,14 @@ public class TicketCreatedEvent implements DomainEvent {
 
     @Override
     public int hashCode() {
-        return Objects.hash(ticketId, restaurantId);
+        return Objects.hash(ticketId, restaurantId, orderId);
     }
 
     @Override
     public String toString() {
         return "TicketCreatedEvent{" +
-                "ticketId=" + ticketId +
+                "orderId=" + orderId +
+                ", ticketId=" + ticketId +
                 ", restaurantId=" + restaurantId +
                 '}';
     }

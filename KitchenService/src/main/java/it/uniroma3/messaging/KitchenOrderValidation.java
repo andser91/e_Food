@@ -23,7 +23,7 @@ public class KitchenOrderValidation {
         DomainEvent event = evt.value();
         if (event.getClass().equals(OrderCreatedEvent.class)) {
             OrderCreatedEvent orderCreatedEvent = (OrderCreatedEvent) event;
-            kitchenService.validateOrder(orderCreatedEvent.getOrderId(), orderCreatedEvent.getKitchenId(), orderCreatedEvent.getRestaurantId());
+            kitchenService.validateOrder(orderCreatedEvent.getOrderId(), orderCreatedEvent.getRestaurantId());
         }else{ if (event.getClass().equals(RestaurantValidatedEvent.class)) {
             RestaurantValidatedEvent domainEvent = (RestaurantValidatedEvent) event;
             kitchenService.confirmRestaurant(domainEvent.getTicketId());

@@ -7,11 +7,29 @@ import java.util.Objects;
 @Data
 public class TicketValidEvent implements DomainEvent{
     private Long ticketId;
+    private Long orderId;
 
     public TicketValidEvent(){}
 
-    public TicketValidEvent(Long ticketId, Long restaurantId) {
+    public TicketValidEvent(Long ticketId, Long orderId) {
         this.ticketId = ticketId;
+        this.orderId = orderId;
+    }
+
+    public Long getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(Long ticketId) {
+        this.ticketId = ticketId;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
     @Override

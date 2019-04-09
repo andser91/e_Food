@@ -11,15 +11,17 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private Long orderId;
     private TicketState state;
     private Long restaurantId;
 
     public Ticket(){super();}
 
-    public Ticket(Long restaurantId) {
+    public Ticket(Long restaurantId, Long orderId) {
         super();
         this.state = TicketState.PENDING;
         this.restaurantId = restaurantId;
+        this.orderId = orderId;
     }
 
     public Long getId() {
@@ -46,8 +48,16 @@ public class Ticket {
         this.restaurantId = restaurantId;
     }
 
-    public static Ticket create(Long restaurantId){
-        return new Ticket(restaurantId);
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public static Ticket create(Long restaurantId, Long orderId){
+        return new Ticket(restaurantId, orderId);
     }
     @Override
     public boolean equals(Object o) {
@@ -55,8 +65,7 @@ public class Ticket {
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
         return id.equals(ticket.id) &&
-                state == ticket.state &&
-                restaurantId.equals(ticket.restaurantId);
+                state == ticket.state ;
     }
 
     @Override
@@ -70,6 +79,7 @@ public class Ticket {
                 "id=" + id +
                 ", state=" + state +
                 ", restaurantId=" + restaurantId +
+                ", orderId=" + orderId +
                 '}';
     }
 }

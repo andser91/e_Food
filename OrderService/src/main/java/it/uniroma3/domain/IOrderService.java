@@ -11,6 +11,6 @@ public interface IOrderService {
     List<Order> findAll();
     void deleteById(Long id);
     Order findById(Long id);
-    Order create(Long consumerId, Long restaurantId, Long kitchenId, List<OrderLineItem> orderLineItems);
+    Order create(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems);
 
 }

@@ -36,13 +36,13 @@ public class KitchenService implements IKitchenService{
     }
 
     @Override
-    public Ticket create(Long restaurantId) {
-       // return createAsincrona(restaurantId);
-        return createSincrona(restaurantId);
+    public Ticket create(Long restaurantId, Long orderId) {
+       return createAsincrona(restaurantId, orderId);
+        //return createSincrona(restaurantId);
     }
 
-    private Ticket createAsincrona(Long restaurantId){
-        Ticket ticket = Ticket.create(restaurantId);
+    private Ticket createAsincrona(Long restaurantId, Long orderId){
+        Ticket ticket = Ticket.create(restaurantId, orderId);
         ticket = kitchenRepository.save(ticket);
         TicketCreatedEvent event = makeTicketCreatedEvent(ticket);
 
@@ -51,11 +51,11 @@ public class KitchenService implements IKitchenService{
     }
 
     private TicketCreatedEvent makeTicketCreatedEvent(Ticket ticket){
-        return new TicketCreatedEvent(ticket.getId(), ticket.getRestaurantId());
+        return new TicketCreatedEvent(ticket.getOrderId(), ticket.getId(), ticket.getRestaurantId());
     }
 
-    private Ticket createSincrona(Long restaurantId){
-      Ticket ticket = Ticket.create(restaurantId);
+    private Ticket createSincrona(Long restaurantId, Long orderId){
+      Ticket ticket = Ticket.create(restaurantId, orderId);
       return kitchenRepository.save(ticket);
     }
 
@@ -90,15 +90,16 @@ public class KitchenService implements IKitchenService{
         //crea evento di non validazione del ticket
         TicketInvalidEvent ticketInvalidEvent = makeTicketInvalidEvent(ticket);
         //pubblica evento di non validazione del ticket
+        System.out.println("INVIATO MESSAGGIO 'TICKET INVALIDO' ");
         domainEventPublisher.publish(ticketInvalidEvent, KitchenServiceChannel.kitchenServiceChannel );
         return ticket;
     }
     private TicketInvalidEvent makeTicketInvalidEvent(Ticket ticket){
-        return new TicketInvalidEvent(ticket.getId(), ticket.getRestaurantId());
+        return new TicketInvalidEvent(ticket.getId(), ticket.getOrderId());
     }
-    public void validateOrder(Long orderId, Long kitchenId, Long restaurantId){
+    public void validateOrder(Long orderId, Long restaurantId){
         //creo una nuova comanda
-        Ticket ticket = create(restaurantId);
+        Ticket ticket = create(restaurantId, orderId);
         //salvo la comanda nel db in stato pending
         kitchenRepository.save(ticket);
         //creo l'evento di creazione della comanda che riceveranno restaurant e order

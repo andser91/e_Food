@@ -9,7 +9,7 @@ public interface IKitchenService {
     List<Ticket> findAll();
     void deleteById(Long id);
     Ticket findById(Long id);
-    Ticket create(Long restaurantId);
+    Ticket create(Long restaurantId, Long orderId);
     Ticket acceptTicket(Long id);
 
 }

@@ -146,7 +146,7 @@ public class RestaurantServiceTests {
                     return Optional.of(restaurant);
                 });
 
-        restaurantService.validateOrderRestaurant(VALID_ORDER_ID, RESTAURANT_ID);
+        restaurantService.validateTicketRestaurant(VALID_ORDER_ID, RESTAURANT_ID);
 
         /*verifica che il ristorante sia stato cercato*/
         verify(restaurantRepository).findById(same(RESTAURANT_ID));
@@ -163,7 +163,7 @@ public class RestaurantServiceTests {
 
         when(restaurantRepository.findById(INVALID_RESTAURANT_ID)).thenReturn(Optional.empty());
 
-        restaurantService.validateOrderRestaurant(INVALID_ORDER_ID, INVALID_RESTAURANT_ID);
+        restaurantService.validateTicketRestaurant(INVALID_ORDER_ID, INVALID_RESTAURANT_ID);
 
         /*verifica che il ristorante sia stato cercato*/
         verify(restaurantRepository).findById(same(INVALID_RESTAURANT_ID));

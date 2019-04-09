@@ -6,7 +6,6 @@ services:
     restart: always
     volumes:
       - ./Postgres:/docker-entrypoint-initdb.d
-      - ./data:/var/lib/postgresql
     ports:
       - 5432:5432
     environment:
@@ -42,7 +41,7 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: ${DOCKER_HOST_IP}
       KAFKA_ADVERTISED_PORT: 9092
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CREATE_TOPICS: "consumer-service-channel:1:1,restaurant-service-channel:1:1,order-service-channel:1:1"
+      KAFKA_CREATE_TOPICS: "consumer-service-channel:1:1,restaurant-service-channel:1:1,order-service-channel:1:1, kitchen-service-channel:1:1"
       #KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://${DOCKER_HOST_IP}:9094
       KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9094

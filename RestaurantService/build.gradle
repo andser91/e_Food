@@ -41,7 +41,7 @@ dependencies {
     implementation project(":Swagger-Common")
     implementation project(":CommonEvent")
     implementation project(":RestaurantService-api")
-    implementation project(":OrderService-api")
+    implementation project(":KitchenService-api")
     //Distributed Tracing (sleuth + Zipkin + opentrace compatibility
     compile group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin', version: '2.1.1.RELEASE'
     compile group: 'io.opentracing.brave', name: 'brave-opentracing', version: '0.33.11'

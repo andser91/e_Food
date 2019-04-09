@@ -61,13 +61,13 @@ public class KitchenController {
     /** Crea un nuovo ticket **/
     @PostMapping("/")
     public CreateTicketResponse newTicket(@RequestBody CreateTicketRequest request) {
-        Ticket ticket = kitchenService.create(request.getRestaurantId());
+        Ticket ticket = kitchenService.create(request.getRestaurantId(), request.getOrderId());
         return makeCreateTicketResponse(ticket);
 
     }
 
     private CreateTicketResponse makeCreateTicketResponse(Ticket ticket) {
-        return new CreateTicketResponse(ticket.getId(), ticket.getRestaurantId(), ticket.getState().toString());
+        return new CreateTicketResponse(ticket.getId(), ticket.getRestaurantId(), ticket.getOrderId(), ticket.getState().toString());
     }
 
     /** Accetta un ticket e lo aggiorna**/

@@ -8,6 +8,7 @@ public class GetOrderResponse {
     private Long orderId;
     private Long consumerId;
     private Long restaurantId;
+    private Long ticketId;
     private List<LineItem> lineItems;
     private String orderState;
 
@@ -15,10 +16,11 @@ public class GetOrderResponse {
     public GetOrderResponse() {
     }
 
-    public GetOrderResponse(Long orderId, Long consumerId, Long restaurantId, List<LineItem> lineItems, String orderState) {
+    public GetOrderResponse(Long orderId, Long consumerId, Long restaurantId, Long ticketId, List<LineItem> lineItems, String orderState) {
         this.orderId = orderId;
         this.consumerId = consumerId;
         this.restaurantId = restaurantId;
+        this.ticketId = ticketId;
         this.lineItems = lineItems;
         this.orderState = orderState;
     }
@@ -45,6 +47,14 @@ public class GetOrderResponse {
 
     public void setRestaurantId(Long restaurantId) {
         this.restaurantId = restaurantId;
+    }
+
+    public Long getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(Long ticketId) {
+        this.ticketId = ticketId;
     }
 
     public List<LineItem> getLineItems() {

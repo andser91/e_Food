@@ -13,7 +13,7 @@ public class Order {
 
     private Long restaurantId;
     private Long consumerId;
-    private Long kitchenId;
+    private Long ticketId;
 
     private OrderState orderState;
     @ElementCollection
@@ -22,10 +22,9 @@ public class Order {
     public Order() {super();
     }
 
-    public Order(Long consumerId, Long restaurantId, Long kitchenId, List<OrderLineItem> orderLineItems) {
+    public Order(Long consumerId, Long restaurantId,  List<OrderLineItem> orderLineItems) {
         this.restaurantId = restaurantId;
         this.consumerId = consumerId;
-        this.kitchenId = kitchenId;
         this.orderState = OrderState.PENDING;
         this.orderLineItems = orderLineItems;
     }
@@ -54,12 +53,12 @@ public class Order {
         this.consumerId = consumerId;
     }
 
-    public Long getKitchenId() {
-        return kitchenId;
+    public Long getTicketId() {
+        return ticketId;
     }
 
-    public void setKitchenId(Long kitchenId) {
-        this.kitchenId = kitchenId;
+    public void setTicketId(Long ticketId) {
+        this.ticketId = ticketId;
     }
 
     public OrderState getOrderState() {
@@ -78,8 +77,8 @@ public class Order {
         this.orderLineItems = orderLineItems;
     }
 
-    public static Order create(Long customerId, Long restaurantId, Long kitchenId, List<OrderLineItem> orderLineItems) {
-        return new Order(customerId, restaurantId, kitchenId, orderLineItems);
+    public static Order create(Long customerId, Long restaurantId, List<OrderLineItem> orderLineItems) {
+        return new Order(customerId, restaurantId, orderLineItems);
     }
 
     @Override

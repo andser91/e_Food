@@ -6,6 +6,7 @@ public class CreateOrderResponse {
     private Long orderId;
     private Long consumerId;
     private Long restaurantId;
+    private Long ticketId;
     private String orderState;
 
     public CreateOrderResponse() {
@@ -40,6 +41,14 @@ public class CreateOrderResponse {
 
     public void setRestaurantId(Long restaurantId) {
         this.restaurantId = restaurantId;
+    }
+
+    public Long getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(Long ticketId) {
+        this.ticketId = ticketId;
     }
 
     public String getOrderState() {

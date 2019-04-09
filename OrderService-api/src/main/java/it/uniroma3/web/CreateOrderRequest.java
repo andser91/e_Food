@@ -4,12 +4,14 @@ import lombok.Data;
 
 import java.util.List;
 
-
+@Data
 public class CreateOrderRequest {
 
     private Long consumerId;
     private Long restaurantId;
+    private Long ticketId;
     private List<LineItem> lineItems;
+
 
     public Long getConsumerId() {
         return consumerId;
@@ -25,6 +27,14 @@ public class CreateOrderRequest {
 
     public void setRestaurantId(Long restaurantId) {
         this.restaurantId = restaurantId;
+    }
+
+    public Long getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(Long ticketId) {
+        this.ticketId = ticketId;
     }
 
     public List<LineItem> getLineItems() {

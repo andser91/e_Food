@@ -19,7 +19,6 @@ public class OrderServiceTest {
     @ClassRule
     public static EmbeddedKafkaRule embededKafka = new EmbeddedKafkaRule(1, false, "order-service-channel");
 
-
     @Test
     public void test(){
         //KafkaTestUtils.getSingleRecord()

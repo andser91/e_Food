@@ -49,15 +49,15 @@ public class RestaurantService implements IRestaurantService{
     } */
 
     @Override
-    public void validateOrderRestaurant(Long orderId, Long restaurantId) {
+    public void validateTicketRestaurant(Long ticketId, Long restaurantId) {
         Restaurant restaurant = findById(restaurantId);
         if (restaurant != null){
-            RestaurantValidatedEvent event = new RestaurantValidatedEvent(orderId, restaurantId);
+            RestaurantValidatedEvent event = new RestaurantValidatedEvent(ticketId, restaurantId);
             domainEventPublisher.publish(event, RestaurantServiceChannel.restaurantServiceChannel);
             System.out.println("#### INVIATO EVENTO RESTAURANT VALIDATED  ###");
         }
         else {
-            RestaurantInvalidatedEvent event = new RestaurantInvalidatedEvent(orderId, restaurantId);
+            RestaurantInvalidatedEvent event = new RestaurantInvalidatedEvent(ticketId, restaurantId);
             domainEventPublisher.publish(event, RestaurantServiceChannel.restaurantServiceChannel);
             System.out.println("#### INVIATO EVENTO RESTAURANT INVALIDATED  ###");
         }
