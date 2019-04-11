@@ -1,9 +1,11 @@
 buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
+        repositories {
+            mavenCentral()
+            jcenter()
+            maven {
+                url 'https://repo.spring.io/libs-milestone'
+            }
         }
-    }
     dependencies {
         // classpath("org.unbroken-dome.gradle-plugins:gradle-testsets-plugin:2.1.1")
         classpath "gradle.plugin.com.avast.gradle:gradle-docker-compose-plugin:0.9.1"
@@ -71,4 +73,16 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    //SAGAS
+    compile "io.eventuate.tram.sagas:eventuate-tram-sagas-simple-dsl:$eventuateTramSagasVersion"
+    compile "io.eventuate.tram.core:eventuate-tram-jdbc-kafka:$eventuateTramVersion"
+    compile "io.eventuate.tram.sagas:eventuate-jpa-sagas-framework:$eventuateTramSagasVersion"
+
+
+
+
+
+
+
 }
