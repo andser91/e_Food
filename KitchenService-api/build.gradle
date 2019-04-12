@@ -2,7 +2,7 @@
 
 dependencies {
     implementation project(":CommonEvent")
-
+    compile "io.eventuate.tram.sagas:eventuate-jpa-sagas-framework:$eventuateTramSagasVersion"
     compileOnly 'org.projectlombok:lombok:1.18.4'
 }
 
