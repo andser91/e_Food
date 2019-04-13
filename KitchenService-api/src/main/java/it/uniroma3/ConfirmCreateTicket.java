@@ -7,11 +7,13 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 public class ConfirmCreateTicket implements Command {
     private Long orderId;
+    private Long ticketId;
 
     public ConfirmCreateTicket(){}
 
-    public ConfirmCreateTicket(Long orderId){
+    public ConfirmCreateTicket(Long orderId, Long ticketId){
         this.orderId = orderId;
+        this.ticketId = ticketId;
     }
 
     public Long getOrderId() {
@@ -21,6 +23,15 @@ public class ConfirmCreateTicket implements Command {
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
+
+    public Long getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(Long ticketId) {
+        this.ticketId = ticketId;
+    }
+
     @Override
     public boolean equals(Object o) {
         return EqualsBuilder.reflectionEquals(this, o);

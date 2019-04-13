@@ -1,11 +1,11 @@
 package it.uniroma3.domain;
 
+import io.eventuate.tram.sagas.orchestration.SagaManager;
 import it.uniroma3.OrderServiceChannel;
 import it.uniroma3.common.event.DomainEventPublisher;
 import it.uniroma3.event.LineItem;
 import it.uniroma3.event.OrderCreatedEvent;
 import it.uniroma3.event.OrderDetails;
-import it.uniroma3.sagas.CreateOrderSaga;
 import it.uniroma3.sagas.CreateOrderSagaState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class OrderService implements IOrderService {
+    @Autowired
+    private SagaManager<CreateOrderSagaState>  createOrderSagaManager;
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
@@ -60,6 +62,7 @@ public class OrderService implements IOrderService {
         List<LineItem> lineItems = makeLineItem(order);
         OrderDetails orderDetails = new OrderDetails(lineItems, restaurantId, consumerId);
         CreateOrderSagaState data = new CreateOrderSagaState(order.getId(), orderDetails);
+        createOrderSagaManager.create(data, Order.class, order.getId());
         return order;
     }
     private List<LineItem> makeLineItem(Order order){
@@ -156,5 +159,16 @@ public class OrderService implements IOrderService {
             orderRepository.save(order);
         }
         return order;
+    }
+    //SAGAS
+    public void approveOrder(Long orderId){
+        Order order = findById(orderId);
+        order.setOrderState(OrderState.APPROVED);
+        orderRepository.save(order);
+    }
+    public void rejectOrder(Long orderId){
+        Order order = findById(orderId);
+        order.setOrderState(OrderState.INVALID);
+        orderRepository.save(order);
     }
 }

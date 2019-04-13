@@ -24,7 +24,7 @@ public class CreateOrderSagaState {
         return new CreateTicket(orderDetails.getRestaurantId(), orderId);
     }
     ConfirmCreateTicket makeConfirmCreateTicketCommand(){
-        return new ConfirmCreateTicket(orderId);
+        return new ConfirmCreateTicket(orderId, ticketId);
     }
     void handleCreateTicketReply(CreateTicketReply reply){
         setTicketId(reply.getTicketId());

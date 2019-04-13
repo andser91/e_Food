@@ -97,15 +97,41 @@ public class KitchenService implements IKitchenService{
     private TicketInvalidEvent makeTicketInvalidEvent(Ticket ticket){
         return new TicketInvalidEvent(ticket.getId(), ticket.getOrderId());
     }
-    public void validateOrder(Long orderId, Long restaurantId){
+    public Ticket validateTicket(Long orderId, Long restaurantId){
         //creo una nuova comanda
         Ticket ticket = create(restaurantId, orderId);
         //salvo la comanda nel db in stato pending
-        kitchenRepository.save(ticket);
+        Ticket tickeyt = kitchenRepository.save(ticket);
         //creo l'evento di creazione della comanda che riceveranno restaurant e order
         TicketCreatedEvent ticketCreatedEvent = makeTicketCreatedEvent(ticket);
         System.out.println("### INVIATO EVENTO KITCHEN CREATED ###");
         //pubblica evento di creazione sul canale di kitchen
         domainEventPublisher.publish(ticketCreatedEvent, KitchenServiceChannel.kitchenServiceChannel);
+        return ticket;
     }
+
+
+    //SAGAS
+    public Ticket createTicket(Long orderId, Long restaurantId){
+        //creo una nuova comanda
+        Ticket ticket = create(restaurantId, orderId);
+        //salvo la comanda nel db in stato pending
+        Ticket tickeyt = kitchenRepository.save(ticket);
+        return ticket;
+    }
+    public Ticket confirmCreateTicket(Long ticketId){
+        Ticket ticket = findById(ticketId);
+        if(ticket.getState().equals(TicketState.RESTAURANT_APPROVED)){
+            ticket.setState(TicketState.APPROVED);
+            ticket = kitchenRepository.save(ticket);
+        }
+        return ticket;
+    }
+    public Ticket cancelCreateTicket(Long ticketId){
+        Ticket ticket = findById(ticketId);
+        ticket.setState(TicketState.DISAPPROVED);
+        kitchenRepository.save(ticket);
+        return ticket;
+    }
+
 }
