@@ -1,8 +1,9 @@
 package it.uniroma3.common.event;
 
-public interface DomainEventPublisher {
+import org.springframework.stereotype.Service;
 
-    void subscribe(DomainEventListener eventListener);
+@Service
+public interface DomainEventPublisher {
 
     void publish(DomainEvent event, String channel);
 }

@@ -29,6 +29,7 @@ public class KitchenAndConsumerEventListener {
             OrderConsumerInvalidatedEvent domainEvent = (OrderConsumerInvalidatedEvent) event;
             orderService.invalidateConsumer(domainEvent.getOrderId(), domainEvent.getConsumerId());
         }else if(event.getClass().equals(TicketValidEvent.class)) {
+            System.out.println("############CONFERMATO");
             TicketValidEvent domainEvent = (TicketValidEvent) event;
             orderService.confirmTicket(domainEvent.getOrderId(), domainEvent.getTicketId());
         }else if(event.getClass().equals(TicketInvalidEvent.class)) {

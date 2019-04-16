@@ -2,7 +2,9 @@ package it.uniroma3.sagas;
 
 import it.uniroma3.*;
 import it.uniroma3.event.OrderDetails;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CreateOrderSagaState {
 
     private Long orderId;

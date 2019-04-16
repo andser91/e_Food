@@ -1,8 +1,6 @@
 package it.uniroma3.domain;
 
 import it.uniroma3.ConsumerServiceChannel;
-import it.uniroma3.common.event.DomainEvent;
-import it.uniroma3.common.event.DomainEventListener;
 import it.uniroma3.common.event.DomainEventPublisher;
 import it.uniroma3.event.OrderConsumerInvalidatedEvent;
 import it.uniroma3.event.OrderConsumerValidatedEvent;
@@ -10,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service

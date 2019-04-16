@@ -5,7 +5,9 @@ import io.eventuate.tram.sagas.simpledsl.CommandEndpoint;
 import io.eventuate.tram.sagas.simpledsl.CommandEndpointBuilder;
 import it.uniroma3.ConsumerServiceChannel;
 import it.uniroma3.ValidateOrderByConsumer;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ConsumerServiceProxy {
     public final CommandEndpoint<ValidateOrderByConsumer> validateOrder= CommandEndpointBuilder
             .forCommand(ValidateOrderByConsumer.class)

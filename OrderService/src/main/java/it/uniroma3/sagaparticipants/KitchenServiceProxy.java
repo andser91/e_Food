@@ -4,7 +4,9 @@ import io.eventuate.tram.commands.common.Success;
 import io.eventuate.tram.sagas.simpledsl.CommandEndpoint;
 import io.eventuate.tram.sagas.simpledsl.CommandEndpointBuilder;
 import it.uniroma3.*;
+import org.springframework.stereotype.Service;
 
+@Service
 public class KitchenServiceProxy {
     public final CommandEndpoint<CreateTicket> create= CommandEndpointBuilder
             .forCommand(CreateTicket.class)

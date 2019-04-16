@@ -5,7 +5,9 @@ import io.eventuate.tram.sagas.simpledsl.CommandEndpoint;
 import io.eventuate.tram.sagas.simpledsl.CommandEndpointBuilder;
 import it.uniroma3.*;
 import it.uniroma3.domain.OrderService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class OrderServiceProxy {
 
     public final CommandEndpoint<RejectOrderCommand> reject= CommandEndpointBuilder

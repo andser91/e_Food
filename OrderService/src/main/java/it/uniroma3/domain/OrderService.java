@@ -1,11 +1,13 @@
 package it.uniroma3.domain;
 
 import io.eventuate.tram.sagas.orchestration.SagaManager;
+import io.eventuate.tram.sagas.orchestration.SagaManagerImpl;
 import it.uniroma3.OrderServiceChannel;
 import it.uniroma3.common.event.DomainEventPublisher;
 import it.uniroma3.event.LineItem;
 import it.uniroma3.event.OrderCreatedEvent;
 import it.uniroma3.event.OrderDetails;
+import it.uniroma3.sagas.CreateOrderSaga;
 import it.uniroma3.sagas.CreateOrderSagaState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class OrderService implements IOrderService {
+    @Autowired
+    CreateOrderSaga saga ;
     @Autowired
     private SagaManager<CreateOrderSagaState>  createOrderSagaManager;
     @Autowired
@@ -50,8 +54,22 @@ public class OrderService implements IOrderService {
     public Order create(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems) {
         return createAsincrona(consumerId, restaurantId, orderLineItems);
         // return createSincrona(consumerId, restaurantId, orderLineItems);
+        //return createSaga(consumerId, restaurantId, orderLineItems);
     }
+    private Order createSaga(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems) {
+        //crea e salva l'ordine
+        Order order = Order.create(consumerId, restaurantId, orderLineItems);
+        order = orderRepository.save(order);
 
+        List<LineItem> lineItems = makeLineItem(order);
+        OrderDetails orderDetails = new OrderDetails(lineItems, restaurantId, consumerId);
+        CreateOrderSagaState data = new CreateOrderSagaState(order.getId(), orderDetails);
+        //TODO togli commento
+        System.out.println("##############prima del create");
+        createOrderSagaManager.create(data, Order.class, order.getId());
+        System.out.println("##############dopo del create");
+        return order;
+    }
     private Order createAsincrona(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems){
         //crea e salva l'ordine
         Order order = Order.create(consumerId, restaurantId, orderLineItems);
@@ -61,8 +79,6 @@ public class OrderService implements IOrderService {
         domainEventPublisher.publish(event, OrderServiceChannel.orderServiceChannel);
         List<LineItem> lineItems = makeLineItem(order);
         OrderDetails orderDetails = new OrderDetails(lineItems, restaurantId, consumerId);
-        CreateOrderSagaState data = new CreateOrderSagaState(order.getId(), orderDetails);
-        createOrderSagaManager.create(data, Order.class, order.getId());
         return order;
     }
     private List<LineItem> makeLineItem(Order order){

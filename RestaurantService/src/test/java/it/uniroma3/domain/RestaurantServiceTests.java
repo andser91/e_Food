@@ -151,7 +151,7 @@ public class RestaurantServiceTests {
         /*verifica che il ristorante sia stato cercato*/
         verify(restaurantRepository).findById(same(RESTAURANT_ID));
         /*verifica che l'evento di validazione del ristorante dell'ordine sia stato creato*/
-        //verify(domainEventPublisher).
+        //verify(domainEventPublisher1).
         //        publish(new RestaurantValidatedEvent(VALID_ORDER_ID, RESTAURANT_ID), RestaurantServiceChannel.restaurantServiceChannel);
     }
 
