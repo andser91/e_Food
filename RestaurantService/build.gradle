@@ -53,8 +53,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     //Postgres
-    implementation 'org.postgresql:postgresql'
-    
+    //implementation 'org.postgresql:postgresql'
+    //MySQL
+    implementation 'mysql:mysql-connector-java'
     //Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'io.rest-assured:rest-assured:3.3.0'

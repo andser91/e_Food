@@ -12,14 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import java.util.logging.Logger;
+
 @Component
 public class KitchenOrderValidation {
     @Autowired
     private KitchenService kitchenService;
+    private Logger logger = Logger.getLogger("KitchenOrderValidation");
 
     @KafkaListener(topics = { OrderServiceChannel.orderServiceChannel, RestaurantServiceChannel.restaurantServiceChannel})
     public void listen(ConsumerRecord<String, DomainEvent> evt) throws Exception{
-        System.out.println("######### KITCHEN IN ASCOLTO  ########");
+        logger.info("KITCHEN DOMAIN EVENT CONSUMER: " + evt.toString());
         DomainEvent event = evt.value();
         if (event.getClass().equals(OrderCreatedEvent.class)) {
             OrderCreatedEvent orderCreatedEvent = (OrderCreatedEvent) event;

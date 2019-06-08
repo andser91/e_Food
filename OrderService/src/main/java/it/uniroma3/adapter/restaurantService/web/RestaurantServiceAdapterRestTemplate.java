@@ -1,4 +1,4 @@
-/*package it.uniroma3.adapter.restaurantService.web;
+package it.uniroma3.adapter.restaurantService.web;
 
 import it.uniroma3.domain.RestaurantServiceAdapter;
 import it.uniroma3.web.GetRestaurantResponse;
@@ -28,4 +28,3 @@ public class RestaurantServiceAdapterRestTemplate implements RestaurantServiceAd
         return restaurantResponse != null;
     }
 }
-*/

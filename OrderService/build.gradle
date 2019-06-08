@@ -48,6 +48,7 @@ dependencies {
     implementation project(":OrderService-api")
     implementation project(":ConsumerService-api")
     implementation project(":KitchenService-api")
+    implementation project(":RestaurantService-api")
     //Distributed Tracing (sleuth + Zipkin + opentrace compatibility
     compile group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin', version: '2.1.1.RELEASE'
     compile group: 'io.opentracing.brave', name: 'brave-opentracing', version: '0.33.11'
@@ -62,7 +63,9 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-webflux'
     compile 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
     //Postgres
-    implementation 'org.postgresql:postgresql'
+    //implementation 'org.postgresql:postgresql'
+    //MySQL
+    implementation 'mysql:mysql-connector-java'
     //Test
     testCompile 'io.rest-assured:rest-assured:3.3.0'
     testCompile 'io.rest-assured:spring-mock-mvc:3.3.0'
@@ -73,11 +76,6 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-    //SAGAS
-    compile "io.eventuate.tram.sagas:eventuate-tram-sagas-simple-dsl:$eventuateTramSagasVersion"
-    compile "io.eventuate.tram.core:eventuate-tram-jdbc-kafka:$eventuateTramVersion"
-    compile "io.eventuate.tram.sagas:eventuate-jpa-sagas-framework:$eventuateTramSagasVersion"
 
 
 

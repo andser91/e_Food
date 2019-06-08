@@ -11,15 +11,21 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import java.util.logging.Logger;
+
 @Component
 @EnableKafka
 public class KitchenAndConsumerEventListener {
+
+    private Logger logger = Logger.getLogger("KitchenAndConsumerEventListener");
 
     @Autowired
     private OrderService orderService;
 
     @KafkaListener(topics = {KitchenServiceChannel.kitchenServiceChannel, ConsumerServiceChannel.consumerServiceChannel})
     public void listen(ConsumerRecord<String, DomainEvent> evt) throws Exception {
+        logger.info("ORDER DOMAIN EVENT CONSUMER: " + evt.toString());
+
         DomainEvent event = evt.value();
         System.out.println(event.getClass());
         if (event.getClass().equals(OrderConsumerValidatedEvent.class)) {

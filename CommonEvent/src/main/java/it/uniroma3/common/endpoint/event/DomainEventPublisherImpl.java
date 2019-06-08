@@ -5,10 +5,14 @@ import it.uniroma3.common.event.DomainEventPublisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.logging.Logger;
 
 @Service
-public class
-DomainEventPublisherImpl implements DomainEventPublisher {
+@Transactional
+public class DomainEventPublisherImpl implements DomainEventPublisher {
+    private Logger logger = Logger.getLogger("DomainEventPublisherImpl");
 
     @Autowired
     private KafkaTemplate<String, DomainEvent> template;
@@ -16,7 +20,7 @@ DomainEventPublisherImpl implements DomainEventPublisher {
 
     @Override
     public void publish(DomainEvent event, String channel) {
+        logger.info("PUBLISHING DOMAIN EVENT: " + event.toString() + " ON CHANNEL: " + channel);
         template.send(channel, event);
-        System.out.println("##### INVIATO MESSAGGIO ######");
     }
 }

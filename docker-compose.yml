@@ -1,55 +1,39 @@
 version: '3'
 services:
+  mysql:
+      build: MySQL
+      ports:
+        - 3306:3306
+      environment:
+        - MYSQL_ROOT_PASSWORD=rootpassword
+        - MYSQL_USER=mysqluser
+        - MYSQL_PASSWORD=mysqlpw
   ###    POSTGRES    ####
-  postgres-service:
-    image: postgres:latest
-    restart: always
-    volumes:
-      - ./Postgres:/docker-entrypoint-initdb.d
-    ports:
-      - 5432:5432
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-  ##### CDC SERVICE ###
-#  cdcservice:
-#    image: eventuateio/eventuate-tram-cdc-mysql-service:0.13.4.RELEASE
+#  postgres-service:
+#    image: postgres:latest
+#    restart: always
+#    volumes:
+#      - ./Postgres:/docker-entrypoint-initdb.d
 #    ports:
-#      - "8099:8080"
-#    links:
-#      - postgres-service
-#      - kafka
-#      - zookeeper
+#      - 5432:5432
 #    environment:
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service/eventuate
-#      SPRING_DATASOURCE_USERNAME: postgres
-#      SPRING_DATASOURCE_PASSWORD: postgres
-#      SPRING_DATASOURCE_TEST_ON_BORROW: "true"
-#      SPRING_DATASOURCE_VALIDATION_QUERY: SELECT 1
-#      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
-#      EVENTUATELOCAL_CDC_POLLING_INTERVAL_IN_MILLISECONDS: 5000
-#      EVENTUATELOCAL_CDC_MAX_EVENTS_PER_POLLING: 1000
-#      EVENTUATELOCAL_CDC_MAX_ATTEMPTS_FOR_POLLING: 100
-#      EVENTUATELOCAL_CDC_POLLING_RETRY_INTERVAL_IN_MILLISECONDS: 500
-#      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-#      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
-#      EVENTUATELOCAL_CDC_BINLOG_CLIENT_ID: 1234567890
-#      EVENTUATELOCAL_CDC_SOURCE_TABLE_NAME: message
-#      SPRING_PROFILES_ACTIVE: EventuatePolling
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#      POSTGRES_DB: postgres
+
 #  ###  JAEGER  ###
-  jaeger:
-    image: jaegertracing/all-in-one
-    ports:
-      - "5775:5775/udp"
-      - "6831:6831/udp"
-      - "6832:6832/udp"
-      - "5778:5778"
-      - "16686:16686"
-      - "14268:14268"
-      - "9411:9411"
-    environment:
-      COLLECTOR_ZIPKIN_HTTP_PORT: 9411
+#  jaeger:
+#    image: jaegertracing/all-in-one
+#    ports:
+#      - "5775:5775/udp"
+#      - "6831:6831/udp"
+#      - "6832:6832/udp"
+#      - "5778:5778"
+#      - "16686:16686"
+#      - "14268:14268"
+#      - "9411:9411"
+#    environment:
+#      COLLECTOR_ZIPKIN_HTTP_PORT: 9411
   ###    ZOOKEEPER    ####
   zookeeper:
     image: wurstmeister/zookeeper
@@ -80,85 +64,79 @@ services:
     ports:
       - 8082:8080
     depends_on:
-      - postgres-service
+      - mysql
       - kafka
-      - jaeger
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service/consumers
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service/consumers
+#      SPRING_DATASOURCE_USERNAME: postgres
+#      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql/consumers
+      SPRING_DATASOURCE_USERNAME: mysqluser
+      SPRING_DATASOURCE_PASSWORD: mysqlpw
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       SPRING_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
       JAVA_OPTS: -Xmx192m
-      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
-      EVENTUATELOCAL_CDC_DB_USER_NAME: root
-      EVENTUATELOCAL_CDC_DB_PASSWORD: rootpassword
-      EVENTUATELOCAL_CDC_BINLOG_CLIENT_ID: 1234567890
-      EVENTUATELOCAL_CDC_SOURCE_TABLE_NAME: message
+
   ###    RESTAURANT-SERVICE    ####
   restaurant-service:
     build: RestaurantService
     ports:
       - 8084:8080
     depends_on:
-      - postgres-service
+      - mysql
       - kafka
-      - jaeger
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service/restaurants
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service/restaurants
+#      SPRING_DATASOURCE_USERNAME: postgres
+#      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql/restaurants
+      SPRING_DATASOURCE_USERNAME: mysqluser
+      SPRING_DATASOURCE_PASSWORD: mysqlpw
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       SPRING_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
       JAVA_OPTS: -Xmx192m
-      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
-      EVENTUATELOCAL_CDC_DB_USER_NAME: root
-      EVENTUATELOCAL_CDC_DB_PASSWORD: rootpassword
-      EVENTUATELOCAL_CDC_BINLOG_CLIENT_ID: 1234567890
-      EVENTUATELOCAL_CDC_SOURCE_TABLE_NAME: message
+
   ###    ORDER-SERVICE    ####
   order-service:
     build: OrderService
     ports:
       - 8083:8080
     depends_on:
-      - postgres-service
+      - mysql
       - kafka
-      - jaeger
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service/orders
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service/orders
+#      SPRING_DATASOURCE_USERNAME: postgres
+#      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql/orders
+      SPRING_DATASOURCE_USERNAME: mysqluser
+      SPRING_DATASOURCE_PASSWORD: mysqlpw
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       SPRING_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
       JAVA_OPTS: -Xmx192m
-      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
-      EVENTUATELOCAL_CDC_DB_USER_NAME: root
-      EVENTUATELOCAL_CDC_DB_PASSWORD: rootpassword
-      EVENTUATELOCAL_CDC_BINLOG_CLIENT_ID: 1234567890
-      EVENTUATELOCAL_CDC_SOURCE_TABLE_NAME: message
+
   ###    KITCHEN-SERVICE    ####
   kitchen-service:
     build: KitchenService
     ports:
       - 8085:8080
     depends_on:
-      - postgres-service
+      - mysql
       - kafka
-      - jaeger
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service/tickets
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service/tickets
+#      SPRING_DATASOURCE_USERNAME: postgres
+#      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql/consumers
+      SPRING_DATASOURCE_USERNAME: mysqluser
+      SPRING_DATASOURCE_PASSWORD: mysqlpw
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       SPRING_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
       JAVA_OPTS: -Xmx192m
-      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
-      EVENTUATELOCAL_CDC_DB_USER_NAME: root
-      EVENTUATELOCAL_CDC_DB_PASSWORD: rootpassword
-      EVENTUATELOCAL_CDC_BINLOG_CLIENT_ID: 1234567890
-      EVENTUATELOCAL_CDC_SOURCE_TABLE_NAME: message
+

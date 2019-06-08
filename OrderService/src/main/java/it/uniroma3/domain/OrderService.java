@@ -1,18 +1,17 @@
 package it.uniroma3.domain;
 
-import io.eventuate.tram.sagas.orchestration.SagaManager;
-import io.eventuate.tram.sagas.orchestration.SagaManagerImpl;
+
 import it.uniroma3.OrderServiceChannel;
 import it.uniroma3.common.event.DomainEventPublisher;
 import it.uniroma3.event.LineItem;
 import it.uniroma3.event.OrderCreatedEvent;
 import it.uniroma3.event.OrderDetails;
-import it.uniroma3.sagas.CreateOrderSaga;
-import it.uniroma3.sagas.CreateOrderSagaState;
+import it.uniroma3.exception.OrderNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,17 +19,13 @@ import java.util.stream.Collectors;
 @Transactional
 public class OrderService implements IOrderService {
     @Autowired
-    CreateOrderSaga saga ;
-    @Autowired
-    private SagaManager<CreateOrderSagaState>  createOrderSagaManager;
-    @Autowired
     private OrderRepository orderRepository;
     @Autowired
     private ConsumerServiceAdapter consumerServiceAdapter;
-    /*@Autowired
-    private RestaurantServiceAdapter restaurantServiceAdapter;
     @Autowired
-    private KitchenServiceAdapter kitchenServiceAdapter;*/
+    private RestaurantServiceAdapter restaurantServiceAdapter;
+    //@Autowired
+    //private KitchenServiceAdapter kitchenServiceAdapter;
     @Autowired
     private DomainEventPublisher domainEventPublisher;
 
@@ -52,34 +47,36 @@ public class OrderService implements IOrderService {
     /* Creazione di un nuovo ordine. */
     @Override
     public Order create(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems) {
-        return createAsincrona(consumerId, restaurantId, orderLineItems);
+            return createAsincrona(consumerId, restaurantId, orderLineItems);
         // return createSincrona(consumerId, restaurantId, orderLineItems);
         //return createSaga(consumerId, restaurantId, orderLineItems);
     }
-    private Order createSaga(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems) {
-        //crea e salva l'ordine
-        Order order = Order.create(consumerId, restaurantId, orderLineItems);
-        order = orderRepository.save(order);
+    @Override
+    public Order createAsincrona(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems) {
+        List<OrderLineItem> l1 = new ArrayList<OrderLineItem>();
+        Order o1 = new Order(1L, 1L, l1);
+        Order o2 = new Order(2L, 2L, l1);
+        List<Order> orders = new ArrayList<Order>();
+        orders.add(o1);
+        orders.add(o2);
 
-        List<LineItem> lineItems = makeLineItem(order);
-        OrderDetails orderDetails = new OrderDetails(lineItems, restaurantId, consumerId);
-        CreateOrderSagaState data = new CreateOrderSagaState(order.getId(), orderDetails);
-        //TODO togli commento
-        System.out.println("##############prima del create");
-        createOrderSagaManager.create(data, Order.class, order.getId());
-        System.out.println("##############dopo del create");
-        return order;
-    }
-    private Order createAsincrona(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems){
+        for(Order order: orders) {
+            orderRepository.save(order);
+            OrderCreatedEvent event = makeOrderCreatedEvent(order);
+            domainEventPublisher.publish(event, OrderServiceChannel.orderServiceChannel);
+        }
+        String s1 = null;
+        System.out.println(s1.length());
+        return o1;
         //crea e salva l'ordine
-        Order order = Order.create(consumerId, restaurantId, orderLineItems);
+       /* Order order = Order.create(consumerId, restaurantId, orderLineItems);
         order = orderRepository.save(order);
         //pubblica un evento di creazione dell'ordine
         OrderCreatedEvent event = makeOrderCreatedEvent(order);
         domainEventPublisher.publish(event, OrderServiceChannel.orderServiceChannel);
         List<LineItem> lineItems = makeLineItem(order);
         OrderDetails orderDetails = new OrderDetails(lineItems, restaurantId, consumerId);
-        return order;
+        return order;*/
     }
     private List<LineItem> makeLineItem(Order order){
         List<LineItem> lineItems = order.getOrderLineItems()
@@ -175,16 +172,5 @@ public class OrderService implements IOrderService {
             orderRepository.save(order);
         }
         return order;
-    }
-    //SAGAS
-    public void approveOrder(Long orderId){
-        Order order = findById(orderId);
-        order.setOrderState(OrderState.APPROVED);
-        orderRepository.save(order);
-    }
-    public void rejectOrder(Long orderId){
-        Order order = findById(orderId);
-        order.setOrderState(OrderState.INVALID);
-        orderRepository.save(order);
     }
 }

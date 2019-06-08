@@ -41,7 +41,7 @@ public class KitchenService implements IKitchenService{
         //return createSincrona(restaurantId);
     }
 
-    private Ticket createAsincrona(Long restaurantId, Long orderId){
+    public Ticket createAsincrona(Long restaurantId, Long orderId){
         Ticket ticket = Ticket.create(restaurantId, orderId);
         ticket = kitchenRepository.save(ticket);
         TicketCreatedEvent event = makeTicketCreatedEvent(ticket);
@@ -110,7 +110,7 @@ public class KitchenService implements IKitchenService{
         return ticket;
     }
 
-
+/*
     //SAGAS
     public Ticket createTicket(Long orderId, Long restaurantId){
         //creo una nuova comanda
@@ -132,6 +132,6 @@ public class KitchenService implements IKitchenService{
         ticket.setState(TicketState.DISAPPROVED);
         kitchenRepository.save(ticket);
         return ticket;
-    }
+    }*/
 
 }

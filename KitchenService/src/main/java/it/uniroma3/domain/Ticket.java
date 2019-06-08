@@ -9,7 +9,7 @@ import java.util.Objects;
 @Entity
 public class Ticket {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long orderId;
     private TicketState state;

@@ -1,22 +1,5 @@
 package it.uniroma3.domain;
 
-import io.eventuate.javaclient.spring.jdbc.IdGenerator;
-import io.eventuate.javaclient.spring.jdbc.IdGeneratorImpl;
-import io.eventuate.tram.commands.common.ChannelMapping;
-import io.eventuate.tram.commands.common.DefaultChannelMapping;
-import io.eventuate.tram.commands.producer.TramCommandProducerConfiguration;
-import io.eventuate.tram.events.publisher.DomainEventPublisher;
-import io.eventuate.tram.events.publisher.TramEventsPublisherConfiguration;
-import io.eventuate.tram.jdbc.CommonJdbcMessagingConfiguration;
-import io.eventuate.tram.messaging.producer.MessageProducer;
-import io.eventuate.tram.messaging.producer.jdbc.MessageProducerJdbcImpl;
-import io.eventuate.tram.messaging.producer.jdbc.TramMessageProducerJdbcConfiguration;
-import io.eventuate.tram.sagas.orchestration.*;
-
-import io.eventuate.tram.sagas.participant.SagaLockManager;
-import io.eventuate.tram.sagas.participant.SagaLockManagerImpl;
-import it.uniroma3.sagas.CreateOrderSaga;
-import it.uniroma3.sagas.CreateOrderSagaState;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
@@ -27,6 +10,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.kafka.transaction.KafkaTransactionManager;
+import org.springframework.transaction.support.AbstractPlatformTransactionManager;
 
 import javax.sql.DataSource;
 
@@ -38,10 +23,6 @@ import javax.sql.DataSource;
 public class OrderServiceConfiguration {
     //
 
-    @Bean
-    public SagaManager<CreateOrderSagaState> createOrderSagaManager(CreateOrderSaga saga) {
-        return new SagaManagerImpl<>(saga);
-    }
 
     @Bean
     public MeterRegistryCustomizer meterRegistryCustomizer(@Value("${spring.application.name}") String serviceName) {
