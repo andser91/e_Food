@@ -20,14 +20,10 @@ apply plugin: 'docker-compose'
 testSets {
     integrationTest { dirName = 'integration-test' }
 }
+
 //vengono specificati quali sono i container da tirare su durante il test
 dockerCompose {
-
-//	startedServices = []
     useComposeFiles = ['../docker-compose-integration-test.yml']
-    //stopContainers = false
-    // i contenitori possono poi essere arrestati con gradle :order-service:composeDownForced
-
 }
 
 dockerCompose.isRequiredBy(integrationTest)
