@@ -53,30 +53,15 @@ public class OrderService implements IOrderService {
     }
     @Override
     public Order createAsincrona(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems) {
-        List<OrderLineItem> l1 = new ArrayList<OrderLineItem>();
-        Order o1 = new Order(1L, 1L, l1);
-        Order o2 = new Order(2L, 2L, l1);
-        List<Order> orders = new ArrayList<Order>();
-        orders.add(o1);
-        orders.add(o2);
-
-        for(Order order: orders) {
-            orderRepository.save(order);
-            OrderCreatedEvent event = makeOrderCreatedEvent(order);
-            domainEventPublisher.publish(event, OrderServiceChannel.orderServiceChannel);
-        }
-        String s1 = null;
-        System.out.println(s1.length());
-        return o1;
         //crea e salva l'ordine
-       /* Order order = Order.create(consumerId, restaurantId, orderLineItems);
+        Order order = Order.create(consumerId, restaurantId, orderLineItems);
         order = orderRepository.save(order);
         //pubblica un evento di creazione dell'ordine
         OrderCreatedEvent event = makeOrderCreatedEvent(order);
         domainEventPublisher.publish(event, OrderServiceChannel.orderServiceChannel);
         List<LineItem> lineItems = makeLineItem(order);
         OrderDetails orderDetails = new OrderDetails(lineItems, restaurantId, consumerId);
-        return order;*/
+        return order;
     }
     private List<LineItem> makeLineItem(Order order){
         List<LineItem> lineItems = order.getOrderLineItems()
