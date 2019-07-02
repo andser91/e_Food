@@ -24,7 +24,7 @@ public class CommonSwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("it.uniroma3"))
+                .apis(RequestHandlerSelectors.basePackage("it.uniroma3.web"))
                 .build()
                 .pathMapping("")
                 .genericModelSubstitutes(ResponseEntity.class, CompletableFuture.class)
