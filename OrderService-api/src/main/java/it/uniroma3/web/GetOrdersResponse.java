@@ -1,22 +1,15 @@
 package it.uniroma3.web;
 
+import lombok.*;
+
 import java.util.List;
 
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 public class GetOrdersResponse {
     private List<GetOrderResponse> orders;
-
-    public GetOrdersResponse() {
-    }
-
-    public GetOrdersResponse(List<GetOrderResponse> orders) {
-        this.orders = orders;
-    }
-
-    public List<GetOrderResponse> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<GetOrderResponse> orders) {
-        this.orders = orders;
-    }
 }

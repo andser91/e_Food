@@ -1,0 +1,64 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        // classpath("org.unbroken-dome.gradle-plugins:gradle-testsets-plugin:2.1.1")
+        classpath "gradle.plugin.com.avast.gradle:gradle-docker-compose-plugin:0.9.1"
+    }
+}
+
+
+plugins {
+    id 'org.unbroken-dome.test-sets' version '2.1.1'
+}
+//per eseguire integration test viene aggiunto questo plugin
+apply plugin: 'docker-compose'
+
+testSets {
+    integrationTest { dirName = 'integration-test' }
+}
+//vengono specificati quali sono i container da tirare su durante il test
+dockerCompose {
+
+//	startedServices = []
+    useComposeFiles = ['../docker-compose-integration-test.yml']
+    //stopContainers = false
+    // i contenitori possono poi essere arrestati con gradle :order-service:composeDownForced
+
+}
+
+dockerCompose.isRequiredBy(integrationTest)
+
+integrationTest.doFirst {
+    dockerCompose.exposeAsEnvironment(test)
+}
+
+dependencies {
+    //zuul
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-zuul', version: '2.1.2.RELEASE'
+    //spring security
+    //implementation 'org.springframework.boot:spring-boot-starter-security'
+    
+    //other projects
+//    implementation project(":Swagger-Common")
+//    implementation project(":CommonEvent")
+//    implementation project(":ConsumerService-api")
+//    implementation project(":OrderService-api")
+//    implementation project(":RestaurantService-api")
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    //Distributed Tracing
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin', version: '2.1.1.RELEASE'
+    compile group: 'io.opentracing.brave', name: 'brave-opentracing', version: '0.33.11'
+
+//    //Kafka
+//    implementation 'org.springframework.kafka:spring-kafka'
+
+    //Spring
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+}

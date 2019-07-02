@@ -1,5 +1,6 @@
 package it.uniroma3;
 
+
 public class RejectOrderCommand extends OrderCommand {
     private RejectOrderCommand() {
     }
