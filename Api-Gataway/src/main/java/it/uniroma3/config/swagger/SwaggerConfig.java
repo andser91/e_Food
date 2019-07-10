@@ -1,4 +1,4 @@
-package it.uniroma3;
+package it.uniroma3.config.swagger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;

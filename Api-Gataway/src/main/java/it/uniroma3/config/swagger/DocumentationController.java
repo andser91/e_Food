@@ -1,4 +1,4 @@
-package it.uniroma3;
+package it.uniroma3.config.swagger;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
