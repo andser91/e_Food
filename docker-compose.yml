@@ -1,6 +1,7 @@
 
 version: '3'
 services:
+  ###    MYSQL   ####
   mysql:
       build: MySQL
       ports:
@@ -9,19 +10,23 @@ services:
         - MYSQL_ROOT_PASSWORD=rootpassword
         - MYSQL_USER=mysqluser
         - MYSQL_PASSWORD=mysqlpw
-  ###    POSTGRES    ####
-#  postgres-service:
-#    image: postgres:latest
-#    restart: always
-#    volumes:
-#      - ./Postgres:/docker-entrypoint-initdb.d
-#    ports:
-#      - 5432:5432
-#    environment:
-#      POSTGRES_USER: postgres
-#      POSTGRES_PASSWORD: postgres
-#      POSTGRES_DB: postgres
-
+  ###    PROMETHEUS   ####
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./Prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+ ###     GRAPHANA     ###
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./Graphana/provisioning/:/etc/grafana/provisioning/
+    depends_on:
+      - prometheus
+   
  ###  JAEGER  ###
   jaeger:
     image: jaegertracing/all-in-one

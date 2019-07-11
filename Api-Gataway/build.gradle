@@ -72,4 +72,7 @@ dependencies {
     //spring security
     implementation 'org.springframework.boot:spring-boot-starter-security'
     compile group: 'io.jsonwebtoken', name:'jjwt', version:'0.9.0'
+    //Micrometer
+    implementation 'io.micrometer:micrometer-core'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 }

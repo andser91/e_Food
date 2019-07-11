@@ -56,6 +56,12 @@ dependencies {
     //implementation 'org.postgresql:postgresql'
     //MySQL
     implementation 'mysql:mysql-connector-java'
+
+    //Micrometer
+    implementation 'io.micrometer:micrometer-core'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
+
     //Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'io.rest-assured:rest-assured:3.3.0'
