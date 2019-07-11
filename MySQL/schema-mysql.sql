@@ -14,3 +14,5 @@ GRANT ALL PRIVILEGES ON restaurants.* TO 'mysqluser'@'%' WITH GRANT OPTION;
 create database login;
 GRANT ALL PRIVILEGES ON login.* TO 'mysqluser'@'%' WITH GRANT OPTION;
 
+
+

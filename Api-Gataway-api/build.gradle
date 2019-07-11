@@ -1,0 +1,14 @@
+dependencies {
+
+    compileOnly 'org.projectlombok:lombok:1.18.4'
+    implementation project(":CommonEvent")
+    compile "io.eventuate.tram.sagas:eventuate-jpa-sagas-framework:$eventuateTramSagasVersion"
+
+}
+
+jar {
+    enabled = true
+}
+bootJar {
+    enabled = false
+}
