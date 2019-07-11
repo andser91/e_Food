@@ -1,5 +1,6 @@
 package it.uniroma3.web;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import it.uniroma3.domain.IRestaurantService;
 import it.uniroma3.domain.Restaurant;
 import it.uniroma3.exception.RestaurantNotFoundException;
@@ -18,6 +19,10 @@ import java.util.stream.Collectors;
 public class RestaurantController {
     @Autowired
     private IRestaurantService restaurantService;
+
+
+    @Autowired
+    private MeterRegistry meterRegistry;
 
     /** Trova tutti i ristoranti **/
     @GetMapping("/")
@@ -40,6 +45,7 @@ public class RestaurantController {
     @PostMapping("/")
     public CreateRestaurantResponse createRestaurant(@RequestBody CreateRestaurantRequest request) {
         Restaurant restaurant = restaurantService.create(request.getName(), request.getAddress());
+        meterRegistry.counter("restaurant.count").increment();
         return makeCreateRestaurantResponse(restaurant);
     }
 

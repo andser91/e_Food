@@ -59,8 +59,8 @@ public class OrderService implements IOrderService {
         //pubblica un evento di creazione dell'ordine
         OrderCreatedEvent event = makeOrderCreatedEvent(order);
         domainEventPublisher.publish(event, OrderServiceChannel.orderServiceChannel);
-        List<LineItem> lineItems = makeLineItem(order);
-        OrderDetails orderDetails = new OrderDetails(lineItems, restaurantId, consumerId);
+//        List<LineItem> lineItems = makeLineItem(order);
+//        OrderDetails orderDetails = new OrderDetails(lineItems, restaurantId, consumerId);
         return order;
     }
     private List<LineItem> makeLineItem(Order order){

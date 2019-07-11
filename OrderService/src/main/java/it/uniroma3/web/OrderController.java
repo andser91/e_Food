@@ -1,5 +1,6 @@
 package it.uniroma3.web;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import it.uniroma3.domain.IOrderService;
 import it.uniroma3.domain.Order;
 import it.uniroma3.domain.OrderLineItem;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 @RequestMapping(path="/orders")
 public class OrderController {
     @Autowired
-    IOrderService orderService;
+    private IOrderService orderService;
 
     /** Trova tutti gli ordini **/
     @GetMapping("/")
@@ -42,7 +43,6 @@ public class OrderController {
         List<OrderLineItem> orderLineItems = getOrderLineItems(request);
         Order order = orderService.create(request.getConsumerId(), request.getRestaurantId(), orderLineItems);
         return makeCreateOrderResponse(order);
-
     }
 
     private List<OrderLineItem> getOrderLineItems(CreateOrderRequest request) {

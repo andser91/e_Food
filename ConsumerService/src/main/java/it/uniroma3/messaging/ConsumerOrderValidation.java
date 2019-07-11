@@ -21,6 +21,7 @@ public class ConsumerOrderValidation {
     @Autowired
     private ConsumerService consumerService;
     private Logger logger = Logger.getLogger("ConsumerOrderValidation");
+
     @KafkaListener(topics = OrderServiceChannel.orderServiceChannel)
     public void listen(ConsumerRecord<String, DomainEvent> evt) throws Exception {
         logger.info("CONSUMER DOMAIN EVENT CONSUMER: " + evt.toString());

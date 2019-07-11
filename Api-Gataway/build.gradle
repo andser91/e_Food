@@ -49,7 +49,8 @@ dependencies {
         exclude group: "org.springframework"
     }
     //implementation project(":Swagger-Common")
-//    implementation project(":CommonEvent")
+    implementation project(":CommonEvent")
+    implementation project(":Api-Gataway-api")
 //    implementation project(":ConsumerService-api")
 //    implementation project(":OrderService-api")
 //    implementation project(":RestaurantService-api")
@@ -60,7 +61,7 @@ dependencies {
     compile group: 'io.opentracing.brave', name: 'brave-opentracing', version: '0.33.11'
 
 //    //Kafka
-//    implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'org.springframework.kafka:spring-kafka'
 
     //Spring
     implementation 'org.springframework.boot:spring-boot-starter'

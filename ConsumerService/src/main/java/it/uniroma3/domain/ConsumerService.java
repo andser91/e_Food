@@ -43,6 +43,15 @@ public class ConsumerService implements IConsumerService {
         return consumer;
     }
 
+    @Override
+    public Consumer createWithId(Long id, String firstName, String lastName) {
+        Consumer consumer = new Consumer(id, firstName, lastName);
+        consumer = consumerRepository.save(consumer);
+        return consumer;
+    }
+
+
+
 
     //Validazione dell'ordine, ricevuto l'evento da Order controlla che il consumerId esista e re-invia un msg con la risposta
     public void validateOrder(Long orderId, Long consumerId){

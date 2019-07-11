@@ -1,6 +1,7 @@
 package it.uniroma3.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.micrometer.core.instrument.MeterRegistry;
 import it.uniroma3.config.security.JwtTokenUtil;
 import it.uniroma3.domain.IUserService;
 import it.uniroma3.domain.User;
@@ -37,7 +38,10 @@ public class LoginController {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    IUserService userService;
+    private IUserService userService;
+
+    @Autowired
+    private MeterRegistry meterRegistry;
 
 
     @PostMapping("/login")
@@ -56,16 +60,19 @@ public class LoginController {
         final String token = jwtTokenUtil.generateToken(userDetails);
         response.setHeader(tokenHeader,token);
         // Ritorno il token
+        meterRegistry.counter("total.login.count").increment();
         return ResponseEntity.ok(new JwtAuthenticationResponse(userDetails.getUsername(),userDetails.getAuthorities()));
     }
 
     @PostMapping("/registration")
     public ResponseEntity<?> createUser(@RequestBody CreateUserRequest request){
         if (userService.findByUsername(request.getUsername()) == null){
-            User user = userService.create(request.getUsername(), request.getPassword());
+            User user = userService.create(request.getUsername(), request.getPassword(), request.getFirstname(), request.getLastname());
+            meterRegistry.counter("user.registered.count").increment();
             return new ResponseEntity<>(makeCreateUserResponse(user), HttpStatus.CREATED);
         }
         else {
+            meterRegistry.counter("user.registered.failure.count").increment();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

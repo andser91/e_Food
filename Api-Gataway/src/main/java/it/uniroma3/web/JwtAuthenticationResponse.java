@@ -1,6 +1,5 @@
 package it.uniroma3.web;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 

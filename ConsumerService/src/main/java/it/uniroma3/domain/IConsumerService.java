@@ -8,4 +8,5 @@ public interface IConsumerService {
     void deleteById(Long id);
     Consumer findById(Long id);
     Consumer create (String FirstName, String LastName );
+    Consumer createWithId(Long id, String firstName, String lastName);
 }

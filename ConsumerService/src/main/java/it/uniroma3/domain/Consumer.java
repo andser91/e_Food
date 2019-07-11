@@ -14,10 +14,10 @@ import java.util.Objects;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
+@AllArgsConstructor
 public class Consumer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String firstName;
     private String lastName;
