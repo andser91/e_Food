@@ -12,7 +12,6 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderLineItem {
-
     private String menuItemId;
     private int quantity;
 }

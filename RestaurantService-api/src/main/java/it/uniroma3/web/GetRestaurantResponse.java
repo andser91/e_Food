@@ -11,7 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 public class GetRestaurantResponse {
     private Long id;
-    private String address;
+    private String city;
     private String name;
 
 }

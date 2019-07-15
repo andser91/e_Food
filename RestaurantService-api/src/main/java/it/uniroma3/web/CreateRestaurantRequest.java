@@ -10,7 +10,7 @@ import lombok.*;
 @EqualsAndHashCode
 @ToString
 public class CreateRestaurantRequest {
-    private String address;
+    private String city;
     private String name;
 
 }

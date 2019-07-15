@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -34,9 +35,14 @@ public class RestaurantService implements IRestaurantService{
         return restaurantRepository.findById(id).orElse(null);
     }
 
+
     @Override
-    public Restaurant create(String name, String address) {
-        Restaurant restaurant = Restaurant.create(name, address);
+    public Collection<Restaurant> findAllByCity(String city){ return this.restaurantRepository.findAllByCity(city);}
+
+
+    @Override
+    public Restaurant create(String name, String city) {
+        Restaurant restaurant = Restaurant.create(name, city);
         restaurant = restaurantRepository.save(restaurant);
         //RestaurantCreatedEvent it.uniroma3.event = makeRestaurantCreatedEvent(restaurant);
         //domainEventPublisher1.publish(it.uniroma3.event, RestaurantServiceChannel.restaurantServiceChannel);
@@ -47,6 +53,14 @@ public class RestaurantService implements IRestaurantService{
     private RestaurantCreatedEvent makeRestaurantCreatedEvent(Restaurant restaurant) {
         return new RestaurantCreatedEvent(restaurant.getId(), restaurant.getName(), restaurant.getAddress());
     } */
+
+    public Restaurant createMenu(Long restaurantId, List<MenuItem> menuItems) {
+        RestaurantMenu menu = new RestaurantMenu(menuItems);
+        Restaurant restaurant = findById(restaurantId);
+        restaurant.setMenu(menu);
+        restaurant = restaurantRepository.save(restaurant);
+        return restaurant;
+    }
 
     @Override
     public void validateTicketRestaurant(Long ticketId, Long restaurantId) {
