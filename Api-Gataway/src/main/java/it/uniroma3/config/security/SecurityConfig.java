@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/order/**").hasAuthority("ROLE_USER")
+                //.antMatchers("/order/**").hasAuthority("ROLE_USER")
                 .antMatchers("/consumer/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().permitAll();
         // Filtro Custom JWT

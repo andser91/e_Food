@@ -1,6 +1,7 @@
 package it.uniroma3.domain;
 
 
+import io.micrometer.core.instrument.MeterRegistry;
 import it.uniroma3.OrderServiceChannel;
 import it.uniroma3.common.event.DomainEventPublisher;
 import it.uniroma3.event.LineItem;
@@ -24,6 +25,9 @@ public class OrderService implements IOrderService {
     private ConsumerServiceAdapter consumerServiceAdapter;
     @Autowired
     private RestaurantServiceAdapter restaurantServiceAdapter;
+
+    @Autowired
+    private MeterRegistry meterRegistry;
     //@Autowired
     //private KitchenServiceAdapter kitchenServiceAdapter;
     @Autowired
@@ -56,6 +60,7 @@ public class OrderService implements IOrderService {
         //crea e salva l'ordine
         Order order = Order.create(consumerId, restaurantId, orderLineItems);
         order = orderRepository.save(order);
+        meterRegistry.counter("order.count").increment();
         //pubblica un evento di creazione dell'ordine
         OrderCreatedEvent event = makeOrderCreatedEvent(order);
         domainEventPublisher.publish(event, OrderServiceChannel.orderServiceChannel);

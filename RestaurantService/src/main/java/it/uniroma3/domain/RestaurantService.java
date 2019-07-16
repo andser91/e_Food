@@ -1,5 +1,6 @@
 package it.uniroma3.domain;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import it.uniroma3.RestaurantServiceChannel;
 import it.uniroma3.common.event.DomainEventPublisher;
 import it.uniroma3.event.RestaurantInvalidatedEvent;
@@ -19,6 +20,9 @@ public class RestaurantService implements IRestaurantService{
     private RestaurantRepository restaurantRepository;
     @Autowired
     private DomainEventPublisher domainEventPublisher;
+
+    @Autowired
+    private MeterRegistry meterRegistry;
 
     @Override
     public List<Restaurant> findAll(){
@@ -44,6 +48,7 @@ public class RestaurantService implements IRestaurantService{
     public Restaurant create(String name, String city) {
         Restaurant restaurant = Restaurant.create(name, city);
         restaurant = restaurantRepository.save(restaurant);
+        meterRegistry.counter("restaurant.count").increment();
         //RestaurantCreatedEvent it.uniroma3.event = makeRestaurantCreatedEvent(restaurant);
         //domainEventPublisher1.publish(it.uniroma3.event, RestaurantServiceChannel.restaurantServiceChannel);
         return restaurant;

@@ -60,7 +60,7 @@ public class LoginController {
         final String token = jwtTokenUtil.generateToken(userDetails);
         response.setHeader(tokenHeader,token);
         // Ritorno il token
-        meterRegistry.counter("total.login.count").increment();
+        meterRegistry.counter("login.count").increment();
         return ResponseEntity.ok(new JwtAuthenticationResponse(userDetails.getUsername(),userDetails.getAuthorities()));
     }
 

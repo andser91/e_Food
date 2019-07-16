@@ -22,10 +22,6 @@ public class RestaurantController {
     @Autowired
     private IRestaurantService restaurantService;
 
-
-    @Autowired
-    private MeterRegistry meterRegistry;
-
     /** Trova tutti i ristoranti **/
     @GetMapping("/")
     public ResponseEntity<GetRestaurantsResponse> findAll(){
@@ -47,7 +43,6 @@ public class RestaurantController {
     @PostMapping("/")
     public CreateRestaurantResponse createRestaurant(@RequestBody CreateRestaurantRequest request) {
         Restaurant restaurant = restaurantService.create(request.getName(), request.getCity());
-        meterRegistry.counter("restaurant.count").increment();
         return makeCreateRestaurantResponse(restaurant);
     }
 
