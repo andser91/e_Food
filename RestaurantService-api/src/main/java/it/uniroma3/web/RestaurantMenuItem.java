@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RestaurantMenuItem {
 
-    private String itemId;
+    private Long itemId;
     private String name;
     private double price;
 }

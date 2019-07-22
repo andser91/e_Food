@@ -13,7 +13,7 @@ import javax.persistence.Embeddable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MenuItem {
-    private String id;
+    private Long id;
     private String name;
     private double price;
 }

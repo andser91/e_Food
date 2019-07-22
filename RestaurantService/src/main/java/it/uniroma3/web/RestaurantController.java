@@ -111,31 +111,6 @@ public class RestaurantController {
     }
 
 
-    /** Trova i ristoranti in city. */
-    @RequestMapping(path="/{city}", method=RequestMethod.GET)
-    public ResponseEntity<GetRestaurantsResponse> getRestaurantsByCity(@PathVariable String city) {
-        Collection<Restaurant> restaurants = restaurantService.findAllByCity(city);
-        /* in effetti, restituisce sempre una lista non nulla */
-        if (restaurants!=null) {
-            return new ResponseEntity<>(makeGetRestaurantsResponse(restaurants), HttpStatus.OK);
-        } else {
-            /* dunque non arriva mai qui */
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    /* Crea la risposta a partire dalla lista dei ristoranti. */
-    private GetRestaurantsResponse makeGetRestaurantsResponse(Collection<Restaurant> restaurants) {
-        List<GetRestaurantResponse> responses =
-                restaurants
-                        .stream()
-                        .map(r -> makeGetRestaurantResponse(r))
-                        .collect(Collectors.toList());
-        return new GetRestaurantsResponse(responses);
-    }
-
-
-
     /** Cancella un ristorante per id **/
     @DeleteMapping("/{id}")
     public void deleteRestaurant(@PathVariable Long id) {

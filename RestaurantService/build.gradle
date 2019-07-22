@@ -60,7 +60,8 @@ dependencies {
     //Micrometer
     implementation 'io.micrometer:micrometer-core'
     implementation 'io.micrometer:micrometer-registry-prometheus'
-
+    //flyway
+    implementation 'org.flywaydb:flyway-core'
 
     //Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
