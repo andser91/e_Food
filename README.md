@@ -56,4 +56,4 @@ $DOCKER_HOST_IP = [INDIRIZZO-IP-DELLA-PROPRIA-MACCHINA]
   raggiungibile all'indirizzo http://localhost:16686
   
   ## Buisness metrics
-  E' possibile consultare alcune metriche di buisness ritenute rilevanti attraverso Graphana (http://localhost:3000). L'username e la     password sono admin/admin. Grapahana prende i dati da Prometheus che è possibile consultare all'indirizzo http://localhost:9090.         Prometheus a sua volta interroga i vari servizi che espongono diverse metriche al path /actuator/prometheus 
+  E' possibile consultare alcune metriche di buisness ritenute rilevanti attraverso Graphana (http://localhost:3000). L'username e la     password sono admin/admin. Graphana prende i dati da Prometheus che è possibile consultare all'indirizzo http://localhost:9090.         Prometheus a sua volta interroga i vari servizi che espongono diverse metriche al path /actuator/prometheus 
