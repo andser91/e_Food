@@ -16,10 +16,7 @@ Seguire i seguenti passi in ordine:
 - eseguire ./run_application.sh per lanciare tutti i container e l'applicazione
 
 Una volta pronta è possibile testare l'applicazione tramite Swagger-UI
-  - http://localhost:8082/swagger-ui.html per il servizio customer
-  - http://localhost:8083/swagger-ui.html per il servizio order
-  - http://localhost:8084/swagger-ui.html per il servizio restaurant
-
+  - http://localhost:8080/swagger-ui.html (si accede ai vari servizi dal menu in alto a destra)
 
 - eseguire ./stop_application.sh per stoppare tutti i container
 - eseguire ./delete_application se si vogliono cancellare i container creati
@@ -57,3 +54,6 @@ $DOCKER_HOST_IP = [INDIRIZZO-IP-DELLA-PROPRIA-MACCHINA]
   
   Una volta lanciata l'applicazione è possibile tracciare l'andamento delle richieste ricevute tramite l'interfaccia grafica di Jaeger
   raggiungibile all'indirizzo http://localhost:16686
+  
+  ## Buisness metrics
+  E' possibile consultare alcune metriche di buisness ritenute rilevanti attraverso Graphana (http://localhost:3000). L'username e la     password sono admin/admin. Graphana prende i dati da Prometheus che è possibile consultare all'indirizzo http://localhost:9090.         Prometheus a sua volta interroga i vari servizi che espongono diverse metriche al path /actuator/prometheus 
