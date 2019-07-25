@@ -11,4 +11,5 @@ include 'KitchenService'
 include 'KitchenService-api'
 include 'Api-Gataway'
 include 'Api-Gataway-api'
+include 'RestClient'
 
