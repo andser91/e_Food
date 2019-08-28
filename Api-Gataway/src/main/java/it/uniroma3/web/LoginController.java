@@ -59,7 +59,7 @@ public class LoginController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
         response.setHeader(tokenHeader,token);
-        // Ritorno il token
+        meterRegistry.counter("login.count").increment(1);        // Ritorno il token
         return ResponseEntity.ok(new JwtAuthenticationResponse(userDetails.getUsername(),userDetails.getAuthorities()));
     }
 
@@ -68,7 +68,7 @@ public class LoginController {
         if (userService.findByUsername(request.getUsername()) == null){
             User user = userService.create(request.getUsername(), request.getPassword(), request.getFirstname(), request.getLastname());
             meterRegistry.counter("user.registered.count").increment();
-            return new ResponseEntity<>(makeCreateUserResponse(user), HttpStatus.CREATED);
+            return new ResponseEntity<>(makeCreateUserResponse(request), HttpStatus.CREATED);
         }
         else {
             meterRegistry.counter("user.registered.failure.count").increment();
@@ -76,8 +76,8 @@ public class LoginController {
         }
     }
 
-    private CreateUserResponse makeCreateUserResponse(User user){
-        return new CreateUserResponse(user.getId());
+    private CreateUserResponse makeCreateUserResponse(CreateUserRequest user){
+        return new CreateUserResponse(user.getUsername(), user.getPassword());
     }
 
 }

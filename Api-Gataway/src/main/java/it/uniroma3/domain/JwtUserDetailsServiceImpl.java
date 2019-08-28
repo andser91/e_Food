@@ -22,10 +22,8 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username).orElse(null);
         if (user == null) {
-            meterRegistry.counter("login.failure.count").increment(1);
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         } else {
-            meterRegistry.counter("login.count").increment(1);
             return JwtUserFactory.create(user);
         }
     }

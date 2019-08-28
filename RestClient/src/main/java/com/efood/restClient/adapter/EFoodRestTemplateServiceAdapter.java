@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 public class EFoodRestTemplateServiceAdapter implements EFoodServiceAdapter {
 
     //@Value("${efood.uri}")
-    private String efoodUri = "http://api-gataway:8080";
+    private String efoodUri = "http://localhost:8080";
 
     @Override
     public GetRestaurantsResponse getRestaurants() {

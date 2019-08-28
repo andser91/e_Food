@@ -9,6 +9,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import java.util.Random;
+
 @SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
 public class ClientRestApplication{
 
@@ -17,25 +19,30 @@ public class ClientRestApplication{
 		ApplicationContext context = new AnnotationConfigApplicationContext(ClientRestApplication.class);
 		ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
 
+		//public static int randomNumber(int init, int end){
+			Random random = new Random();
+			System.out.println(random.nextInt(100)+20);
+		//}
+
 		for (int i=1; i<6; i++){
 			ClientSimulator clientSimulator = (ClientSimulator)context.getBean("clientSimulator");
 			clientSimulator.setNumber(i);
 			taskExecutor.execute(clientSimulator);
 		}
 
-//		for (;;) {
-//			int count = taskExecutor.getActiveCount();
-//			System.out.println("Active Threads : " + count);
-//			try {
-//				Thread.sleep(5000);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//			if (count == 0) {
-//				taskExecutor.shutdown();
-//				break;
-//			}
-//		}
+		for (;;) {
+			int count = taskExecutor.getActiveCount();
+			System.out.println("Active Threads : " + count);
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			if (count == 0) {
+				taskExecutor.shutdown();
+				break;
+			}
+		}
 	}
 	@Bean
 	public ThreadPoolTaskExecutor taskExecutor() {
