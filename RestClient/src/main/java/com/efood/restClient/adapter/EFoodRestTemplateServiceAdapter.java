@@ -78,4 +78,21 @@ public class EFoodRestTemplateServiceAdapter implements EFoodServiceAdapter {
         }
         return jwt;
     }
+
+    @Override
+    public CreateOrderResponse createOrder(CreateOrderRequest request, String jwt){
+        String createOrderUrl = efoodUri + "/orders/";
+        RestTemplate restTemplate = new RestTemplate();
+        CreateOrderResponse createOrderResponse = null;
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("x-auth", jwt);
+            createOrderResponse = restTemplate.postForObject(createOrderUrl,request,CreateOrderResponse.class);
+
+        }
+        catch (RestClientException e) {
+            e.printStackTrace();
+        }
+        return  createOrderResponse;
+    }
 }

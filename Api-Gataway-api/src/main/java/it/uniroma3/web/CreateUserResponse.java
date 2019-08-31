@@ -1,15 +1,15 @@
 package it.uniroma3.web;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateUserResponse {
 
+    private Long id;
     private String username;
     private String password;
 }

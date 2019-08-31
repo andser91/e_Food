@@ -11,6 +11,6 @@ import lombok.*;
 @AllArgsConstructor
 public class LineItem {
 
-    private String menuItemId;
+    private Long menuItemId;
     private int quantity;
 }

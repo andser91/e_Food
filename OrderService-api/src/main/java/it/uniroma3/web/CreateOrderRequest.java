@@ -6,8 +6,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
-@EqualsAndHashCode
+@AllArgsConstructor
 @NoArgsConstructor
 public class CreateOrderRequest {
 
@@ -15,5 +14,6 @@ public class CreateOrderRequest {
     private Long restaurantId;
     private Long ticketId;
     private List<LineItem> lineItems;
+    private double totalPrice;
 
 }

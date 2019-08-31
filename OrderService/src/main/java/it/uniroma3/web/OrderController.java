@@ -33,7 +33,7 @@ public class OrderController {
     }
 
     private GetOrdersResponse makeGetOrdersResponse(List<Order> orders) {
-        List<GetOrderResponse> responses = orders.stream().map(order -> makeGetOrderResponse(order)).collect(Collectors.toList());
+        List<GetOrderResponse> responses = orders.stream().map(this::makeGetOrderResponse).collect(Collectors.toList());
         return new GetOrdersResponse(responses);
     }
 
@@ -41,7 +41,7 @@ public class OrderController {
     @PostMapping("/")
     public CreateOrderResponse newOrder(@RequestBody CreateOrderRequest request) {
         List<OrderLineItem> orderLineItems = getOrderLineItems(request);
-        Order order = orderService.create(request.getConsumerId(), request.getRestaurantId(), orderLineItems);
+        Order order = orderService.create(request.getConsumerId(), request.getRestaurantId(), orderLineItems, request.getTotalPrice());
         return makeCreateOrderResponse(order);
     }
 
@@ -74,7 +74,7 @@ public class OrderController {
                         .stream()
                         .map(x -> new LineItem(x.getMenuItemId(), x.getQuantity()))
                         .collect(Collectors.toList());
-        return new GetOrderResponse(order.getId(), order.getConsumerId(), order.getRestaurantId(), order.getTicketId(), lineItems, order.getOrderState().toString());
+        return new GetOrderResponse(order.getId(), order.getConsumerId(), order.getRestaurantId(), order.getTicketId(), lineItems, order.getOrderState().toString(),order.getTotal());
 
     }
 

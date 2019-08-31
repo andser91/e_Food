@@ -19,4 +19,5 @@ public class GetOrderResponse {
     private Long ticketId;
     private List<LineItem> lineItems;
     private String orderState;
+    private double totalPrice;
 }

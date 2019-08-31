@@ -68,7 +68,7 @@ public class LoginController {
         if (userService.findByUsername(request.getUsername()) == null){
             User user = userService.create(request.getUsername(), request.getPassword(), request.getFirstname(), request.getLastname());
             meterRegistry.counter("user.registered.count").increment();
-            return new ResponseEntity<>(makeCreateUserResponse(request), HttpStatus.CREATED);
+            return new ResponseEntity<>(makeCreateUserResponse(request, user.getId()), HttpStatus.CREATED);
         }
         else {
             meterRegistry.counter("user.registered.failure.count").increment();
@@ -76,8 +76,8 @@ public class LoginController {
         }
     }
 
-    private CreateUserResponse makeCreateUserResponse(CreateUserRequest user){
-        return new CreateUserResponse(user.getUsername(), user.getPassword());
+    private CreateUserResponse makeCreateUserResponse(CreateUserRequest user, Long id){
+        return new CreateUserResponse(id, user.getUsername(), user.getPassword());
     }
 
 }

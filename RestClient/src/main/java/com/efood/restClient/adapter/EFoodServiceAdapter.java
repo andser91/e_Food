@@ -1,8 +1,6 @@
 package com.efood.restClient.adapter;
 
-import it.uniroma3.web.CreateUserResponse;
-import it.uniroma3.web.GetRestaurantMenuResponse;
-import it.uniroma3.web.GetRestaurantsResponse;
+import it.uniroma3.web.*;
 
 public interface EFoodServiceAdapter {
 
@@ -13,6 +11,8 @@ public interface EFoodServiceAdapter {
     String login(String username, String password);
 
     GetRestaurantMenuResponse getMenu(Long id);
+
+    CreateOrderResponse createOrder(CreateOrderRequest request, String jwt);
 
 
 }

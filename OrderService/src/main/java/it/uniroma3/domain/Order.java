@@ -24,17 +24,19 @@ public class Order {
     private OrderState orderState;
     @ElementCollection
     private List<OrderLineItem> orderLineItems;
+    private double total;
 
-    public Order(Long consumerId, Long restaurantId,  List<OrderLineItem> orderLineItems) {
+    public Order(Long consumerId, Long restaurantId,  List<OrderLineItem> orderLineItems, double total) {
         this.restaurantId = restaurantId;
         this.consumerId = consumerId;
         this.orderState = OrderState.PENDING;
         this.orderLineItems = orderLineItems;
+        this.total = total;
     }
 
 
-    public static Order create(Long customerId, Long restaurantId, List<OrderLineItem> orderLineItems) {
-        return new Order(customerId, restaurantId, orderLineItems);
+    public static Order create(Long customerId, Long restaurantId, List<OrderLineItem> orderLineItems, double total) {
+        return new Order(customerId, restaurantId, orderLineItems, total);
     }
 
 }

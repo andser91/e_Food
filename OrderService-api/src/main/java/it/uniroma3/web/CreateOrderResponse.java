@@ -14,6 +14,7 @@ public class CreateOrderResponse {
     private Long restaurantId;
     private Long ticketId;
     private String orderState;
+    private double totalPrice;
 
     public CreateOrderResponse(Long orderId, Long consumerId, Long restaurantId, String orderState) {
         this.orderId = orderId;

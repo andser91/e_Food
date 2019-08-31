@@ -19,14 +19,8 @@ public class ClientRestApplication{
 		ApplicationContext context = new AnnotationConfigApplicationContext(ClientRestApplication.class);
 		ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
 
-		//public static int randomNumber(int init, int end){
-			Random random = new Random();
-			System.out.println(random.nextInt(100)+20);
-		//}
-
-		for (int i=1; i<6; i++){
+		for (int i = 1; i< 10; i++){
 			ClientSimulator clientSimulator = (ClientSimulator)context.getBean("clientSimulator");
-			clientSimulator.setNumber(i);
 			taskExecutor.execute(clientSimulator);
 		}
 

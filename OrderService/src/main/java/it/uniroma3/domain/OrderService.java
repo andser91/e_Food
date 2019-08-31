@@ -8,6 +8,7 @@ import it.uniroma3.event.LineItem;
 import it.uniroma3.event.OrderCreatedEvent;
 import it.uniroma3.event.OrderDetails;
 import it.uniroma3.exception.OrderNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,20 +19,18 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class OrderService implements IOrderService {
-    @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private ConsumerServiceAdapter consumerServiceAdapter;
-    @Autowired
-    private RestaurantServiceAdapter restaurantServiceAdapter;
 
-    @Autowired
-    private MeterRegistry meterRegistry;
-    //@Autowired
-    //private KitchenServiceAdapter kitchenServiceAdapter;
-    @Autowired
-    private DomainEventPublisher domainEventPublisher;
+    private final OrderRepository orderRepository;
+
+    private final ConsumerServiceAdapter consumerServiceAdapter;
+
+    private final RestaurantServiceAdapter restaurantServiceAdapter;
+
+    private final MeterRegistry meterRegistry;
+
+    private final DomainEventPublisher domainEventPublisher;
 
     @Override
     public List<Order> findAll() {
@@ -50,15 +49,15 @@ public class OrderService implements IOrderService {
 
     /* Creazione di un nuovo ordine. */
     @Override
-    public Order create(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems) {
-            return createAsincrona(consumerId, restaurantId, orderLineItems);
+    public Order create(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems, double totalPrice) {
+            return createAsincrona(consumerId, restaurantId, orderLineItems, totalPrice);
         // return createSincrona(consumerId, restaurantId, orderLineItems);
         //return createSaga(consumerId, restaurantId, orderLineItems);
     }
     @Override
-    public Order createAsincrona(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems) {
+    public Order createAsincrona(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems, double totalPrice) {
         //crea e salva l'ordine
-        Order order = Order.create(consumerId, restaurantId, orderLineItems);
+        Order order = Order.create(consumerId, restaurantId, orderLineItems, totalPrice);
         order = orderRepository.save(order);
         meterRegistry.counter("order.count").increment();
         //pubblica un evento di creazione dell'ordine

@@ -1,11 +1,12 @@
 package it.uniroma3.web;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class CreateUserRequest {
     private String username;
     private String password;

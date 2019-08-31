@@ -13,8 +13,8 @@ public interface IOrderService {
     List<Order> findAll();
     void deleteById(Long id);
     Order findById(Long id);
-    Order create(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems);
-    Order createAsincrona(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems);
+    Order create(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems, double totalPrice);
+    Order createAsincrona(Long consumerId, Long restaurantId, List<OrderLineItem> orderLineItems, double totalPrice);
 
 
 }

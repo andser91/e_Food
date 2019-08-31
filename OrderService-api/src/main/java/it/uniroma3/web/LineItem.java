@@ -4,13 +4,11 @@ import lombok.*;
 
 @Getter
 @Setter
-@ToString
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class LineItem {
 
-    private String menuItemId;
+    private Long menuItemId;
     private int quantity;
 
 }
