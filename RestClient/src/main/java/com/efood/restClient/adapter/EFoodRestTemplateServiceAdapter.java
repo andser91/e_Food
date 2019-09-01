@@ -1,6 +1,7 @@
 package com.efood.restClient.adapter;
 
 import it.uniroma3.web.*;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -81,13 +82,15 @@ public class EFoodRestTemplateServiceAdapter implements EFoodServiceAdapter {
 
     @Override
     public CreateOrderResponse createOrder(CreateOrderRequest request, String jwt){
-        String createOrderUrl = efoodUri + "/orders/";
+        String createOrderUrl = efoodUri + "/order/orders/";
         RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("x-auth", jwt);
+        HttpEntity<CreateOrderRequest> entity = new HttpEntity<>(request, headers);
         CreateOrderResponse createOrderResponse = null;
         try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("x-auth", jwt);
-            createOrderResponse = restTemplate.postForObject(createOrderUrl,request,CreateOrderResponse.class);
+            ResponseEntity<CreateOrderResponse> orderResponse = restTemplate.postForEntity(createOrderUrl,entity,CreateOrderResponse.class);
+            createOrderResponse = orderResponse.getBody();
 
         }
         catch (RestClientException e) {

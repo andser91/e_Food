@@ -4,9 +4,9 @@ import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @EqualsAndHashCode
 @ToString
+@AllArgsConstructor
 public class CreateOrderResponse {
 
     private Long orderId;
@@ -22,5 +22,7 @@ public class CreateOrderResponse {
         this.restaurantId = restaurantId;
         this.orderState = orderState;
     }
+
+    public CreateOrderResponse(){};
 
 }

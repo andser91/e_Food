@@ -49,7 +49,7 @@ public class ClientSimulator implements Runnable {
         long number = RandomGenerator.randomNumber(1,6);
         GetRestaurantMenuResponse restaurantMenuResponse = restTemplateAdapter.getMenu((long)number);
         for (RestaurantMenuItem item : restaurantMenuResponse.getMenuItems()){
-            System.out.println("name: " + item.getName()+ " - price: " + item.getPrice());
+            System.out.println("id: " +item.getItemId() +" - name: " + item.getName()+ " - price: " + item.getPrice());
         }
 
 
