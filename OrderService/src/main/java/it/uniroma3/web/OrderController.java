@@ -5,6 +5,7 @@ import it.uniroma3.domain.IOrderService;
 import it.uniroma3.domain.Order;
 import it.uniroma3.domain.OrderLineItem;
 import it.uniroma3.domain.OrderService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,16 +17,20 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path="/orders")
+@RequiredArgsConstructor
 public class OrderController {
-    @Autowired
-    private IOrderService orderService;
+
+    private final IOrderService orderService;
+
+    private final MeterRegistry meterRegistry;
+
 
     /** Trova tutti gli ordini **/
     @GetMapping("/")
     public ResponseEntity<GetOrdersResponse> findAll(){
         List<Order> orders = orderService.findAll();
         if (orders != null) {
-            return new ResponseEntity<GetOrdersResponse>(makeGetOrdersResponse(orders), HttpStatus.OK);
+            return new ResponseEntity<>(makeGetOrdersResponse(orders), HttpStatus.OK);
         }
         else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -42,6 +47,7 @@ public class OrderController {
     public CreateOrderResponse newOrder(@RequestBody CreateOrderRequest request) {
         List<OrderLineItem> orderLineItems = getOrderLineItems(request);
         Order order = orderService.create(request.getConsumerId(), request.getRestaurantId(), orderLineItems, request.getTotalPrice());
+        meterRegistry.counter("total.cash").increment(request.getTotalPrice());
         return makeCreateOrderResponse(order);
     }
 
