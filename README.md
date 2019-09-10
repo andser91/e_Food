@@ -39,8 +39,10 @@ Seguire i seguenti passi dalla home del progetto:
 - eseguire cd Kubernetes
 - eseguire ./build-kubernetes-image.sh
 - eseguire ./script/run-services.sh per lanciare mysql, zookeeper e kafka
-- eseguire ./script/run-application.sh per lanciare l'applicazione
+- eseguire ./script/run-application.sh per lanciare l'applicazione.
+
 L'applicazione ora è running.
+
 Per stoppare l'applicazione lanciare:
 - ./script/stop-application.sh
 - ./script/stop-services.sh
