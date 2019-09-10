@@ -1,5 +1,5 @@
 #!/bin/bash
 
-echo Starting kafka...
+echo Starting mysql...
 sudo kubectl create -f services/mysql_deployment.yaml
 
