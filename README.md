@@ -9,6 +9,7 @@ Contribuiscono a questo repository:
 - Gradle
 - Docker
 - Docker-compose
+- Kubernetes (kubectl + minikube/minishift)
 
 # Lanciare l'applicazione
 Seguire i seguenti passi in ordine:
