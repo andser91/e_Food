@@ -43,8 +43,8 @@ dependencies {
     implementation project(":RestaurantService-api")
     implementation project(":KitchenService-api")
     //Distributed Tracing (sleuth + Zipkin + opentrace compatibility
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin', version: '2.1.1.RELEASE'
-    compile group: 'io.opentracing.brave', name: 'brave-opentracing', version: '0.33.11'
+    //compile group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin', version: '2.1.1.RELEASE'
+    //compile group: 'io.opentracing.brave', name: 'brave-opentracing', version: '0.33.11'
     //Kafka
     implementation 'org.springframework.kafka:spring-kafka'
     //Spring
@@ -62,7 +62,6 @@ dependencies {
     implementation 'io.micrometer:micrometer-registry-prometheus'
     //flyway
     implementation 'org.flywaydb:flyway-core'
-
     //Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'io.rest-assured:rest-assured:3.3.0'

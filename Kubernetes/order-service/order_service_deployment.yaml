@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    svc: order-service
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: order-service-config
+data:
+  PORT: "8080"
+  SPRING_DATASOURCE_URL: jdbc:mysql://mysql/orders
+  SPRING_DATASOURCE_USERNAME: mysqluser
+  SPRING_DATASOURCE_PASSWORD: mysqlpw
+  SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-broker:9092
+  SPRING_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: order-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: order-service
+      labels:
+        svc: order-service
+    spec:
+      containers:
+        - image: order-service-kube
+          name: order-service
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+                httpGet:
+                  path: /actuator/health
+                  port: 8080
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 5
+          envFrom:
+            - configMapRef:
+                name: order-service-config
