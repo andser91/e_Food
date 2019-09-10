@@ -33,6 +33,18 @@ $DOCKER_HOST_IP = [INDIRIZZO-IP-DELLA-PROPRIA-MACCHINA]
 - eseguire ./run_integration_tests.sh per eseguire i testi di integrazione
 - eseguire ./stop_integration_tests.sh per stoppare i container che sono stati avviati per eseguire i test
 
+# Lanciare l'applicazione su Kubernetes
+Seguire i seguenti passi dalla home del progetto:
+- eseguire ./build-kubernetes-image.sh per fare la build dei progetti e costruire le immagini docker dei servizi
+- eseguire cd Kubernetes
+- eseguire ./build-kubernetes-image.sh
+- eseguire ./script/run-services.sh per lanciare mysql, zookeeper e kafka
+- eseguire ./script/run-application.sh per lanciare l'applicazione
+L'applicazione ora è running.
+Per stoppare l'applicazione lanciare:
+- ./script/stop-application.sh
+- ./script/stop-services.sh
+
 # Monitoraggio
   ## Distributed Tracing
   Spring Cloud Sleuth instrumenta il codice per registrare ogni richiesta in entrata/uscita da sistemi esterni (http, grpc,
