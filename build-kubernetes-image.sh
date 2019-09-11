@@ -13,4 +13,4 @@ echo "Building consumer-service image"
 docker build -t consumer-service-kube .
 cd ../RestaurantService
 echo "Building restaurant-service image"
-docker build -t restaurant-service-kube .
+docker build -t restaurant-service-kube-v2 .

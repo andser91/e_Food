@@ -6,6 +6,7 @@ import it.uniroma3.domain.MenuItem;
 import it.uniroma3.domain.Restaurant;
 import it.uniroma3.exception.RestaurantNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,14 @@ import java.util.stream.Collectors;
 public class RestaurantController {
     @Autowired
     private IRestaurantService restaurantService;
+
+    @Value("${version}")
+    private String version;
+
+    @GetMapping("/prova")
+    public ResponseEntity<String> prova(){
+        return new ResponseEntity<>("Versione: " + version , HttpStatus.OK);
+    }
 
     /** Trova tutti i ristoranti **/
     @GetMapping("/")
