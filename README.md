@@ -9,6 +9,7 @@ Contribuiscono a questo repository:
 - Gradle
 - Docker
 - Docker-compose
+- Kubernetes (kubectl + minikube/minishift)
 
 # Lanciare l'applicazione
 Seguire i seguenti passi in ordine:
@@ -37,11 +38,10 @@ $DOCKER_HOST_IP = [INDIRIZZO-IP-DELLA-PROPRIA-MACCHINA]
 Seguire i seguenti passi dalla home del progetto:
 - eseguire ./build-kubernetes-image.sh per fare la build dei progetti e costruire le immagini docker dei servizi
 - eseguire cd Kubernetes
-- eseguire ./build-kubernetes-image.sh
 - eseguire ./script/run-services.sh per lanciare mysql, zookeeper e kafka
 - eseguire ./script/run-application.sh per lanciare l'applicazione.
 
-L'applicazione ora è running.
+L'applicazione ora è running ed è possibile contattare i vari i servizi ad esempio tramite swagger a https://localhost/{NOME-SERVIZIO}/swagger-ui.html
 
 Per stoppare l'applicazione lanciare:
 - ./script/stop-application.sh
