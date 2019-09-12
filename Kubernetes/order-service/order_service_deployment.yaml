@@ -2,12 +2,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: order-service
+  labels:
+    svc: order-service
 spec:
   ports:
     - port: 8080
       targetPort: 8080
   selector:
-    svc: order-service
+    app: order-service
 
 ---
 
@@ -30,13 +32,16 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: order-service
+  labels:
+    version: v1
 spec:
   replicas: 1
   template:
     metadata:
       name: order-service
       labels:
-        svc: order-service
+        app: order-service
+        version: v1
     spec:
       containers:
         - image: order-service-kube

@@ -1,29 +1,131 @@
-apiVersion: extensions/v1beta1
-kind: Ingress
+
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
 metadata:
-  name: efood-ingress
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+  name: efood-gateway
 spec:
-  rules:
-  - http:
-      paths:
-        - backend:
-            serviceName: order-service
-            servicePort: 8080
-          path: /order-service/(.*)
-        - backend:
-            serviceName: kitchen-service
-            servicePort: 8080 
-          path: /kitchen-service/(.*)
-        - backend:
-            serviceName: consumer-service
-            servicePort: 8080 
-          path: /consumer-service/(.*)
-        - backend:
-            serviceName: restaurant-service
-            servicePort: 8080
-          path: /restaurant-service/(.*)
-         
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: restaurant-service
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - efood-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /restaurant-service
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: restaurant-service
+        port:
+          number: 8080
+        subset: v1
+      weight: 100
+    - destination:
+        host: restaurant-service
+        port:
+          number: 8080
+        subset: v2
+      weight: 0
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: restaurant-service
+spec:
+  host: restaurant-service
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: order-service
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - efood-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /order-service
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: order-service
+        port:
+          number: 8080
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: kitchen-service
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - efood-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /kitchen-service
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: kitchen-service
+        port:
+          number: 8080
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: consumer-service
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - efood-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /consumer-service
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: consumer-service
+        port:
+          number: 8080
