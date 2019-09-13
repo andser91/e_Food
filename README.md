@@ -34,13 +34,31 @@ $DOCKER_HOST_IP = [INDIRIZZO-IP-DELLA-PROPRIA-MACCHINA]
 - eseguire ./run_integration_tests.sh per eseguire i testi di integrazione
 - eseguire ./stop_integration_tests.sh per stoppare i container che sono stati avviati per eseguire i test
 
-# Lanciare l'applicazione su Kubernetes
-Seguire i seguenti passi dalla home del progetto:
-- eseguire ./build-kubernetes-image.sh per fare la build dei progetti e costruire le immagini docker dei servizi
-- eseguire cd Kubernetes
-- eseguire ./script/run-services.sh per lanciare mysql, zookeeper e kafka
-- eseguire ./script/run-application.sh per lanciare l'applicazione.
+# Lanciare l'applicazione su Kubernetes 
+## Installazione minikube
+Eseguire:
+- curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube
+- sudo install minikube /usr/local/bin
+## Installazione helm
+Helm è un package manager per kubernetes che servirà per installare istio. Per l'installazione eseguire:
+- curl -LO https://git.io/get_helm.sh
+- chmod 700 get_helm.sh
+- ./get_helm.sh
+## Lancio dell'applicazione
+Per prima cosa avviare minikube:
+- minikube start
 
+Poi posizionarsi nella home del progetto ed eseguire:
+- ./build-kubernetes-image.sh per fare la build dei progetti e costruire le immagini docker dei servizi
+- cd Kubernetes
+- ./script/run-services.sh per lanciare mysql, zookeeper e kafka
+- ./script/run-application.sh per lanciare l'applicazione.
+- ./script/run-monitoring-service.sh per lanciare prometheus, grafana, jaeger, kiali
+
+Per testare l'applicazione occorre recuperare l'ip del cluster ottenibile con il comando:
+- minikube ip
+
+I servizi dell'applicazione 
 L'applicazione ora è running ed è possibile contattare i vari i servizi ad esempio tramite swagger a https://localhost/{NOME-SERVIZIO}/swagger-ui.html
 
 Per stoppare l'applicazione lanciare:
