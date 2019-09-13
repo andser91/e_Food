@@ -58,12 +58,24 @@ Poi posizionarsi nella home del progetto ed eseguire:
 Per testare l'applicazione occorre recuperare l'ip del cluster ottenibile con il comando:
 - minikube ip
 
-I servizi dell'applicazione 
-L'applicazione ora è running ed è possibile contattare i vari i servizi ad esempio tramite swagger a https://localhost/{NOME-SERVIZIO}/swagger-ui.html
+La porta su cui gira l'applicazione è ricavabile dal comando:
+kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}'
+
+Ora è possibile contattare i vari i servizi ad esempio tramite swagger a https://{MINIKUBE_IP}:{APP_PORT}/{NOME-SERVIZIO}/swagger-ui.html
+
+I servizi di monitoraggio girano sullo stesso ip ma su porte differenti; per ricavare le porte eseguire il comando:
+kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="{NOME_PORTA}")].nodePort}',
+dove in {NOME_PORTA} va messo il nome della porta del servizio che si vuole raggiungere; i nome delle porte sono:
+- https-tracing
+- https-grafana
+- https-prometheus
+- https-kiali
 
 Per stoppare l'applicazione lanciare:
 - ./script/stop-application.sh
 - ./script/stop-services.sh
+- ./script/stop-monitoring-service.sh
+- minikube stop (o delete)
 
 # Monitoraggio
   ## Distributed Tracing
