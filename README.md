@@ -51,6 +51,7 @@ Per prima cosa avviare minikube:
 Poi posizionarsi nella home del progetto ed eseguire:
 - ./build-kubernetes-image.sh per fare la build dei progetti e costruire le immagini docker dei servizi
 - cd Kubernetes
+- ./script/istio-setup.sh (attendere che sia tutto running)
 - ./script/run-services.sh per lanciare mysql, zookeeper e kafka
 - ./script/run-application.sh per lanciare l'applicazione.
 - ./script/run-monitoring-service.sh per lanciare prometheus, grafana, jaeger, kiali
