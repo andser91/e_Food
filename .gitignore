@@ -59,6 +59,9 @@ pom.xml.tag
 out/
 gradle/
 build/
+istio*/
+Kubernetes/istio*/
+Kubernetes/istio-1.2.5/
 *.iml
 .gradle/
 .idea/ 

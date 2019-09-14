@@ -33,6 +33,10 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: restaurant-service-v1
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/actuator/prometheus"
+    prometheus.io/port: "8080"
   labels: 
     version: v1
 spec:
@@ -70,6 +74,10 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: restaurant-service-v2
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/actuator/prometheus"
+    prometheus.io/port: "8080"
   labels: 
     version: v2
 spec:

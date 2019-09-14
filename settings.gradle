@@ -12,4 +12,7 @@ include 'KitchenService-api'
 include 'Api-Gataway'
 include 'Api-Gataway-api'
 include 'RestClient'
+include 'iam'
+include 'iam'
+include 'iam'
 

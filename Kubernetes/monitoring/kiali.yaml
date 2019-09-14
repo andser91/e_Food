@@ -42,4 +42,4 @@ spec:
   host: kiali
   trafficPolicy:
     tls:
-      mode: DISABLE 
+      mode: DISABLE

@@ -33,6 +33,10 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: kitchen-service
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/actuator/prometheus"
+    prometheus.io/port: "8080"
   labels:
     version: v1
 spec:

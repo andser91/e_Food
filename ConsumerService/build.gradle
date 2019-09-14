@@ -41,6 +41,7 @@ dependencies {
     //Distributed Tracing (sleuth + Zipkin + opentrace compatibility
     compile group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin', version: '2.1.1.RELEASE'
     compile group: 'io.opentracing.brave', name: 'brave-opentracing', version: '0.33.11'
+
     //Kafka
     implementation 'org.springframework.kafka:spring-kafka'
     //Spring
