@@ -15,20 +15,13 @@ java.sourceCompatibility = JavaVersion.VERSION_1_8
 repositories {
     mavenCentral()
 
-    maven {
-        setUrl("https://pkgs.dev.azure.com/exeestDevOps/_packaging/common-auth/maven/v1")
-        credentials {
-            username="AZURE_ARTIFACTS"
-            password="qx4ofyorjiqaw5brmv5ga5eysyhpvxazrtyediemmpq4flifku7a"
-        }
-    }
-}
+
 
 extra["springCloudVersion"] = "Greenwich.SR2"
 
 
 dependencies {
-    compile("com.exeest:common-auth:1.0.5")
+
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
