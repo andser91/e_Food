@@ -1,9 +1,9 @@
 package it.uniroma3.config
 
-import com.exeest.commonauth.JWTConfig
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
+import it.uniroma3.commonauth.JWTConfig
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
