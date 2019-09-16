@@ -19,6 +19,7 @@ class WebSecurityConfiguration (@Qualifier("userService") private val userDetail
 
     override fun configure(http: HttpSecurity) {
         http.csrf().disable()
+                .cors().and()
                 .authorizeRequests()
                 .anyRequest().permitAll()
                 .and()

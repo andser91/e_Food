@@ -129,3 +129,26 @@ spec:
         host: consumer-service
         port:
           number: 8080
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: iam
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - efood-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /iam
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: iam
+        port:
+          number: 8080

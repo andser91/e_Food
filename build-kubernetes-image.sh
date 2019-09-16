@@ -14,3 +14,6 @@ docker build -t consumer-service-kube .
 cd ../RestaurantService
 echo "Building restaurant-service image"
 docker build -t restaurant-service-kube-v2 .
+cd ../iam
+echi "Building iam image"
+docker build -t iam-kube .

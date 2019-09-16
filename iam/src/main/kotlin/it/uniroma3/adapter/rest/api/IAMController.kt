@@ -1,15 +1,12 @@
 package it.uniroma3.adapter.rest.api
 
-import com.exeest.commonauth.JWTTokenBroker
-import it.uniroma3.adapter.rest.dto.UserInfoResponse
+
 import it.uniroma3.adapter.rest.dto.UserSignUpRequest
 import it.uniroma3.commonauth.JWTConfig
+import it.uniroma3.commonauth.JWTTokenBroker
 import it.uniroma3.domain.application.UserApplicationService
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.context.SecurityContextImpl
 import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
