@@ -19,7 +19,7 @@ public class ClientRestApplication{
 		ApplicationContext context = new AnnotationConfigApplicationContext(ClientRestApplication.class);
 		ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
 
-		for (int i = 1; i< 10; i++){
+		for (int i = 1; i< 2; i++){
 			ClientSimulator clientSimulator = (ClientSimulator)context.getBean("clientSimulator");
 			taskExecutor.execute(clientSimulator);
 		}

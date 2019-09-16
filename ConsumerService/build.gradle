@@ -38,9 +38,12 @@ dependencies {
     implementation project(":ConsumerService-api")
     implementation project(":OrderService-api")
     implementation project(":Api-Gataway-api")
-    implementation(project(":Iam-api"))
+//    implementation(project(":Iam-api"))
     //Distributed Tracing (sleuth + Zipkin + opentrace compatibility
     compile group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin', version: '2.1.1.RELEASE'
+
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation(project(":Iam-api"))
     compile group: 'io.opentracing.brave', name: 'brave-opentracing', version: '0.33.11'
 
     //Kafka
@@ -50,7 +53,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    compile('org.springframework.boot:spring-boot-starter-security')
+//    compile('org.springframework.boot:spring-boot-starter-security')
     //Postgres
     //implementation 'org.postgresql:postgresql'
     //MySQL

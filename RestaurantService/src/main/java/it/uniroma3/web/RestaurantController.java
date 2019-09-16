@@ -7,6 +7,7 @@ import it.uniroma3.domain.Restaurant;
 import it.uniroma3.exception.RestaurantNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -103,7 +104,13 @@ public class RestaurantController {
     public ResponseEntity<GetRestaurantMenuResponse> getRestaurantMenu(@PathVariable Long restaurantId) {
         Restaurant restaurant = restaurantService.findById(restaurantId);
         if (restaurant!=null) {
-            return new ResponseEntity<>(makeGetRestaurantMenuResponse(restaurant), HttpStatus.OK);
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set("version",
+                    "2.0");
+            return ResponseEntity.ok()
+                    .headers(responseHeaders)
+                    .body(makeGetRestaurantMenuResponse(restaurant));
+
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

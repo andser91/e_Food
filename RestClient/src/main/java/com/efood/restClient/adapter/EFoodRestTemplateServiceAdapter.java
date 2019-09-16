@@ -12,11 +12,11 @@ import org.springframework.web.client.RestTemplate;
 public class EFoodRestTemplateServiceAdapter implements EFoodServiceAdapter {
 
     //@Value("${efood.uri}")
-    private String efoodUri = "http://localhost:8080";
+    private String efoodUri = "http://192.168.1.12:31380";
 
     @Override
     public GetRestaurantsResponse getRestaurants() {
-        String restaurantUrl = efoodUri + "/restaurant/restaurants/";
+        String restaurantUrl = efoodUri + "/restaurant-service/restaurants/";
         GetRestaurantsResponse restaurantsResponse = null;
         RestTemplate restTemplate = new RestTemplate();
         try {
@@ -30,9 +30,9 @@ public class EFoodRestTemplateServiceAdapter implements EFoodServiceAdapter {
     }
 
     @Override
-    public CreateUserResponse registration(String username, String password, String firstname, String lastname){
-        String registrationUrl = efoodUri + "/registration";
-        CreateUserRequest userRequest = new CreateUserRequest(username,password,firstname,lastname);
+    public CreateUserResponse registration(String username, String email,String password, String firstname, String lastname){
+        String registrationUrl = efoodUri + "/iam/user/sign-up";
+        CreateUserRequest userRequest = new CreateUserRequest(username,email,password,firstname,lastname);
         CreateUserResponse userResponse = null;
         RestTemplate restTemplate = new RestTemplate();
         try {
@@ -45,23 +45,8 @@ public class EFoodRestTemplateServiceAdapter implements EFoodServiceAdapter {
     }
 
     @Override
-    public GetRestaurantMenuResponse getMenu(Long id){
-        String menuUrl = efoodUri + "/restaurant/restaurants/"+id+"/menu";
-        GetRestaurantMenuResponse restaurantMenuResponse = null;
-        RestTemplate restTemplate = new RestTemplate();
-        try {
-            ResponseEntity<GetRestaurantMenuResponse> entity = restTemplate.getForEntity(menuUrl, GetRestaurantMenuResponse.class);
-            restaurantMenuResponse = entity.getBody();
-        }
-        catch (RestClientException e) {
-            e.printStackTrace();
-        }
-        return restaurantMenuResponse;
-    }
-
-    @Override
     public String login(String username, String password){
-        String loginUrl = efoodUri + "/login";
+        String loginUrl = efoodUri + "/iam/login";
         JwtAuthenticationRequest request = new JwtAuthenticationRequest(username,password);
         JwtAuthenticationResponse response = null;
         RestTemplate restTemplate = new RestTemplate();
@@ -70,9 +55,7 @@ public class EFoodRestTemplateServiceAdapter implements EFoodServiceAdapter {
             ResponseEntity<JwtAuthenticationResponse> authResponse = restTemplate.postForEntity(loginUrl,request, JwtAuthenticationResponse.class);
             response = authResponse.getBody();
             HttpHeaders headers = authResponse.getHeaders();
-            jwt = headers.getFirst("x-auth");
-            System.out.println(jwt);
-
+            jwt = headers.getFirst("Authorization");
         }
         catch (RestClientException e){
             e.printStackTrace();
@@ -81,11 +64,27 @@ public class EFoodRestTemplateServiceAdapter implements EFoodServiceAdapter {
     }
 
     @Override
+    public ResponseEntity<GetRestaurantMenuResponse> getMenu(Long id){
+        String menuUrl = efoodUri + "/restaurant-service/restaurants/"+id+"/menu";
+        ResponseEntity<GetRestaurantMenuResponse> entity = null;
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            entity = restTemplate.getForEntity(menuUrl, GetRestaurantMenuResponse.class);
+        }
+        catch (RestClientException e) {
+            e.printStackTrace();
+        }
+        return entity;
+    }
+
+
+
+    @Override
     public CreateOrderResponse createOrder(CreateOrderRequest request, String jwt){
-        String createOrderUrl = efoodUri + "/order/orders/";
+        String createOrderUrl = efoodUri + "/order-service/orders/";
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        headers.add("x-auth", jwt);
+        headers.add("Authorization", jwt);
         HttpEntity<CreateOrderRequest> entity = new HttpEntity<>(request, headers);
         CreateOrderResponse createOrderResponse = null;
         try {

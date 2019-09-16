@@ -1,0 +1,4 @@
+FROM openjdk:8
+ADD ./build/libs/RestaurantService-2.0.jar restaurantService.jar
+ENTRYPOINT ["java", "-jar", "restaurantService.jar"]
+

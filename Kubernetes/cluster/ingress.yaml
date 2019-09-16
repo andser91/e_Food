@@ -28,7 +28,7 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /restaurant-service
+        prefix: /restaurant-service/
     rewrite:
       uri: /
     route:
@@ -37,13 +37,13 @@ spec:
         port:
           number: 8080
         subset: v1
-      weight: 100
+      weight: 50
     - destination:
         host: restaurant-service
         port:
           number: 8080
         subset: v2
-      weight: 0
+      weight: 50
 
 ---
 
@@ -75,7 +75,7 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /order-service
+        prefix: /order-service/
     rewrite:
       uri: /
     route:
@@ -98,7 +98,7 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /kitchen-service
+        prefix: /kitchen-service/
     rewrite:
       uri: /
     route:
@@ -121,7 +121,7 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /consumer-service
+        prefix: /consumer-service/
     rewrite:
       uri: /
     route:
@@ -144,7 +144,7 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /iam
+        prefix: /iam/
     rewrite:
       uri: /
     route:
