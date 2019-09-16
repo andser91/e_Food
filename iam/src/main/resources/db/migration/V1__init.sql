@@ -1,5 +1,5 @@
 CREATE TABLE `user` (
-                      `id` bigint not null,
+                      `id` bigint NOT NULL AUTO_INCREMENT,
                       `email` varchar(255) default null,
                       `username` varchar(255) default null,
                       `password` varchar(255) default null,

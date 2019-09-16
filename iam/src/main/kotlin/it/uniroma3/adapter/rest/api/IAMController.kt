@@ -1,9 +1,9 @@
 package it.uniroma3.adapter.rest.api
 
-import com.exeest.commonauth.JWTConfig
 import com.exeest.commonauth.JWTTokenBroker
 import it.uniroma3.adapter.rest.dto.UserInfoResponse
 import it.uniroma3.adapter.rest.dto.UserSignUpRequest
+import it.uniroma3.commonauth.JWTConfig
 import it.uniroma3.domain.application.UserApplicationService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -38,23 +38,4 @@ class IAMController (private val userApplicationService: UserApplicationService)
                 JWTConfig.getInstance().prefix + JWTTokenBroker.getInstance().getToken(auth))
     }
 
-    @GetMapping("/prova")
-    fun prova(): String{
-        return "prova"
-    }
-
-
-    @GetMapping
-    fun getInfoSession(request: HttpServletRequest): UserInfoResponse {
-        return UserInfoResponse(request.userPrincipal.name,SecurityContextHolder.getContext().authentication.authorities.toString())
-    }
-
-    @GetMapping("/role/{role}")
-    fun isAuthenticatedWithRole(request: HttpServletRequest, @PathVariable role : String): ResponseEntity<Any> {
-        val securityContext = request.session.getAttribute(SECURITY_CONTEXT) as SecurityContextImpl
-        val authorities = securityContext.authentication.authorities
-        if (authorities.map { (it as SimpleGrantedAuthority).authority }.contains(role))
-            return ResponseEntity(HttpStatus.OK)
-        return ResponseEntity(HttpStatus.UNAUTHORIZED)
-    }
 }

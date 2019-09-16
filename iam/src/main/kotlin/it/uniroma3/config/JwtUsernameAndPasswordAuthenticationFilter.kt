@@ -24,7 +24,6 @@ class JwtUsernameAndPasswordAuthenticationFilter(// We use auth manager to valid
 
 
     init {
-
         // By default, UsernamePasswordAuthenticationFilter listens to "/login" path.
         // In our case, we use "/auth". So, we need to override the defaults.
         this.setRequiresAuthenticationRequestMatcher(AntPathRequestMatcher(JWTConfig.getInstance().uri, "POST"))

@@ -49,6 +49,7 @@ dependencies {
     implementation project(":ConsumerService-api")
     implementation project(":KitchenService-api")
     implementation project(":RestaurantService-api")
+    implementation(project(":Iam-api"))
     //Distributed Tracing (sleuth + Zipkin + opentrace compatibility
     compile group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin', version: '2.1.1.RELEASE'
     compile group: 'io.opentracing.brave', name: 'brave-opentracing', version: '0.33.11'
@@ -59,6 +60,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    compile('org.springframework.boot:spring-boot-starter-security')
     //Web Client
     compile 'org.springframework.boot:spring-boot-starter-webflux'
     compile 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
