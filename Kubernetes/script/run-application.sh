@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo Starting application...
+echo "Starting application..."
 sudo kubectl apply -f  cluster/bug_fix_istio-mysql.yaml
 sudo kubectl apply -f iam/iam_deployment.yaml
 sudo kubectl apply -f order-service/order_service_deployment.yaml
