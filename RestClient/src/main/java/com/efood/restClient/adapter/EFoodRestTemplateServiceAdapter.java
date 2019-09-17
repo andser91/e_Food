@@ -80,11 +80,12 @@ public class EFoodRestTemplateServiceAdapter implements EFoodServiceAdapter {
 
 
     @Override
-    public CreateOrderResponse createOrder(CreateOrderRequest request, String jwt){
+    public CreateOrderResponse createOrder(CreateOrderRequest request, String jwt, String version){
         String createOrderUrl = efoodUri + "/order-service/orders/";
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", jwt);
+        headers.add("version", version);
         HttpEntity<CreateOrderRequest> entity = new HttpEntity<>(request, headers);
         CreateOrderResponse createOrderResponse = null;
         try {

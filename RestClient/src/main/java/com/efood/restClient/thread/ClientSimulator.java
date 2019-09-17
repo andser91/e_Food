@@ -50,7 +50,7 @@ public class ClientSimulator implements Runnable {
         //getMenu
         long number = RandomGenerator.randomNumber(1,6);
         ResponseEntity<GetRestaurantMenuResponse> entity = restTemplateAdapter.getMenu((long)number);
-        System.out.println(entity.getHeaders().get("version").toString());
+        String version = entity.getHeaders().getFirst("version");
         GetRestaurantMenuResponse restaurantMenuResponse = entity.getBody();
         for (RestaurantMenuItem item : restaurantMenuResponse.getMenuItems()){
             System.out.println("id: " +item.getItemId() +" - name: " + item.getName()+ " - price: " + item.getPrice());
@@ -64,24 +64,24 @@ public class ClientSimulator implements Runnable {
         }
 
 
-//        //createOrder
-//        CreateOrderRequest createOrderRequest = new CreateOrderRequest();
-//        createOrderRequest.setRestaurantId(number);
-//        createOrderRequest.setConsumerId(createUserResponse.getId());
-//        double totalPrice = 0;
-//        List<LineItem> orderLineList = new ArrayList<>();
-//        for (int i = 0; i < 3; i++){
-//            int itemNumber = RandomGenerator.randomNumber(0, restaurantMenuResponse.getMenuItems().size()-1);
-//            RestaurantMenuItem restaurantMenuItem = restaurantMenuResponse.getMenuItems().get(itemNumber);
-//            LineItem lineItem = new LineItem();
-//            lineItem.setMenuItemId(restaurantMenuItem.getItemId());
-//            lineItem.setQuantity(RandomGenerator.randomNumber(1,3));
-//            totalPrice += lineItem.getQuantity()*restaurantMenuItem.getPrice();
-//            orderLineList.add(lineItem);
-//        }
-//        createOrderRequest.setLineItems(orderLineList);
-//        createOrderRequest.setTotalPrice(totalPrice);
-//
-//        CreateOrderResponse createOrderResponse = restTemplateAdapter.createOrder(createOrderRequest, jwt);
+        //createOrder
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest();
+        createOrderRequest.setRestaurantId(number);
+        createOrderRequest.setConsumerId(createUserResponse.getId());
+        double totalPrice = 0;
+        List<LineItem> orderLineList = new ArrayList<>();
+        for (int i = 0; i < 3; i++){
+            int itemNumber = RandomGenerator.randomNumber(0, restaurantMenuResponse.getMenuItems().size()-1);
+            RestaurantMenuItem restaurantMenuItem = restaurantMenuResponse.getMenuItems().get(itemNumber);
+            LineItem lineItem = new LineItem();
+            lineItem.setMenuItemId(restaurantMenuItem.getItemId());
+            lineItem.setQuantity(RandomGenerator.randomNumber(1,3));
+            totalPrice += lineItem.getQuantity()*restaurantMenuItem.getPrice();
+            orderLineList.add(lineItem);
+        }
+        createOrderRequest.setLineItems(orderLineList);
+        createOrderRequest.setTotalPrice(totalPrice);
+
+        CreateOrderResponse createOrderResponse = restTemplateAdapter.createOrder(createOrderRequest, jwt, version);
     }
 }

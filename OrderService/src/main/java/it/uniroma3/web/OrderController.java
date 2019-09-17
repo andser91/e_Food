@@ -6,6 +6,7 @@ import it.uniroma3.domain.Order;
 import it.uniroma3.domain.OrderLineItem;
 import it.uniroma3.domain.OrderService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(path="/orders")
 @RequiredArgsConstructor
+@Slf4j
 public class OrderController {
 
     private final IOrderService orderService;
@@ -44,7 +46,8 @@ public class OrderController {
 
     /** Crea un nuovo ordine **/
     @PostMapping("/")
-    public CreateOrderResponse newOrder(@RequestBody CreateOrderRequest request) {
+    public CreateOrderResponse newOrder(@RequestHeader("version") String version, @RequestBody CreateOrderRequest request) {
+    	log.info("   ---------  Version: {}   --------", version);
         List<OrderLineItem> orderLineItems = getOrderLineItems(request);
         Order order = orderService.create(request.getConsumerId(), request.getRestaurantId(), orderLineItems, request.getTotalPrice());
         meterRegistry.counter("total.cash").increment(request.getTotalPrice());
