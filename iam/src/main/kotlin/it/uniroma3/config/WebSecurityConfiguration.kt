@@ -1,5 +1,6 @@
 package it.uniroma3.config
 
+import io.micrometer.core.instrument.MeterRegistry
 import it.uniroma3.commonauth.JwtTokenAuthenticationFilter
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.security.web.firewall.StrictHttpFirewall
 import org.springframework.security.web.firewall.HttpFirewall
@@ -20,7 +22,8 @@ import org.springframework.security.web.firewall.HttpFirewall
 @EnableWebSecurity
 @Configuration
 class WebSecurityConfiguration (@Qualifier("userService") private val userDetailsService: UserDetailsService,
-                                private val passwordEncoderAndMatcher: PasswordEncoderAndMatcherConfig) : WebSecurityConfigurerAdapter(){
+                                private val passwordEncoderAndMatcher: PasswordEncoderAndMatcherConfig,
+                                private val meterRegistry: MeterRegistry) : WebSecurityConfigurerAdapter(){
 
 
     override fun configure(http: HttpSecurity) {
@@ -31,7 +34,7 @@ class WebSecurityConfiguration (@Qualifier("userService") private val userDetail
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().addFilterAfter(JwtTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
-                .addFilter(JwtUsernameAndPasswordAuthenticationFilter(authenticationManager()))
+                .addFilter(JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), meterRegistry))
     }
 
 
@@ -39,16 +42,4 @@ class WebSecurityConfiguration (@Qualifier("userService") private val userDetail
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoderAndMatcher)
     }
-
-//    @Bean
-//    fun allowUrlEncodedSlashHttpFirewall(): HttpFirewall {
-//        val fireWall = StrictHttpFirewall()
-//        fireWall.setAllowUrlEncodedSlash(true)
-//        return fireWall
-//    }
-//
-//    override fun configure(web: WebSecurity){
-//        web.httpFirewall(allowUrlEncodedSlashHttpFirewall())
-//    }
-
 }

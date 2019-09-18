@@ -50,7 +50,8 @@ public class OrderController {
     	log.info("   ---------  Version: {}   --------", version);
         List<OrderLineItem> orderLineItems = getOrderLineItems(request);
         Order order = orderService.create(request.getConsumerId(), request.getRestaurantId(), orderLineItems, request.getTotalPrice());
-        meterRegistry.counter("total.cash").increment(request.getTotalPrice());
+        meterRegistry.counter("total.cash","version", version).increment(request.getTotalPrice());
+        meterRegistry.counter("order.count", "version",version).increment();
         return makeCreateOrderResponse(order);
     }
 

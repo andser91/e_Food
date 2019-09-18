@@ -3,6 +3,7 @@ package it.uniroma3.config
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
+import io.micrometer.core.instrument.MeterRegistry
 import it.uniroma3.commonauth.JWTConfig
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -20,7 +21,8 @@ import javax.servlet.http.HttpServletResponse
 
 
 class JwtUsernameAndPasswordAuthenticationFilter(// We use auth manager to validate the user credentials
-        private val authManager: AuthenticationManager) : UsernamePasswordAuthenticationFilter() {
+        private val authManager: AuthenticationManager,
+        private val meterRegistry: MeterRegistry) : UsernamePasswordAuthenticationFilter() {
 
 
     init {
@@ -47,7 +49,10 @@ class JwtUsernameAndPasswordAuthenticationFilter(// We use auth manager to valid
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
-
+        catch(e: AuthenticationException){
+            meterRegistry.counter("login.failure.count").increment(1.0)
+            throw RuntimeException(e)
+        }
     }
 
     // Upon successful authentication, generate a token.
@@ -56,6 +61,7 @@ class JwtUsernameAndPasswordAuthenticationFilter(// We use auth manager to valid
     override fun successfulAuthentication(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain?,
                                           auth: Authentication) {
 
+        meterRegistry.counter("login.count").increment(1.0)
         val now = System.currentTimeMillis()
         val token = Jwts.builder()
                 .setSubject(auth.name)

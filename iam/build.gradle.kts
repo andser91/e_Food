@@ -43,6 +43,10 @@ dependencies {
     implementation ("org.springframework.cloud:spring-cloud-sleuth-zipkin:2.1.1.RELEASE")
     implementation ("io.opentracing.brave:brave-opentracing:0.33.11")
 
+    //Micrometer
+    implementation ("io.micrometer:micrometer-core")
+    implementation ("io.micrometer:micrometer-registry-prometheus")
+
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")

@@ -24,12 +24,6 @@ public class OrderService implements IOrderService {
 
     private final OrderRepository orderRepository;
 
-    private final ConsumerServiceAdapter consumerServiceAdapter;
-
-    private final RestaurantServiceAdapter restaurantServiceAdapter;
-
-    private final MeterRegistry meterRegistry;
-
     private final DomainEventPublisher domainEventPublisher;
 
     @Override
@@ -59,7 +53,6 @@ public class OrderService implements IOrderService {
         //crea e salva l'ordine
         Order order = Order.create(consumerId, restaurantId, orderLineItems, totalPrice);
         order = orderRepository.save(order);
-        meterRegistry.counter("order.count").increment();
         //pubblica un evento di creazione dell'ordine
         OrderCreatedEvent event = makeOrderCreatedEvent(order);
         domainEventPublisher.publish(event, OrderServiceChannel.orderServiceChannel);

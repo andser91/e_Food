@@ -39,6 +39,7 @@ public class ClientSimulator implements Runnable {
 
         //login
         String jwt = restTemplateAdapter.login(createUserResponse.getUsername(), createUserResponse.getPassword());
+        System.out.println("TOKEN: " + jwt);
 
 
         try {

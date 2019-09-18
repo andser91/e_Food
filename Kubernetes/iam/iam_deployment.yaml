@@ -4,6 +4,11 @@ metadata:
   name: iam
   labels:
     svc: iam
+  annotations: 
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/actuator/prometheus"
+    prometheus.io/port: "8080"
+    prometheus.io/scheme: "http"
 spec:
   ports:
     - port: 8080

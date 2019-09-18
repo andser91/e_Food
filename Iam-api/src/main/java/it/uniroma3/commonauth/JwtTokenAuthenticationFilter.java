@@ -3,6 +3,7 @@ package it.uniroma3.commonauth;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -24,13 +25,11 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
         // 1. get the authentication header. Tokens are supposed to be passed in the authentication header
         String header = request.getHeader(JWTConfig.getInstance().getHeader());
-
         // 2. validate the header and check the prefix
         if(header == null || !header.startsWith(JWTConfig.getInstance().getPrefix())) {
             chain.doFilter(request, response);  		// If not valid, go to the next filter.
             return;
         }
-
         // If there is no token provided and hence the user won't be authenticated.
         // It's Ok. Maybe the user accessing a public path or asking for a token.
 
@@ -39,7 +38,6 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
         // 3. Get the token
         String token = header.replace(JWTConfig.getInstance().getPrefix(), "");
-
         try {	// exceptions might be thrown in creating the claims if for example the token is expired
 
             // 4. Validate the token
@@ -68,7 +66,6 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
             // In case of failure. Make sure it's clear; so guarantee user won't be authenticated
             SecurityContextHolder.clearContext();
         }
-
         // go to the next filter in the filter chain
         chain.doFilter(request, response);
     }
