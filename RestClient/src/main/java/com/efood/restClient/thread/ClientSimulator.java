@@ -32,7 +32,7 @@ public class ClientSimulator implements Runnable {
                 RandomGenerator.randomName(RandomGenerator.randomNumber(4,12)),RandomGenerator.randomName(RandomGenerator.randomNumber(3,15)));
 
         try {
-            Thread.sleep(2000);
+            Thread.sleep(RandomGenerator.randomNumber(1,3)*1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -43,46 +43,57 @@ public class ClientSimulator implements Runnable {
 
 
         try {
-            Thread.sleep(2000);
+            Thread.sleep(RandomGenerator.randomNumber(1,3)*1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         //getMenu
-        long number = RandomGenerator.randomNumber(1,6);
-        ResponseEntity<GetRestaurantMenuResponse> entity = restTemplateAdapter.getMenu((long)number);
+        long restaurantId = RandomGenerator.randomNumber(1,6);
+        ResponseEntity<GetRestaurantMenuResponse> entity = restTemplateAdapter.getMenu((long)restaurantId);
         String version = entity.getHeaders().getFirst("version");
         GetRestaurantMenuResponse restaurantMenuResponse = entity.getBody();
         for (RestaurantMenuItem item : restaurantMenuResponse.getMenuItems()){
             System.out.println("id: " +item.getItemId() +" - name: " + item.getName()+ " - price: " + item.getPrice());
         }
 
-
+        System.out.println("------------------  Version: "+entity.getHeaders().getFirst("version"));
         try {
-            Thread.sleep(2000);
+            Thread.sleep(RandomGenerator.randomNumber(1,3)*1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
 
+        if (version.equals("v1")) {
+            for (int i = 0; i < RandomGenerator.randomNumber(1, 3); i++) {
+                makeOrder(restaurantId, createUserResponse.getId(), restaurantMenuResponse, jwt, version);
+            }
+        } else if (version.equals("v2")) {
+            for (int i = 0; i < RandomGenerator.randomNumber(2, 4); i++) {
+                makeOrder(restaurantId, createUserResponse.getId(), restaurantMenuResponse, jwt, version);
+            }
+        }
+    }
+
+    private void makeOrder(long restaurantId, long userId, GetRestaurantMenuResponse restaurantMenuResponse, String jwt, String version){
         //createOrder
         CreateOrderRequest createOrderRequest = new CreateOrderRequest();
-        createOrderRequest.setRestaurantId(number);
-        createOrderRequest.setConsumerId(createUserResponse.getId());
+        createOrderRequest.setRestaurantId(restaurantId);
+        createOrderRequest.setConsumerId(userId);
         double totalPrice = 0;
         List<LineItem> orderLineList = new ArrayList<>();
-        for (int i = 0; i < 3; i++){
-            int itemNumber = RandomGenerator.randomNumber(0, restaurantMenuResponse.getMenuItems().size()-1);
+        for (int i = 0; i < 3; i++) {
+            int itemNumber = RandomGenerator.randomNumber(0, restaurantMenuResponse.getMenuItems().size() - 1);
             RestaurantMenuItem restaurantMenuItem = restaurantMenuResponse.getMenuItems().get(itemNumber);
             LineItem lineItem = new LineItem();
             lineItem.setMenuItemId(restaurantMenuItem.getItemId());
-            lineItem.setQuantity(RandomGenerator.randomNumber(1,3));
-            totalPrice += lineItem.getQuantity()*restaurantMenuItem.getPrice();
+            lineItem.setQuantity(RandomGenerator.randomNumber(1, 3));
+            totalPrice += lineItem.getQuantity() * restaurantMenuItem.getPrice();
             orderLineList.add(lineItem);
         }
         createOrderRequest.setLineItems(orderLineList);
         createOrderRequest.setTotalPrice(totalPrice);
-
         CreateOrderResponse createOrderResponse = restTemplateAdapter.createOrder(createOrderRequest, jwt, version);
     }
 }

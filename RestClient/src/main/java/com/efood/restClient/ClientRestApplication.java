@@ -2,6 +2,7 @@ package com.efood.restClient;
 
 
 import com.efood.restClient.thread.ClientSimulator;
+import com.efood.restClient.util.RandomGenerator;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.ApplicationContext;
@@ -19,24 +20,29 @@ public class ClientRestApplication{
 		ApplicationContext context = new AnnotationConfigApplicationContext(ClientRestApplication.class);
 		ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
 
-		for (int i = 1; i< 5; i++){
+		while(true){
+			try {
+				Thread.sleep(RandomGenerator.randomNumber(1,3)*1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			ClientSimulator clientSimulator = (ClientSimulator)context.getBean("clientSimulator");
 			taskExecutor.execute(clientSimulator);
 		}
 
-		for (;;) {
-			int count = taskExecutor.getActiveCount();
-			System.out.println("Active Threads : " + count);
-			try {
-				Thread.sleep(10000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			if (count == 0) {
-				taskExecutor.shutdown();
-				break;
-			}
-		}
+//		for (;;) {
+//			int count = taskExecutor.getActiveCount();
+//			System.out.println("Active Threads : " + count);
+//			try {
+//				Thread.sleep(10000);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//			if (count == 0) {
+//				taskExecutor.shutdown();
+//				break;
+//			}
+//		}
 	}
 	@Bean
 	public ThreadPoolTaskExecutor taskExecutor() {

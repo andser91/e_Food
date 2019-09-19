@@ -24,6 +24,9 @@ public class RestaurantController {
     @Autowired
     private IRestaurantService restaurantService;
 
+    @Autowired
+    MeterRegistry meterRegistry;
+
     @Value("${version}")
     private String version;
 
@@ -104,9 +107,10 @@ public class RestaurantController {
     public ResponseEntity<GetRestaurantMenuResponse> getRestaurantMenu(@PathVariable Long restaurantId) {
         Restaurant restaurant = restaurantService.findById(restaurantId);
         if (restaurant!=null) {
+            meterRegistry.counter("restaurantMenu.request","version", version).increment();
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.set("version",
-                    "2.0");
+                    version);
             return ResponseEntity.ok()
                     .headers(responseHeaders)
                     .body(makeGetRestaurantMenuResponse(restaurant));
