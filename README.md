@@ -66,9 +66,10 @@ Per testare l'applicazione occorre recuperare l'ip del cluster ottenibile con il
 - minikube ip
 
 La porta su cui gira l'applicazione è ricavabile dal comando:
-kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}'
+- kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}'
 
-Ora è possibile contattare i vari i servizi ad esempio tramite swagger a https://{MINIKUBE_IP}:{APP_PORT}/{NOME-SERVIZIO}/swagger-ui.html
+Ora è possibile contattare i vari i servizi ad esempio tramite swagger a_
+- https://{MINIKUBE_IP}:{APP_PORT}/{NOME-SERVIZIO}/swagger-ui.html
 
 I servizi di monitoraggio girano sullo stesso ip ma su porte differenti; per ricavare le porte eseguire il comando:
 kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="{NOME_PORTA}")].nodePort}',
