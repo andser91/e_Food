@@ -44,6 +44,11 @@ Helm è un package manager per kubernetes che servirà per installare istio. Per
 - curl -LO https://git.io/get_helm.sh
 - chmod 700 get_helm.sh
 - ./get_helm.sh
+## Installazione istio
+Andare nella cartella Kubernetes del progetto e lanciare:
+- curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.2.5 sh -
+- cd istio-1.2.5
+- export PATH=$PWD/bin:$PATH
 ## Lancio dell'applicazione
 Per prima cosa avviare minikube:
 - minikube start
@@ -51,10 +56,11 @@ Per prima cosa avviare minikube:
 Poi posizionarsi nella home del progetto ed eseguire:
 - ./build-kubernetes-image.sh per fare la build dei progetti e costruire le immagini docker dei servizi
 - cd Kubernetes
+- ./script/setup-grafana-dashboard.sh (per aggiungere la dashboard per l'A/B testing)
 - ./script/istio-setup.sh (attendere che sia tutto running)
 - ./script/run-services.sh per lanciare mysql, zookeeper e kafka
-- ./script/run-application.sh per lanciare l'applicazione.
 - ./script/run-monitoring-service.sh per lanciare prometheus, grafana, jaeger, kiali
+- ./script/run-application.sh per lanciare l'applicazione.
 
 Per testare l'applicazione occorre recuperare l'ip del cluster ottenibile con il comando:
 - minikube ip
@@ -71,6 +77,9 @@ dove in {NOME_PORTA} va messo il nome della porta del servizio che si vuole ragg
 - https-grafana
 - https-prometheus
 - https-kiali
+
+Lanciare il client che simula richieste da parte dei client con:
+- ./run-client.sh
 
 Per stoppare l'applicazione lanciare:
 - ./script/stop-application.sh
@@ -102,5 +111,9 @@ Per stoppare l'applicazione lanciare:
   Una volta lanciata l'applicazione è possibile tracciare l'andamento delle richieste ricevute tramite l'interfaccia grafica di Jaeger
   raggiungibile all'indirizzo http://localhost:16686
   
-  ## Buisness metrics
+  ## Buisness metrics (Docker-Compose)
   E' possibile consultare alcune metriche di buisness ritenute rilevanti attraverso Graphana (http://localhost:3000). L'username e la     password sono admin/admin. Graphana prende i dati da Prometheus che è possibile consultare all'indirizzo http://localhost:9090.         Prometheus a sua volta interroga i vari servizi che espongono diverse metriche al path /actuator/prometheus. 
+   ## Buisness metrics (Kubernetes-istio)
+   E' possibile consultare alcune metriche di buisness ritenute rilevanti attraverso Graphana (http://https://{MINIKUBE_IP}:{APP_PORT}).
+   Consultare la dashboard "Buisness" per tenere traccia delle metriche di buisness registrate dal sistema.
+
