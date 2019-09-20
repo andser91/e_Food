@@ -10,6 +10,8 @@ Contribuiscono a questo repository:
 - Docker
 - Docker-compose
 - Kubernetes (kubectl + minikube/minishift)
+- Helm
+- Istio
 
 # Lanciare l'applicazione
 Seguire i seguenti passi in ordine:
