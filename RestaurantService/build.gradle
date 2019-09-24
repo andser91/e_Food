@@ -14,8 +14,6 @@ plugins {
     id 'org.unbroken-dome.test-sets' version '2.1.1'
 }
 
-version = "1.0"
-
 //configura Gradle Docker Compose 
 apply plugin: 'docker-compose'
 
