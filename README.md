@@ -114,9 +114,9 @@ Per stoppare l'applicazione lanciare:
   Una volta lanciata l'applicazione è possibile tracciare l'andamento delle richieste ricevute tramite l'interfaccia grafica di Jaeger
   raggiungibile all'indirizzo http://localhost:16686
   
-  ## Buisness metrics (Docker-Compose)
+  ## Business metrics (Docker-Compose)
   E' possibile consultare alcune metriche di buisness ritenute rilevanti attraverso Graphana (http://localhost:3000). L'username e la     password sono admin/admin. Graphana prende i dati da Prometheus che è possibile consultare all'indirizzo http://localhost:9090.         Prometheus a sua volta interroga i vari servizi che espongono diverse metriche al path /actuator/prometheus. 
-   ## Buisness metrics (Kubernetes-istio)
+   ## Business metrics (Kubernetes-istio)
    E' possibile consultare alcune metriche di buisness ritenute rilevanti attraverso Graphana (http://https://{MINIKUBE_IP}:{APP_PORT}).
    Consultare la dashboard "Buisness" per tenere traccia delle metriche di buisness registrate dal sistema.
 
